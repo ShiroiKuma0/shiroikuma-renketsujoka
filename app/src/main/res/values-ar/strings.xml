@@ -7,11 +7,6 @@
     <string name="a_about">حول التطبيق</string>
     <string name="translators">Magdy Elgendy</string>
     <string name="locale">العربية</string>
-    <string name="txt_about">تم إنشاء التطبيق بواسطة %1$s.
-\n
-\nالمساهمون: %2$s.
-\nالمترجمون: %3$s.</string>
-    <string name="link_blog">مدونة %s</string>
     <string name="link_changelog">سجل التغييرات</string>
     <string name="link_source">رمز المصدر</string>
     <string name="link_privacy">سياسة الخصوصية</string>

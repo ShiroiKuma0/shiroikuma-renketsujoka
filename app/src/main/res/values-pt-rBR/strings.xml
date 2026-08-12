@@ -19,10 +19,6 @@
     <string name="a_settings">Configurações</string>
     <string name="link_privacy">Política de privacidade</string>
     <string name="locale">Português Brasileiro</string>
-    <string name="txt_about">Aplicativo criado por %1$s.
-\n
-\nContribuições: %2$s.
-\nTraduções: %3$s.</string>
     <string name="desc_down">Mover para baixo</string>
     <string name="none">Nenhum</string>
     <string name="share">Compartilhar</string>
@@ -83,7 +79,6 @@
     <string name="mUnshort_internal">Erro interno (%s)</string>
     <string name="translators">Murilogs1910</string>
     <string name="txt_info">Esse aplicativo age como intermediário ao abrir links. Um diálogo com algumas informações sobre o link são apresentadas ao escolher esse app para abrir um link. Pressione o botão módulos abaixo para checar e configurar todos os módulos disponíveis.</string>
-    <string name="link_blog">Blog do %s</string>
     <string name="menu_toggleDecorations">Alternar todos os títulos</string>
     <string name="txt_openLinks">Abra os links neste aplicativo: Ao longo dos anos, o Android mudou a forma de configurar, variando entre as diferentes versões. Encontre abaixo todas as configurações disponíveis para o seu dispositivo. Se os links não estiverem sendo abertos neste aplicativo, tente todas elas.</string>
     <string name="toast_defaultSet">O aplicativo agora é o navegador padrão</string>

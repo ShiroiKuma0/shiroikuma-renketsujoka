@@ -17,7 +17,7 @@ concurrency:
 # parameters
 env:
   VARIANT: evaluation
-  NAME: URLCheck_evaluation.apk
+  NAME: 白い熊 連結浄化_evaluation.apk
   RETENTION_DAYS: 14
 
 jobs:

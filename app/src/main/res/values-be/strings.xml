@@ -7,8 +7,6 @@
     <string name="a_modules">Модулі</string>
     <string name="a_settings">Налады</string>
     <string name="a_about">Пра праграму</string>
-    <string name="txt_about">Праграма распрацавана %1$s.\n\nУдзельнікі: %2$s.\nПеракладчыкі: %3$s.</string>
-    <string name="link_blog">Блог %s</string>
     <string name="link_changelog">Спіс змен</string>
     <string name="link_source">Зыходны код</string>
     <string name="link_privacy">Палітыка прыватнасці</string>

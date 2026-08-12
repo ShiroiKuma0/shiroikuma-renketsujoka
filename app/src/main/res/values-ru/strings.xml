@@ -46,12 +46,10 @@
     <string name="translators">povidlos</string>
     <string name="txt_tutorial3">Установите приложение в качестве веб-браузера по умолчанию, чтобы перехватывать URL-адреса при их открытии.\n(Не требуется, если URL-адреса перенаправляются с помощью функции «Поделиться».)</string>
     <string name="btn_configureBrowser">Браузер по умолчанию</string>
-    <string name="link_blog">Блог %s</string>
     <string name="btn_linksSettings">Открытие поддерживаемых ссылок</string>
     <string name="menu_resetOrder">Сбросить порядок</string>
     <string name="btn_setBrowser">Установить браузером по умолчанию</string>
     <string name="btn_androidSettings">Настройки Android-приложения</string>
-    <string name="txt_about">Приложение разработано %1$s.\n\nВклад сообщества: %2$s\nПеревод: %3$s.</string>
     <string name="txt_locale">Язык:</string>
     <string name="alwaysOn">Всегда включено</string>
     <string name="btn_tutorialSkip">Пропустить обучение</string>

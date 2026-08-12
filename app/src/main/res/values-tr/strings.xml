@@ -24,11 +24,6 @@
     <!--
         about
     -->
-    <string name="txt_about">"Uygulama %1$s tarafından geliştirilmiştir.
-
-Geliştiriciler: %2$s.
-Çeviriler: %3$s."</string>
-    <string name="link_blog">%s\'un blog sayfası</string>
     <string name="link_changelog">Değişiklikler</string>
     <string name="link_source">Kaynak Kodu</string>
     <string name="link_privacy">Gizlilik Politikası</string>

@@ -24,11 +24,6 @@
     <!--
         about
     -->
-    <string name="txt_about">"Aplicație creată de %1$s.
-
-Contribuții: %2$s.
-Traduceri: %3$s."</string>
-    <string name="link_blog">"Blogul lui %s"</string>
     <string name="link_changelog">Jurnal de modificări</string>
     <string name="link_source">Cod sursă</string>
     <string name="link_privacy">Politică de confidențialitate</string>

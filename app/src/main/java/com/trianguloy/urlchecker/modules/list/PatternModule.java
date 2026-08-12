@@ -74,7 +74,7 @@ class PatternConfig extends AModuleConfig {
         views.<TextView>findViewById(R.id.user_content)
                 .setText(getActivity().getString(
                         R.string.mPttrn_userContent,
-                        "https://github.com/TrianguloY/URLCheck/wiki/Custom-patterns"
+                        "https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/blob/custom/docs/custom-patterns.md"
                 ));
         RegexFix.attachSetting(views.findViewById(R.id.regex_fix));
     }

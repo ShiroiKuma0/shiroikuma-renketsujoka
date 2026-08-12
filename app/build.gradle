@@ -153,7 +153,7 @@ android {
                 .filter { it != "" } // filter empty
                 .flatMap { it.split(';').stream() } // split multiple
                 .map { it.strip() } // trim
-                .filter { it != "TrianguloY" } // remove myself
+                .filter { it != "白い熊" } // remove myself
                 .distinct().sorted() // keep distinct and sort them
                 .collect { it }.join(', ') // join with commas
         println "Extracted translators: $translators"

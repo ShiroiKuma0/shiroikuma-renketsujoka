@@ -86,7 +86,7 @@ class ChangeLogModuleDialog extends AModuleDialog {
         views.findViewById(R.id.viewChanges).setOnClickListener(v -> {
             // TODO: somehow redirect to the current locale and specific file
             // or, even better, load the changes and show inline (ask the user to get them)
-            setUrl("https://github.com/TrianguloY/URLCheck/releases");
+            setUrl("https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases");
 
             // auto-dismiss
             dismiss.performClick();

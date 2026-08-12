@@ -8,8 +8,6 @@
     <string name="locale">తెలుగు</string>
     <string name="txt_sample">దీనిని పరీక్షించడానికి క్రింది లింక్‌ను నొక్కండి:</string>
     <string name="a_modules">మాడ్యూల్స్</string>
-    <string name="txt_about">%1$s ద్వారా యాప్ రూపొందించబడింది.\n\nసహకారం: %2$s.\nఅనువాదాలు: %3$s.</string>
-    <string name="link_blog">%s యొక్క బ్లాగ్</string>
     <string name="link_changelog">మార్పుల చిట్టా</string>
     <string name="link_source">సోర్స్ కోడ్</string>
     <string name="link_privacy">గోప్యతా విధానం</string>

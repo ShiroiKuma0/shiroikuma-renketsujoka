@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="locale">Deutsch</string>
-    <string name="txt_about">App erstellt von %1$s.
-\n
-\nBeiträge: %2$s.
-\nÜbersetzungen: %3$s.</string>
     <string name="link_changelog">Änderungen</string>
     <string name="desc_down">Nach unten</string>
     <string name="desc_decorations">Titel anzeigen/ausblenden</string>
@@ -39,7 +35,6 @@
     <string name="a_modules">Module</string>
     <string name="a_about">Über</string>
     <string name="a_settings">Einstellungen</string>
-    <string name="link_blog">%ss Blog</string>
     <string name="link_source">Quellcode</string>
     <string name="link_privacy">Datenschutzbestimmungen</string>
     <string name="toast_cantEnable">Modul kann nicht aktiviert werden: %s</string>

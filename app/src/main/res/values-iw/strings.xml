@@ -19,8 +19,6 @@
     <string name="a_modules">מודולים</string>
     <string name="a_about">על אודות</string>
     <!-- about -->
-    <string name="txt_about">אפליקציה שנוצרה על ידי %1$s.\n\n תרומות: %2$s.\n תרגומים: %3$s.</string>
-    <string name="link_blog">"הבלוג של %s"</string>
     <!-- configuration -->
     <string name="txt_conf">רשימת מודולים: אתה יכול להפעיל או לבטל אותם, גם לבדוק את התיאור והתצורה שלו.</string>
     <string name="toast_cantEnable">"לא ניתן להפעיל את המודול: %s"</string>

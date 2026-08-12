@@ -77,7 +77,7 @@ public class AutomationRules extends JsonCatalog {
                         .put("enabled", false)
                 )
                 .put(cntx.getString(R.string.auto_rule_toast), new JSONObject()
-                        .put("regex", cntx.getString(R.string.trianguloy))
+                        .put("regex", cntx.getString(R.string.shiroikuma))
                         .put("action", "toast")
                         .put("args", new JSONObject()
                                 .put("text", "👋🙂")))

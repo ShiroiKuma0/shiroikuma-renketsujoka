@@ -9,8 +9,6 @@
     <string name="a_modules">模組</string>
     <string name="a_settings">設定</string>
     <string name="a_about">關於</string>
-    <string name="txt_about">本應用程式由 %1$s 所建立 \n \n貢獻者: %2$s \n翻譯者: %3$s</string>
-    <string name="link_blog">%s 的部落格</string>
     <string name="link_changelog">更新紀錄</string>
     <string name="link_source">原始碼</string>
     <string name="toast_cantEnable">無法啟用模組: %s</string>

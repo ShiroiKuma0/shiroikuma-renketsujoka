@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- 白い熊 連結浄化 (shiroikuma-renketsujoka), clipboard shortcut icon: URLCheck's
+       clipboard + magnifier mark, traced as stroke-only line-art, house black-yellow
+       (#FFFF00 on #000000). The clipboard's bottom-right is left open so the magnifier
+       reads clear, the way the original cuts that corner away. -->
+  <rect x="0" y="0" width="512" height="512" fill="#000000"/>
+  <g transform="translate(-4,-15)" fill="none" stroke="#FFFF00"
+     stroke-linecap="round" stroke-linejoin="round" stroke-width="26">
+    <!-- clipboard: top-left, down the left side, along the bottom -->
+    <path d="M 232,148 L 136,148 A 26,26 0 0 0 110,174 L 110,364 A 26,26 0 0 0 136,390 L 230,390"/>
+    <!-- clipboard: top-right, part-way down the right side -->
+    <path d="M 304,148 L 330,148 A 26,26 0 0 1 356,174 L 356,244"/>
+    <!-- the clip tab straddling the top edge -->
+    <path d="M 232,148 L 232,126 A 16,16 0 0 1 248,110 L 288,110 A 16,16 0 0 1 304,126 L 304,148"/>
+    <!-- magnifier -->
+    <circle cx="330" cy="352" r="62"/>
+    <path d="M 376,398 L 410,432"/>
+  </g>
+</svg>

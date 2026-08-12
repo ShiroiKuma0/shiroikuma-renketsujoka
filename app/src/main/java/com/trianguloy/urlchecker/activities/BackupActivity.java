@@ -465,7 +465,7 @@ public class BackupActivity extends Activity {
     }
 
     private String getInitialFile() {
-        return "URLCheck_" + new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(new Date()) + ".ucbckp";
+        return "renketsujoka_" + new SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(new Date()) + ".ucbckp";
     }
 
     private void showAdvanced() {

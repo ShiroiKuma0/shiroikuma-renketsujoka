@@ -7,11 +7,6 @@
     <string name="a_modules">Moduly</string>
     <string name="a_settings">Nastavení</string>
     <string name="a_about">O aplikaci</string>
-    <string name="txt_about">Aplikaci vytvořil %1$s.
-\n
-\nPřispěli: %2$s.
-\nPřeložili: %3$s.</string>
-    <string name="link_blog">Blog %s</string>
     <string name="link_source">Zdrojový kód</string>
     <string name="link_privacy">Ochrana osobních údajů</string>
     <string name="toast_cantEnable">Nemohu povolit modul: %s</string>

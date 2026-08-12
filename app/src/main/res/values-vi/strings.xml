@@ -5,10 +5,6 @@
     <string name="a_modules">Mô-đun</string>
     <string name="a_settings">Thiết đặt</string>
     <string name="a_about">Giới thiệu</string>
-    <string name="txt_about">Ứng dụng được tạo bởi %1$s.
-\n
-\nĐóng góp: %2$s.
-\nBản dịch: %3$s.</string>
     <string name="link_changelog">Nhật ký thay đổi</string>
     <string name="link_source">Mã nguồn</string>
     <string name="link_privacy">Chính sách bảo mật</string>
@@ -127,7 +123,6 @@
     <string name="mClear_desc">Mô-đun này loại bỏ theo dõi, liên kết giới thiệu và các tham số vô dụng khác khỏi URL. Nó cũng cho phép chuyển hướng URL ngoại tuyến phổ biến.</string>
     <string name="mClear_clear">Áp dụng</string>
     <string name="mClear_name">Trình dọn dẹp URL</string>
-    <string name="link_blog">%s\'s blog</string>
     <string name="bck_description">Chọn những phần tử cần sao lưu/khôi phục.
 \nKhi khôi phục, nếu bản sao lưu được tạo mà không có nó thì bản sao lưu hiện có sẽ được giữ lại.</string>
     <string name="bck_chooseFile">Chọn tệp sao lưu</string>

@@ -20,11 +20,6 @@
     <string name="a_settings">Impostazioni</string>
     <string name="a_about">Informazioni</string>
     <!-- about -->
-    <string name="txt_about">"App creata da %1$s.
-
-Contributi: %2$s.
-Traduzioni: %3$s."</string>
-    <string name="link_blog">Blog di %s</string>
     <string name="link_changelog">Changelog</string>
     <string name="link_source">Codice sorgente</string>
     <string name="link_privacy">Informativa sulla privacy</string>

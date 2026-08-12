@@ -20,11 +20,6 @@
     <string name="a_settings">設定</string>
     <string name="a_about">このアプリについて</string>
     <!-- about -->
-    <string name="txt_about">"このアプリは %1$s によって開発されました。
-
-貢献者: %2$s
-翻訳者: %3$s"</string>
-    <string name="link_blog">%s のブログ</string>
     <string name="link_changelog">変更履歴</string>
     <string name="link_source">ソースコード</string>
     <string name="link_privacy">プライバシーポリシー</string>

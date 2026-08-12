@@ -15,8 +15,6 @@
     <string name="a_modules">தொகுதிகள்</string>
     <string name="a_settings">அமைப்புகள்</string>
     <string name="a_about">பற்றி</string>
-    <string name="txt_about">%1$s-ஆல் உருவாக்கப்பட்ட பயன்பாடு.\n\n பங்களிப்புகள்: %2$s.\n மொழிபெயர்ப்புகள்: %3$s.</string>
-    <string name="link_blog">%s-இன் வலைப்பதிவு</string>
     <string name="link_changelog">மாற்றபதிவு</string>
     <string name="link_source">மூலக் குறியீடு</string>
     <string name="link_privacy">தனியுரிமைக் கொள்கை</string>

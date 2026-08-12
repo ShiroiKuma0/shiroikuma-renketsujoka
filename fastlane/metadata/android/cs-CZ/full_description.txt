@@ -1,7 +1,7 @@
 Tato aplikace funguje jako prostředník při otevírání/sdílení odkazů URL. Při tom se zobrazí okno s informacemi o URL adrese, které vám umožní provádět i její změny.
 Je obzvláště užitečný, když potřebujete otevřít externí odkaz buď z e-mailu, aplikace sociální sítě nebo jiné.
 
-URLCheck je vyvinut společností TrianguloY, původně pro osobní použití. Je open source (pod licencí CC BY 4.0), zdarma, bez reklam a sledovačů, má malou velikost a používá tak málo oprávnění, jak je jen třeba (tj. pouze oprávnění pro internet, pro kontroly modulů, které se provedou pouze tehdy, když si je uživatel vyžádá). Zdrojový kód je k dispozici také na GitHubu, pokud chcete navrhnout změny, provést úpravy nebo navrhnout nový překlad: https://github.com/TrianguloY/URLCheck.
+白い熊 連結浄化 je vyvinut společností 白い熊, původně pro osobní použití. Je open source (pod licencí CC BY 4.0), zdarma, bez reklam a sledovačů, má malou velikost a používá tak málo oprávnění, jak je jen třeba (tj. pouze oprávnění pro internet, pro kontroly modulů, které se provedou pouze tehdy, když si je uživatel vyžádá). Zdrojový kód je k dispozici také na GitHubu, pokud chcete navrhnout změny, provést úpravy nebo navrhnout nový překlad: https://github.com/ShiroiKuma0/shiroikuma-renketsujoka.
 
 Aplikace je strukturována modulárně, můžete povolovat/zakazovat a měnit pořadí jednotlivých modulů, mezi které patří např:
 

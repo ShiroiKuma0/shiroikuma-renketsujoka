@@ -54,7 +54,22 @@ public class PatternCatalog extends JsonCatalog {
                         .put("automatic", true)
                 )
 
-                // privacy redirections samples (see https://github.com/TrianguloY/URLCheck/discussions/122)
+                // --- shiroikuma-renketsujoka fork -----------------------------------------
+                // Telegram wraps outbound links as t.me/iv?url=<target>&rhash=<hash>. Nothing
+                // in the ClearURLs or FastForward catalogs unwraps it, and following redirects
+                // cannot either: t.me answers 200 with an Instant View page, never a 3xx, so
+                // there is no redirect to follow.
+                //   [^&]+  stops at the first '&', so &rhash= is dropped while the target's own
+                //          query — the ?v= of a YouTube link, say — survives.
+                //   decode handles the percent-encoded form of the same wrapper.
+                .put("Telegram Instant View", new JSONObject()
+                        .put("regex", "^https?://t\\.me/iv\\?url=([^&]+)")
+                        .put("replacement", "$1")
+                        .put("decode", true)
+                        .put("automatic", true)
+                )
+
+                // privacy redirections samples
                 .put("Reddit ➔ Eddrit", new JSONObject()
                         // replacement example
                         .put("regex", "^https?://(?:[a-z0-9-]+\\.)*?reddit\\.com/(.*)")
@@ -92,7 +107,6 @@ public class PatternCatalog extends JsonCatalog {
                         .put("enabled", false)
                 )
 
-                // try to find an example with the decode parameter
                 ;
     }
 

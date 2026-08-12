@@ -20,11 +20,6 @@
     <string name="a_settings">设置</string>
     <string name="a_about">关于</string>
     <!-- about -->
-    <string name="txt_about">此应用由 %1$s 创建。
-\n
-\n贡献者： %2$s。
-\n翻译者： %3$s。</string>
-    <string name="link_blog">%s 的博客</string>
     <string name="link_changelog">更新日志</string>
     <string name="link_source">源码</string>
     <string name="link_privacy">隐私政策</string>
@@ -38,8 +33,8 @@
     <string name="desc_decorations">显示/隐藏标题</string>
     <string name="desc_enable">启用/禁用模块</string>
     <!-- settings -->
-    <string name="txt_openLinks">在此应用上打开链接：多年来，Android 配置方式已发生许多变化，不同版本之间也存在差异。如果链接无法在URLCheck上打开，请尝试在您的设备中检查以下可用设置。</string>
-    <string name="btn_setBrowser">设置URLCheck为默认浏览器</string>
+    <string name="txt_openLinks">在此应用上打开链接：多年来，Android 配置方式已发生许多变化，不同版本之间也存在差异。如果链接无法在白い熊 連結浄化上打开，请尝试在您的设备中检查以下可用设置。</string>
+    <string name="btn_setBrowser">设置白い熊 連結浄化为默认浏览器</string>
     <string name="toast_defaultSet">已设为默认浏览器</string>
     <string name="btn_configureBrowser">默认浏览器</string>
     <string name="btn_linksSettings">打开受支持的链接</string>
@@ -51,13 +46,13 @@
     <string name="btn_tutorialSettings">重看教程</string>
     <!-- tutorial -->
     <string name="tutorial">教程</string>
-    <string name="txt_tutorial1">"感谢下载URLCheck！
+    <string name="txt_tutorial1">"感谢下载白い熊 連結浄化！
 
 这是教程，如果您想跳过它，可以点击下方的按钮。另外，您可以随时从设置菜单重看此教程。"</string>
-    <string name="txt_tutorial2">URLCheck 在打开或共享网址链接时充当中介。当链接发送到 URLCheck时，您可以通过模块对该链接进行相关操作。随之，您可以选择所需的应用程序打开该链接、共享链接或将其复制到剪贴板中。</string>
-    <string name="txt_tutorial3">将URLCheck设置为默认网络浏览器以便在打开URL时拦截它们。
+    <string name="txt_tutorial2">白い熊 連結浄化 在打开或共享网址链接时充当中介。当链接发送到 白い熊 連結浄化时，您可以通过模块对该链接进行相关操作。随之，您可以选择所需的应用程序打开该链接、共享链接或将其复制到剪贴板中。</string>
+    <string name="txt_tutorial3">将白い熊 連結浄化设置为默认网络浏览器以便在打开URL时拦截它们。
 \n（如果使用“共享”功能传递URL，则不需要。）</string>
-    <string name="txt_tutorial4">模块是 URLCheck 与网址链接进行交互的方式。
+    <string name="txt_tutorial4">模块是 白い熊 連結浄化 与网址链接进行交互的方式。
 \n多个模块都具有特定功能，通常它们会为您提供关于链接的信息，或者允许您修改 URL。
 \n您可以阅读并根据需要设置它们。
 \n
@@ -66,7 +61,7 @@
 \n从主屏幕打开模块列表，或点击下面的按钮。</string>
     <string name="txt_tutorial5">"以上就是全部内容。以下是一些可能有用的提示：
 
-当某个应用程序没有提供打开或共享网址链接的方法，但是提供了执行其他操作的方法时，您可以使用 URLCheck 解决该问题。您还可以通过长按共享按钮将链接复制到剪贴板中。
+当某个应用程序没有提供打开或共享网址链接的方法，但是提供了执行其他操作的方法时，您可以使用 白い熊 連結浄化 解决该问题。您还可以通过长按共享按钮将链接复制到剪贴板中。
 
 有些链接的唯一目的是将您重定向到另一个链接。如果最终网址链接可以在一个应用程序中打开，那么你可以避免在浏览器中打开它。
 

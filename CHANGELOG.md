@@ -16,6 +16,9 @@ The first fork build.
 - Fork versioning: `versionName = <upstream>+<build padded to 3>`,
   `versionCode = <upstream code> * 10000 + <build>`, signed with our own keystore.
 - 白い熊 連結浄化 UI settings page added (empty for now — contents to follow).
+- New built-in pattern, enabled and automatic: **Telegram Instant View** unwraps
+  `t.me/iv?url=<target>&rhash=<hash>` to the target. No catalog covers it and no
+  redirect-follower can reach it — `t.me` answers 200 with an Instant View page, not a 3xx.
 
 ## Upstream releases
 

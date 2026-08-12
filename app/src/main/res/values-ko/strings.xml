@@ -4,11 +4,6 @@
     <string name="a_modules">모듈</string>
     <string name="a_settings">설정</string>
     <string name="a_about">정보</string>
-    <string name="txt_about">이 앱은 %1$s에 의해 제작되었습니다.
-\n
-\n기여자: %2$s
-\n번역한 사람들: %3$s</string>
-    <string name="link_blog">%s의 블로그</string>
     <string name="link_changelog">변경 사항</string>
     <string name="link_source">소스 코드</string>
     <string name="link_privacy">개인정보 보호 정책</string>

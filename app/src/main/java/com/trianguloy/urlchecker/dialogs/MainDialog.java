@@ -431,7 +431,7 @@ public class MainDialog extends Activity {
         a2.start();
 
         var contentB = new ImageView(this);
-        contentB.setImageResource(R.drawable.trianguloy);
+        contentB.setImageResource(R.drawable.logo);
         frame.addView(contentB);
         var b1 = ObjectAnimator.ofFloat(contentB, "rotation", 360, 0);
         b1.setDuration((long) (4000 + Math.random() * 2000));

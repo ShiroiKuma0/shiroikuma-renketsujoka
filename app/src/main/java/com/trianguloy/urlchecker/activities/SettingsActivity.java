@@ -162,6 +162,16 @@ public class SettingsActivity extends Activity {
         PackageUtils.startActivity(new Intent(this, TutorialActivity.class), R.string.toast_noApp, this);
     }
 
+    /* ------------------- 白い熊 連結浄化 UI ------------------- */
+
+    public void openShiroikumaUi(View view) {
+        PackageUtils.startActivityForResult(new Intent(this, ShiroikumaUiActivity.class),
+                AndroidSettings.registerForReloading(resultCodeInjector, this),
+                R.string.toast_noApp,
+                this
+        );
+    }
+
     /* ------------------- backup ------------------- */
 
     public void openBackup(View view) {

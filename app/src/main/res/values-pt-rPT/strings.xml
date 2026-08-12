@@ -24,11 +24,6 @@
     <!--
         about
     -->
-    <string name="txt_about">"Aplicação criada por %1$s.
-
-Contributions: %2$s.
-Translations: %3$s."</string>
-    <string name="link_blog">"Blog do %s"</string>
     <string name="link_changelog">Log de alterações</string>
     <string name="link_source">Código fonte</string>
     <string name="link_privacy">Política de privacidade</string>

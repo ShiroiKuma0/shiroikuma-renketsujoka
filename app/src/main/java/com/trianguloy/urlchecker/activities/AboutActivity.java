@@ -32,13 +32,9 @@ public class AboutActivity extends Activity {
     // ------------------- links -------------------
 
     private static final List<Link> LINKS = List.of(
-            new Link(R.string.link_changelog, "https://github.com/TrianguloY/URLCheck/releases/"), // TODO: link to the correct translation, and link to latest file from the fastlane folder
-            new Link(R.string.link_source, "https://github.com/TrianguloY/URLCheck"),
-            new Link(R.string.link_privacy, "https://github.com/TrianguloY/URLCheck/blob/master/docs/PRIVACY%20POLICY.md"),
-            new Link(R.string.lnk_fDroid, "https://f-droid.org/packages/com.trianguloy.urlchecker"),
-            new Link(R.string.lnk_playStore, "https://play.google.com/store/apps/details?id=com.trianguloy.urlchecker"),
-            new Link(R.string.lnk_izzy, "https://apt.izzysoft.de/fdroid/index/apk/com.trianguloy.urlchecker"),
-            new Link(cntx -> getStringWithPlaceholder(cntx, R.string.link_blog, R.string.trianguloy), "https://triangularapps.blogspot.com/")
+            new Link(R.string.link_changelog, "https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/blob/custom/CHANGELOG.md"),
+            new Link(R.string.link_source, "https://github.com/ShiroiKuma0/shiroikuma-renketsujoka"),
+            new Link(R.string.link_privacy, "https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/blob/custom/docs/PRIVACY%20POLICY.md")
     );
 
     private record Link(int labelResource, Function<Context, String> label, String link) {
@@ -73,11 +69,10 @@ public class AboutActivity extends Activity {
                 + (!"release".equals(BuildConfig.BUILD_TYPE) ? " - " + BuildConfig.BUILD_TYPE : "")
                 + ")");
 
-        // fill contributors and translators
+        // fill maintainer and translators
         this.<TextView>findViewById(R.id.txt_about).setText(
                 getString(R.string.txt_about,
-                        getString(R.string.trianguloy),
-                        getString(R.string.contributors),
+                        getString(R.string.shiroikuma),
                         getString(R.string.all_translators)
                 )
         );
@@ -103,7 +98,7 @@ public class AboutActivity extends Activity {
 
         // show logcat
         if (BuildConfig.DEBUG) {
-            findViewById(R.id.trianguloy).setOnClickListener(v -> {
+            findViewById(R.id.logo).setOnClickListener(v -> {
 
                 // get log
                 String log;

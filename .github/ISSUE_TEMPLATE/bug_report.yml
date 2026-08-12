@@ -37,11 +37,11 @@ body:
       required: true
 
   - type: input
-    id: URLCheck-version
+    id: 白い熊 連結浄化-version
     attributes:
-      label: URLCheck version
+      label: 白い熊 連結浄化 version
       description: |
-        You can find your URLCheck version in **About** section.
+        You can find your 白い熊 連結浄化 version in **About** section.
       placeholder: |
         Example: "2.9.1"
     validations:

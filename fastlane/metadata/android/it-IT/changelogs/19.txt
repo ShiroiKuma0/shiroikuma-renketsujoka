@@ -1,5 +1,5 @@
 V 2.8
-- Rinominata l’app da “Url Checker” a “URLCheck”
+- Rinominata l’app da “Url Checker” a “白い熊 連結浄化”
 - Nuova traduzione giapponese. Grazie a 404potato!
 - Nuovi esempi per il "Controllo Pattern" e miglioramenti
 - Nuova impostazione per ordinare le app per dominio

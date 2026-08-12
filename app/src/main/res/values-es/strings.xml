@@ -4,7 +4,7 @@
         If you create or update a translation, add how you want to be credited here.
         For multiple translators, separate them by semicolon.
         Example: <string name="translators">John Doe; Jane Doe</string> -->
-    <string name="translators">TrianguloY; PabloOQ</string>
+    <string name="translators">PabloOQ</string>
     <!--
         Locale name:
         Write the locale name in the locale language, for users that doesn't know english. For example 'Español' instead of 'Spanish'.
@@ -22,11 +22,6 @@
     <!--
         about
     -->
-    <string name="txt_about">"Aplicación creada por %1$s.
-
-Contribuciones: %2$s.
-Traducciones: %3$s."</string>
-    <string name="link_blog">Blog de %s</string>
     <string name="link_changelog">Cambios</string>
     <string name="link_source">Código fuente</string>
     <string name="link_privacy">Política de privacidad</string>

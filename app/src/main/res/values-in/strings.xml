@@ -20,15 +20,10 @@
     <string name="translators">CikiMomogi</string>
     <string name="txt_tutorial3">Atur aplikasi ini sebagai peramban web bawaan untuk mencegat URL ketika dibuka. \n(Pilihan ini tidak diperlukan jika URL diteruskan dengan fitur \"Bagikan\".)</string>
     <string name="btn_configureBrowser">Peramban web bawaan</string>
-    <string name="link_blog">Blog %s</string>
     <string name="btn_linksSettings">Buka tautan yang didukung</string>
     <string name="menu_resetOrder">Atur ulang urutan</string>
     <string name="btn_setBrowser">Setel sebagai peramban bawaan</string>
     <string name="btn_androidSettings">Pengaturan aplikasi Android</string>
-    <string name="txt_about">Aplikasi dibuat oleh %1$s.
-\n
-\nKontributor: %2$s.
-\nPenerjemah: %3$s.</string>
     <string name="txt_locale">Lokal:</string>
     <string name="txt_info">Aplikasi ini bertindak sebagai perantara saat hendak membuka tautan URL. Ketika tautan dibuka melalui aplikasi ini, sebuah jendela dialog berisi informasi mengenai tautan tersebut akan ditampilkan. Tekan tombol modul di bawah ini untuk memeriksa dan mengatur semua modul yang tersedia.</string>
     <string name="desc_up">Geser ke atas</string>

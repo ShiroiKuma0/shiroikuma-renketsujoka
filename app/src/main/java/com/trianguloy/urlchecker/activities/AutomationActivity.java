@@ -38,7 +38,7 @@ public class AutomationActivity extends Activity {
         // set link
         ((TextView) findViewById(R.id.user_content)).setText(getString(
                 R.string.auto_userContent,
-                "https://github.com/TrianguloY/URLCheck/wiki/Automations"
+                "https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/blob/custom/docs/automations.md"
         ));
 
         // small easter egg

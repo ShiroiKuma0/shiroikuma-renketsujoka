@@ -1,5 +1,5 @@
 V 2.8
-- Renombrada aplicación de 'Analizador de Urls' a 'URLCheck'
+- Renombrada aplicación de 'Analizador de Urls' a '白い熊 連結浄化'
 - Nueva traducción al Japonés. ¡Gracias a 404potato!
 - Nuevos ejemplos y mejoras del Comprobador de patrones
 - Nuevo ajuste para activar la ordenación de aplicaciones por dominio

@@ -24,8 +24,6 @@
     <!--
         about
     -->
-    <string name="txt_about">Application créée par %1$s. \n \nContributeurs : %2$s. \nTraducteurs : %3$s.</string>
-    <string name="link_blog">Blog de %s</string>
     <string name="link_changelog">Journal des modifications</string>
     <string name="link_source">Code source</string>
     <string name="link_privacy">Politique de confidentialité</string>
@@ -43,7 +41,7 @@
     <!--
         settings
     -->
-    <string name="txt_openLinks">Ouvrir les liens via cette application : au fil des ans, Android a changé la façon de le configurer et cela diffère selon les versions. Retrouvez ci-dessous tous les paramètres disponibles pour la configuration de votre appareil, si les liens ne sont pas ouverts par URLCheck, essayez-les tous.</string>
+    <string name="txt_openLinks">Ouvrir les liens via cette application : au fil des ans, Android a changé la façon de le configurer et cela diffère selon les versions. Retrouvez ci-dessous tous les paramètres disponibles pour la configuration de votre appareil, si les liens ne sont pas ouverts par 白い熊 連結浄化, essayez-les tous.</string>
     <string name="btn_setBrowser">Définir comme navigateur par défaut</string>
     <string name="toast_defaultSet">L\'application est désormais définie comme navigateur par défaut</string>
     <string name="btn_configureBrowser">Navigateur par défaut</string>

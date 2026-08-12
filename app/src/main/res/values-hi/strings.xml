@@ -11,10 +11,6 @@
     <string name="a_modules">मॉड्यूल्स</string>
     <string name="translators">GMishx</string>
     <string name="menu_resetOrder">क्रम रीसेट करें</string>
-    <string name="txt_about">%1$s द्वारा बनाया एप्प।
-\n
-\nयोगदान: %2$s।
-\nअनुवाद: %3$s।</string>
     <string name="txt_info">क्लिक किए गए यूआरएल लिंक खोलते समय यह ऐप एक मध्यस्थ के रूप में कार्य करता है। लिंक खोलते समय इस ऐप को चुनने पर लिंक के बारे में कुछ जानकारी वाला एक संवाद दिखाया जाता है। सभी उपलब्ध मॉड्यूल की जांच और कॉन्फ़िगर करने के लिए नीचे दिए गए मॉड्यूल बटन को दबाएं।</string>
     <string name="desc_up">ऊपर ले जाएँ</string>
     <string name="desc_decorations">शीर्षक दिखाएं/छुपाएं</string>
@@ -172,7 +168,6 @@
     <string name="mLog_limit">रखने के लिए प्रविष्टियों की अधिकतम संख्या। अनुशंसित मान: 100। असीमित के लिए खाली छोड़ें</string>
     <string name="mHosts_build">निर्माण</string>
     <string name="mRemove_one">%s को हटाएँ</string>
-    <string name="link_blog">%s\'s का ब्लॉग</string>
     <string name="mFlag_editFlags">डिफ़ॉल्ट ध्वज मान संपादित करें</string>
     <string name="mStatus_autoRedirect">पुनर्निर्देशन URL को स्वचालित रूप से बदलें</string>
     <string name="mClear_upToDate">कैटलॉग अद्यतित</string>

@@ -12,7 +12,6 @@ import java.util.regex.Matcher;
 /**
  * On Android 10 and under, optional groups may yield a "null" in the replacement output instead of an empty string.
  * Therefore, we just copy the implementation from a newer version of Android
- * https://github.com/TrianguloY/URLCheck/issues/237
  */
 public class RegexFix {
 

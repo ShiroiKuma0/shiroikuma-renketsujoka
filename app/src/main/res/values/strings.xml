@@ -6,7 +6,7 @@
         For multiple translators, separate them by semicolon.
         Example: <string name="translators">John Doe; Jane Doe</string>
     -->
-    <string name="translators">TrianguloY</string>
+    <string name="translators">白い熊</string>
     <!--
         Locale name:
         Write the locale name in the locale language, for users that doesn't know english. For example 'Español' instead of 'Spanish'.
@@ -24,14 +24,16 @@
     <!--
         about
     -->
-    <string name="txt_about">"App created by %1$s.
+    <string name="txt_about">"App maintained by %1$s.
 
-Contributions: %2$s.
-Translations: %3$s."</string>
-    <string name="link_blog">"%s's blog"</string>
+Translations: %2$s."</string>
     <string name="link_changelog">Changelog</string>
     <string name="link_source">Source code</string>
     <string name="link_privacy">Privacy policy</string>
+    <!--
+        白い熊 連結浄化 UI
+    -->
+    <string name="txt_shiroikumaUi">Everything this fork adds on top of upstream is configured here. Nothing yet — settings will land on this page as they are built.</string>
     <!--
         modules
     -->

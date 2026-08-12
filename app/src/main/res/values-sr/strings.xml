@@ -5,11 +5,6 @@
     <string name="a_modules">Moduli</string>
     <string name="a_about">O Aplikaciji</string>
     <string name="a_settings">Podešavanja</string>
-    <string name="txt_about">Aplikacija koju je napravio %1$s.
-\n
-\nDoprinosi: %2$s.
-\nPrevodi: %3$s.</string>
-    <string name="link_blog">%s Blog</string>
     <string name="link_changelog">Dnevnik promena</string>
     <string name="link_source">Otvoreni Kod</string>
     <string name="link_privacy">Politika privatnosti</string>
