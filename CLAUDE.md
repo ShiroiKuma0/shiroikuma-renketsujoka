@@ -41,7 +41,7 @@ commits. The consequence that matters: upstream's `versionCode` stands still bet
 | APK naming | `shiroikuma-renketsujoka_<version>.apk` | `app/build.gradle` → `outputFileName`, `buildFork` |
 | Signing | gitignored `keystore.properties` → `~/.android-keystores/shiroikuma-renketsujoka.jks` (alias `renketsujoka`) | `app/build.gradle` fork shim feeding upstream's own signing block |
 | De-branding | our name + our GitHub links everywhere user-visible | `values*/strings.xml`, `activities/AboutActivity.java`, `res/layout/activity_about.xml` |
-| 白い熊 連結浄化 UI page | 25 attributes, kxkb grammar, live preview | `activities/ShiroikumaUiActivity.java`, `shiroikuma/UiPage.java`, `shiroikuma/ShiroikumaUi.java` |
+| 白い熊 連結浄化 UI page | 28 attributes, kxkb grammar, live preview | `activities/ShiroikumaUiActivity.java`, `shiroikuma/UiPage.java`, `shiroikuma/ShiroikumaUi.java` |
 | App-wide look | colour/typeface/weight over every screen, master-switchable | `shiroikuma/ShiroikumaApp.java` |
 | Export / Import + 保存復元 | category ZIP, SAF directory, token-gated automation | `activities/ExportImportActivity.java`, `shiroikuma/Backups.java`, `shiroikuma/StateExport*.java` |
 

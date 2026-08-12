@@ -122,7 +122,7 @@ moves by itself, so the next build picks up the new date and sha automatically. 
 | Fork drawables | `sk_dialog_background`, `sk_divider`, `open_left/right/both` | `res/drawable/` |
 | Black-yellow icons | both launchers, yellow line-art on black | `design/*.svg`, `mipmap-*/`, `drawable/ic_launcher_foreground.xml`, `drawable/clipboard_launcher_foreground.xml` |
 | App-wide restyle | `ShiroikumaApp` registered as `android:name` | `AndroidManifest.xml`, `shiroikuma/ShiroikumaApp.java` |
-| UI page | 25 attributes, kxkb grammar, live preview | `activities/ShiroikumaUiActivity.java`, `shiroikuma/{ShiroikumaUi,UiPage,Fonts,ColorPickerDialog,FontPickerDialog}.java` |
+| UI page | 28 attributes, kxkb grammar, live preview | `activities/ShiroikumaUiActivity.java`, `shiroikuma/{ShiroikumaUi,UiPage,Fonts,ColorPickerDialog,FontPickerDialog}.java` |
 | Long-press entry | cog long-press → UI page | `MainActivity`, `@+id/btn_settings` in `activity_main.xml` |
 | Export / Import | category ZIP, SAF directory, atomic `.part` | `activities/ExportImportActivity.java`, `shiroikuma/{Backups,BackupDirectory,ExportRunner}.java` |
 | 保存復元 automation | receiver + service + token, declared in the manifest | `shiroikuma/{StateExportReceiver,StateExportService,AutomationAuth}.java` |
