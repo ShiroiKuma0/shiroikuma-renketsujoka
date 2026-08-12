@@ -33,7 +33,82 @@ Translations: %2$s."</string>
     <!--
         白い熊 連結浄化 UI
     -->
-    <string name="txt_shiroikumaUi">Everything this fork adds on top of upstream is configured here. Nothing yet — settings will land on this page as they are built.</string>
+    <string name="sk_catExportImport">Export / Import</string>
+    <string name="sk_exportImport">Export / Import</string>
+    <string name="sk_exportImportSummary">Back up and restore everything settable in this app</string>
+    <string name="sk_backupDirTitle">Backup directory</string>
+    <string name="sk_noBackupDir">No backup directory set</string>
+    <string name="sk_backupDir">Backup directory: %s</string>
+    <string name="sk_noExportYet">No export in this directory yet</string>
+    <string name="sk_latestExport">Latest export: %s</string>
+    <string name="sk_backupUnsupported">This Android version cannot grant a backup directory</string>
+    <string name="sk_chooseDir">Choose directory</string>
+    <string name="sk_categories">Categories</string>
+    <string name="sk_export">Export</string>
+    <string name="sk_import">Import</string>
+    <string name="sk_noCategories">No categories selected.</string>
+    <string name="sk_exportFailed">Export failed.</string>
+    <string name="sk_importFailed">Import failed.</string>
+    <string name="sk_exportOk">Exported to %s.</string>
+    <string name="sk_importOk">Imported %2$d settings from %1$s. Restart to apply everything.</string>
+    <string name="sk_restartNow">Restart now</string>
+    <string name="sk_later">Later</string>
+
+    <string name="sk_catUiBackup">白い熊 連結浄化 UI</string>
+    <string name="sk_catUiBackupSummary">Colours, fonts, sizes, borders, spacing</string>
+    <string name="sk_catPatterns">Patterns</string>
+    <string name="sk_catPatternsSummary">The Pattern checker catalogue and its settings</string>
+    <string name="sk_catAutomations">Automations</string>
+    <string name="sk_catAutomationsSummary">The automations catalogue and its settings</string>
+    <string name="sk_catCleaning">URL cleaning</string>
+    <string name="sk_catCleaningSummary">The ClearURLs catalogue and updater settings</string>
+    <string name="sk_catHosts">Hosts</string>
+    <string name="sk_catHostsSummary">The hosts catalogue and labeller settings</string>
+    <string name="sk_catModules">Modules</string>
+    <string name="sk_catModulesSummary">Which modules are on, and their order</string>
+    <string name="sk_catApp">App settings</string>
+    <string name="sk_catAppSummary">Theme, locale, dialog width, browser choices</string>
+
+    <string name="sk_catTheme">Theme</string>
+    <string name="sk_enabled">Use the 白い熊 look</string>
+    <string name="sk_enabledSummary">Off returns every screen to upstream\'s own styling</string>
+    <string name="sk_background">Background</string>
+    <string name="sk_surface">Panel</string>
+
+    <string name="sk_catText">Text</string>
+    <string name="sk_font">Font</string>
+    <string name="sk_size">Size</string>
+    <string name="sk_weight">Weight</string>
+    <string name="sk_textColor">Colour</string>
+    <string name="sk_secondaryColor">Secondary colour</string>
+
+    <string name="sk_catHeadings">Headings</string>
+    <string name="sk_subUnderline">Underline</string>
+    <string name="sk_thickness">Thickness</string>
+    <string name="sk_color">Colour</string>
+
+    <string name="sk_catShape">Borders &amp; shape</string>
+    <string name="sk_borderThickness">Border thickness</string>
+    <string name="sk_borderColor">Border colour</string>
+    <string name="sk_roundness">Roundness</string>
+
+    <string name="sk_catSpacing">Rows &amp; spacing</string>
+    <string name="sk_rowPadding">Row padding</string>
+    <string name="sk_indent">Indent per level</string>
+    <string name="sk_subSeparator">Group separator</string>
+
+    <string name="sk_catButtons">Buttons</string>
+    <string name="sk_buttonBg">Background</string>
+    <string name="sk_buttonText">Text colour</string>
+
+    <string name="sk_fontImport">Import font…</string>
+    <string name="sk_fontImportFailed">That file could not be read as a font.</string>
+    <string name="sk_previewHeading">Heading</string>
+    <string name="sk_previewBody">The quick brown fox jumps over the lazy dog.</string>
+    <string name="sk_previewSecondary">Secondary text sits under it.</string>
+    <string name="sk_previewButton">Button</string>
+    <string name="sk_resetAll">Reset all</string>
+    <string name="sk_resetAllConfirm">Put every attribute on this page back to its black-yellow default?</string>
     <!--
         modules
     -->

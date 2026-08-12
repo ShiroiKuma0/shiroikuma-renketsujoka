@@ -29,6 +29,9 @@
         <activity
             android:name=".activities.ShiroikumaUiActivity"
             android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.ExportImportActivity"
+            android:parentActivityName=".activities.ShiroikumaUiActivity" />
         <activity android:name=".activities.TutorialActivity" />
         <activity android:name=".activities.JsonEditorActivity" />
         <activity

@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/smallPadding"
                 android:layout_weight="1"
+                android:id="@+id/btn_settings"
                 android:drawableStart="@drawable/settings"
                 android:drawablePadding="@dimen/smallPadding"
                 android:onClick="openSettings"

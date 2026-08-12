@@ -32,6 +32,14 @@ public class MainActivity extends Activity {
         // mark as seen if required
         VersionManager.check(this);
 
+        // 白い熊: long-pressing the Settings cog goes straight to the 白い熊 連結浄化 UI page,
+        // so the look is one gesture away rather than two taps down in Settings.
+        findViewById(R.id.btn_settings).setOnLongClickListener(view -> {
+            PackageUtils.startActivity(new Intent(this, ShiroikumaUiActivity.class),
+                    R.string.toast_noApp, this);
+            return true;
+        });
+
         // open tutorial if not done yet
         if (!TutorialActivity.DONE(this).get()) {
             PackageUtils.startActivity(new Intent(this, TutorialActivity.class), R.string.toast_noApp, this);
