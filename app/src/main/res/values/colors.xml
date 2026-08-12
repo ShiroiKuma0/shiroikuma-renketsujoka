@@ -5,7 +5,7 @@
     <color name="app">#FFFF00</color>
     <color name="sk_black">#000000</color>
     <color name="sk_yellow">#FFFF00</color>
-    <color name="sk_yellow_dim">#FFFF00</color>
+    <color name="sk_yellow_dim">#C8C800</color>
     <color name="sk_yellow_ripple">#33FFFF00</color>
 
     <!-- Status washes. Upstream used green/orange/pink; the fork keeps the three levels but says

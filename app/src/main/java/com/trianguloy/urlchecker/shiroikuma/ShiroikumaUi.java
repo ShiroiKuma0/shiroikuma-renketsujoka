@@ -26,8 +26,13 @@ public class ShiroikumaUi {
     /** The house palette. */
     public static final int BLACK = 0xFF000000;
     public static final int YELLOW = 0xFFFFFF00;
-    /** The fork has ONE yellow (白い熊, 2026-08-12). Kept as a name for what used to be dimmer. */
-    public static final int YELLOW_DIM = YELLOW;
+    /**
+     * The secondary tone. Everything structural or interactive is {@link #YELLOW}; this is only for
+     * de-emphasis — summaries, readouts, hints, subtitles and the unfilled half of a control — where
+     * having two weights of yellow is what makes a screen readable at a glance rather than a wall of
+     * one colour (白い熊, 2026-08-12).
+     */
+    public static final int YELLOW_DIM = 0xFFC8C800;
     /** Used for "not set yet" states, which must read as a problem rather than as chrome. */
     public static final int RED = 0xFFFF4040;
 

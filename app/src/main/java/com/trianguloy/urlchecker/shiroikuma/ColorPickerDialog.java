@@ -171,7 +171,7 @@ public class ColorPickerDialog {
                 }
             }
         }
-        for (int seed : new int[]{ShiroikumaUi.BLACK, ShiroikumaUi.YELLOW, 0xFFFFFFFF, ShiroikumaUi.BLACK}) {
+        for (int seed : new int[]{ShiroikumaUi.BLACK, ShiroikumaUi.YELLOW, ShiroikumaUi.YELLOW_DIM, 0xFFFFFFFF}) {
             if (!result.contains(seed)) result.add(seed);
         }
         return result.subList(0, Math.min(MAX_RECENT, result.size()));

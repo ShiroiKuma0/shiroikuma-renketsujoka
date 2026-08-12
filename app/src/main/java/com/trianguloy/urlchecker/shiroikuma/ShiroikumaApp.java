@@ -114,9 +114,9 @@ public class ShiroikumaApp extends Application {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && toggle instanceof android.widget.Switch sw) {
                 sw.setThumbTintList(tint);
-                // The fork has exactly one yellow, so a switch cannot signal its state with a
-                // second colour: the track is the same yellow at reduced alpha.
-                sw.setTrackTintList(ColorStateList.valueOf(faded(yellow)));
+                // The track is the secondary tone: an off switch has to be tellable from an on one,
+                // and a dimmer yellow says that more clearly than a faded one.
+                sw.setTrackTintList(ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
             }
             tintCompound(toggle, yellow);
             return;
@@ -125,7 +125,8 @@ public class ShiroikumaApp extends Application {
             var tint = ColorStateList.valueOf(yellow);
             seek.setProgressTintList(tint);
             seek.setThumbTintList(tint);
-            seek.setProgressBackgroundTintList(ColorStateList.valueOf(faded(yellow)));
+            seek.setProgressBackgroundTintList(
+                    ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
             return;
         }
         if (view instanceof ProgressBar bar) {
@@ -161,11 +162,6 @@ public class ShiroikumaApp extends Application {
                     || (width > 0 && width <= ShiroikumaUi.dp(activity, 3));
             if (hairline) view.setBackgroundColor(ShiroikumaUi.SEPARATOR_COLOR(activity).get());
         }
-    }
-
-    /** The same colour at 40% alpha — how an unfilled track or an inactive state is shown. */
-    private static int faded(int color) {
-        return (color & 0x00FFFFFF) | 0x66000000;
     }
 
     /** Compound drawables (the icon beside a button's or row's text). */
