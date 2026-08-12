@@ -26,7 +26,8 @@ public class ShiroikumaUi {
     /** The house palette. */
     public static final int BLACK = 0xFF000000;
     public static final int YELLOW = 0xFFFFFF00;
-    public static final int YELLOW_DIM = 0xFFC8C800;
+    /** The fork has ONE yellow (白い熊, 2026-08-12). Kept as a name for what used to be dimmer. */
+    public static final int YELLOW_DIM = YELLOW;
     /** Used for "not set yet" states, which must read as a problem rather than as chrome. */
     public static final int RED = 0xFFFF4040;
 

@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.AdaptiveIconDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.AbsSeekBar;
 import android.widget.Button;
@@ -117,7 +114,9 @@ public class ShiroikumaApp extends Application {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && toggle instanceof android.widget.Switch sw) {
                 sw.setThumbTintList(tint);
-                sw.setTrackTintList(ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
+                // The fork has exactly one yellow, so a switch cannot signal its state with a
+                // second colour: the track is the same yellow at reduced alpha.
+                sw.setTrackTintList(ColorStateList.valueOf(faded(yellow)));
             }
             tintCompound(toggle, yellow);
             return;
@@ -126,8 +125,7 @@ public class ShiroikumaApp extends Application {
             var tint = ColorStateList.valueOf(yellow);
             seek.setProgressTintList(tint);
             seek.setThumbTintList(tint);
-            seek.setProgressBackgroundTintList(
-                    ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
+            seek.setProgressBackgroundTintList(ColorStateList.valueOf(faded(yellow)));
             return;
         }
         if (view instanceof ProgressBar bar) {
@@ -165,6 +163,11 @@ public class ShiroikumaApp extends Application {
         }
     }
 
+    /** The same colour at 40% alpha — how an unfilled track or an inactive state is shown. */
+    private static int faded(int color) {
+        return (color & 0x00FFFFFF) | 0x66000000;
+    }
+
     /** Compound drawables (the icon beside a button's or row's text). */
     private static void tintCompound(TextView view, int color) {
         for (var drawable : view.getCompoundDrawables()) {
@@ -178,18 +181,14 @@ public class ShiroikumaApp extends Application {
     }
 
     /**
-     * Tint a UI glyph — but never a real app icon.
+     * Tint every image glyph, launcher icons included (白い熊, 2026-08-12).
      *
-     * <p>Every drawable this app ships is a vector; the bitmaps and adaptive icons an ImageView
-     * carries are other apps' launcher icons, shown in the Open module so they can be recognised.
-     * Painting those yellow would make the app chooser useless, so they are left exactly as they
-     * came.
+     * <p>The Open module lists other apps' icons; those are bitmaps and adaptive icons rather than
+     * vectors, and they are tinted too, so nothing on screen escapes the palette. Apps are then told
+     * apart by their name and their icon's SHAPE rather than by colour.
      */
     private static void tintGlyph(ImageView image, int color) {
-        Drawable drawable = image.getDrawable();
-        if (drawable == null) return;
-        if (drawable instanceof BitmapDrawable) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && drawable instanceof AdaptiveIconDrawable) return;
+        if (image.getDrawable() == null) return;
         image.setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
