@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list>
-    <!-- empty background -->
-</layer-list>
+<!-- Backdrop shared by the two halves of the split open control. Upstream left this an empty
+     layer-list; an explicit transparent shape leaves nothing for the platform to fall back to. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/transparent" />
+</shape>

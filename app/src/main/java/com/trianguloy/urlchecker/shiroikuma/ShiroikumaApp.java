@@ -102,6 +102,7 @@ public class ShiroikumaApp extends Application {
                     ShiroikumaUi.BACKGROUND(activity).get()));
         }
         walk(activity, root);
+        splitOpenControl(activity, root);
     }
 
     private static void walk(Activity activity, View view) {
@@ -239,6 +240,44 @@ public class ShiroikumaApp extends Application {
         sw.setTrackTintList(null);
         sw.setThumbDrawable(thumbStates);
         sw.setTrackDrawable(track);
+    }
+
+    /**
+     * The split "open with" control, styled by id rather than by type.
+     *
+     * <p>Its two halves are a Button and an ImageButton, which land in different branches of the
+     * walk, and upstream stacks a third background (`open_both`) under both. Whatever the platform
+     * puts behind them showed as a pale outline at the edges of the pair. Setting all three here
+     * leaves nothing underneath to show through, and keeps the halves reading as ONE control: the
+     * pair is rounded on its outer edges and square where they meet.
+     */
+    private static void splitOpenControl(Activity activity, View root) {
+        var parent = root.findViewById(com.trianguloy.urlchecker.R.id.open_parent);
+        if (parent == null) return;
+        parent.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+
+        int fill = ShiroikumaUi.BUTTON_BG(activity).get();
+        int border = ShiroikumaUi.BORDER_COLOR(activity).get();
+        int stroke = Math.max(ShiroikumaUi.dp(activity, 2),
+                ShiroikumaUi.dp(activity, ShiroikumaUi.BUTTON_BORDER(activity).get()));
+        float radius = ShiroikumaUi.dp(activity, ShiroikumaUi.BUTTON_CORNER(activity).get());
+
+        var left = root.findViewById(com.trianguloy.urlchecker.R.id.open);
+        if (left != null) left.setBackground(half(fill, border, stroke, radius, true));
+        var right = root.findViewById(com.trianguloy.urlchecker.R.id.open_with);
+        if (right != null) right.setBackground(half(fill, border, stroke, radius, false));
+    }
+
+    /** One half of a split control: rounded on its outer edge, square where it meets the other. */
+    private static android.graphics.drawable.GradientDrawable half(
+            int fill, int border, int stroke, float radius, boolean leading) {
+        var box = new android.graphics.drawable.GradientDrawable();
+        box.setColor(fill);
+        box.setStroke(stroke, border);
+        box.setCornerRadii(leading
+                ? new float[]{radius, radius, 0, 0, 0, 0, radius, radius}
+                : new float[]{0, 0, radius, radius, radius, radius, 0, 0});
+        return box;
     }
 
     /** Compound drawables (the icon beside a button's or row's text). */
