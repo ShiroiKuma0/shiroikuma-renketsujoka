@@ -3,8 +3,16 @@
 Every 白い熊 連結浄化 build, newest first. A fork entry names what changed on our side; the
 upstream release it is based on is recorded under *Upstream releases* below.
 
-Versions read `<upstream version>+<build>` — e.g. `3.5+001` is our first build on upstream 3.5.
-The installed `versionCode` is `<upstream code> * 10000 + <build>`, so 3.5+001 is 470001.
+Versions carry the upstream commit these patches sit on — see *Version format* below. The installed
+`versionCode` is `<upstream code> * 10000 + <build>`, independent of the pin.
+
+## Version format
+
+From `3.5+2026-07-25.15-05.g03a11762+014` on, the fork version pins the **upstream commit** these
+patches sit on: `<upstream>+<base date>.<HH-MM UTC>.g<sha8>+<build>`. This fork rebases onto every
+upstream push, and upstream's own `3.5` has stood still since July — the pin is the only part of the
+version that says whether we are behind upstream. It moves only on a sync, so two builds sharing a
+pin were built on the same upstream base. Earlier builds read `3.5+NNN`.
 
 ## 3.5+001
 

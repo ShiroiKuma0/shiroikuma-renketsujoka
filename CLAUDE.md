@@ -37,23 +37,33 @@ commits. The consequence that matters: upstream's `versionCode` stands still bet
 | namespace (R/BuildConfig pkg) | `com.trianguloy.urlchecker` (**never rename**) | `app/build.gradle` |
 | App label | `白い熊 連結浄化` | `app_name` in `app/src/main/res/values/strings.xml` |
 | App icon | black-yellow traced line-art (yellow `#FFFF00` on black) | `design/shiroikuma-renketsujoka-icon.svg` → `mipmap-*/ic_launcher.png`, `drawable/ic_launcher_foreground.xml`, `values/ic_launcher_background.xml` |
-| Version tail | `versionName = "<upstream>+NNN"`, `versionCode = <upstream code>*10000+N` | `app/build.gradle` fork blocks |
+| Version tail | `versionName = "<upstream>+<pin>+NNN"`, `versionCode = <upstream code>*10000+N` | `app/build.gradle` fork blocks |
 | APK naming | `shiroikuma-renketsujoka_<version>.apk` | `app/build.gradle` → `outputFileName`, `buildFork` |
 | Signing | gitignored `keystore.properties` → `~/.android-keystores/shiroikuma-renketsujoka.jks` (alias `renketsujoka`) | `app/build.gradle` fork shim feeding upstream's own signing block |
 | De-branding | our name + our GitHub links everywhere user-visible | `values*/strings.xml`, `activities/AboutActivity.java`, `res/layout/activity_about.xml` |
-| 白い熊 連結浄化 UI page | *(pending — 白い熊 specs its contents next)* | `activities/SettingsActivity.java`, `res/layout/activity_settings.xml` |
+| 白い熊 連結浄化 UI page | 25 attributes, kxkb grammar, live preview | `activities/ShiroikumaUiActivity.java`, `shiroikuma/UiPage.java`, `shiroikuma/ShiroikumaUi.java` |
+| App-wide look | colour/typeface/weight over every screen, master-switchable | `shiroikuma/ShiroikumaApp.java` |
+| Export / Import + 保存復元 | category ZIP, SAF directory, token-gated automation | `activities/ExportImportActivity.java`, `shiroikuma/Backups.java`, `shiroikuma/StateExport*.java` |
 
 ### Versioning & APK naming
 
+- **Upstream tracking: `git`** — `custom` is rebased onto every upstream commit, so the fork
+  versionName pins the upstream base:
+  `<upstream>+<base date>.<HH-MM>.g<sha8>+<BUILD_NUMBER, 3 digits>`.
+  See the global **`git-versioning`** skill. Upstream's `3.5` has stood still since July, so the
+  pin is the only thing in the version that says whether we are behind upstream.
 - Upstream's `versionCode` / `versionName` literals stay in `app/build.gradle` **untouched**, so a
   rebase carries new upstream values in by itself. Never hand-edit them.
 - `BUILD_NUMBER` in `gradle.properties` is our per-build increment; `buildFork` bumps it.
-- `versionName = "<upstream name>+<BUILD_NUMBER padded to 3>"` → `3.5+001`.
+- `versionName = "<upstream>+<base date>.<HH-MM>.g<sha8>+<build>"` → `3.5+2026-07-25.15-05.g03a11762+014`.
+  The pin is the merge-base of `HEAD` and `master` — the upstream commit our patches sit on, not
+  our own HEAD and not master's tip — with that commit's committer date in UTC. It therefore moves
+  only on an upstream sync.
 - `versionCode = <upstream code> * 10000 + BUILD_NUMBER` → `470001`.
 - **`BUILD_NUMBER` never resets.** Most syncs land where upstream's `versionCode` has not moved, so a
   reset would send our code backwards and read as a downgrade. `LAST_BUILT_VERSION_CODE` records the
   highest code ever shipped; `buildFork` fails rather than build at or below it.
-- APK: `~/tmp/shiroikuma-renketsujoka_3.5+001.apk`. No ABI suffix — the app ships no native libs.
+- APK: `~/tmp/shiroikuma-renketsujoka_<versionName>.apk`. No ABI suffix — no native libs.
 
 ### Build commands
 

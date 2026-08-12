@@ -23,6 +23,54 @@ if (keystorePropertiesFile.exists()) {
 // upstream values in by itself; we read them and derive ours. See gradle.properties.
 def forkBuildNumber = (project.findProperty('BUILD_NUMBER') ?: '1').toString().toInteger()
 def forkPaddedBuildNumber = String.format('%03d', forkBuildNumber)
+
+// --- shiroikuma-renketsujoka fork: upstream-base pin (see the global git-versioning skill) -----
+// `custom` is rebased onto every upstream commit, so upstream's versionName stands still for
+// months — 3.5 has been 3.5 since July. The pin is what says whether we are behind upstream.
+//
+// providers.exec, NOT a raw process: a process started at configuration time is refused outright
+// under Gradle's configuration cache, and the provider API registers the git output as a cache
+// input so the pin re-resolves when the base moves. ignoreExitValue so a repo with no local
+// `master` (shallow clone, tarball) degrades to an empty pin rather than failing the build.
+def forkRepoRoot = project.rootDir
+def forkGit = { String... command ->
+    try {
+        providers.exec {
+            commandLine(command)
+            workingDir = forkRepoRoot
+            ignoreExitValue = true
+        }.standardOutput.asText.get().trim()
+    } catch (Exception e) {
+        println("Git command [${command.join(' ')}] failed [$e]")
+        ''
+    }
+}
+
+// The merge-base of HEAD and master: the upstream commit our patches sit on. NOT our own HEAD
+// (that is what +NNN already says), and NOT master's tip (which overstates it whenever master has
+// been fast-forwarded but custom not yet rebased).
+def upstreamBaseSha = forkGit('git', 'merge-base', 'HEAD', 'master').take(8)
+
+// That same commit's COMMITTER date, so versions sort chronologically — a bare sha orders them at
+// random. In UTC, formatted from the raw epoch: the commit's own zone and the build host's zone
+// both misstate the hour, and minute resolution puts that error in plain sight.
+def upstreamBaseStamp = ''
+if (upstreamBaseSha.length() == 8) {
+    def epoch = forkGit('git', 'show', '-s', '--format=%ct', upstreamBaseSha)
+    if (epoch ==~ /\d+/) {
+        upstreamBaseStamp = java.time.Instant.ofEpochSecond(epoch.toLong())
+                .atZone(java.time.ZoneOffset.UTC)
+                .format(java.time.format.DateTimeFormatter.ofPattern('yyyy-MM-dd.HH-mm'))
+    }
+}
+
+// `+` opens each top-level group; the pin's own date, time and sha are dot-joined inside it.
+def upstreamPin = ''
+if (upstreamBaseSha.length() == 8) {
+    upstreamPin = upstreamBaseStamp.length() == 16
+            ? "+${upstreamBaseStamp}.g${upstreamBaseSha}"
+            : "+g${upstreamBaseSha}"
+}
 def forkLastBuiltVersionCode = (project.findProperty('LAST_BUILT_VERSION_CODE') ?: '0').toString().toInteger()
 def forkVersionName = null
 def forkVersionCode = 0
@@ -39,9 +87,10 @@ android {
     }
 
     // Fork: overwrite upstream's two literals with our derived pair.
-    //   versionName = "<upstream name>+<BUILD_NUMBER padded to 3>"   e.g. 3.5+001
+    //   versionName = "<upstream name>+<base date>.<HH-MM>.g<sha8>+<BUILD_NUMBER padded to 3>"
+    //                                    e.g. 3.5+2026-07-25.15-05.g03a11762+014
     //   versionCode = <upstream code> * 10000 + BUILD_NUMBER          e.g. 470001
-    forkVersionName = "${defaultConfig.versionName}+${forkPaddedBuildNumber}"
+    forkVersionName = "${defaultConfig.versionName}${upstreamPin}+${forkPaddedBuildNumber}"
     forkVersionCode = defaultConfig.versionCode * 10000 + forkBuildNumber
     defaultConfig.versionName = forkVersionName
     defaultConfig.versionCode = forkVersionCode

@@ -38,8 +38,9 @@ Writes under `~/git/` are blocked by the command sandbox on this machine — run
    - `grep -E 'BUILD_NUMBER|LAST_BUILT_VERSION_CODE' gradle.properties`
    - The upstream version pair lives in `app/build.gradle` (`versionCode` / `versionName` literals):
      `grep -E 'versionCode|versionName' app/build.gradle`
-   - The APK will be `shiroikuma-renketsujoka_<upstream versionName>+<BUILD_NUMBER padded to 3>.apk`,
-     using the `BUILD_NUMBER` value **before** the build (`buildFork` bumps it afterward).
+   - The APK will be `shiroikuma-renketsujoka_<versionName>.apk`, using the `BUILD_NUMBER` value
+     **before** the build (`buildFork` bumps it afterward). The version carries the upstream-base
+     pin — read the printed `>>>` line rather than reconstructing the name by hand.
    - versionCode for that build = `<upstream versionCode> * 10000 + BUILD_NUMBER`.
 
 2. **Build** (release, signed) — from the repo root:
@@ -82,7 +83,10 @@ code and it never conflicts on a rebase.
 - The upstream pair (`versionCode 47` / `versionName "3.5"`) stays in `app/build.gradle` as
   untouched literals, so a rebase carries new upstream values in by itself. **Never hand-edit them.**
 - `BUILD_NUMBER` in `gradle.properties` is our per-build increment, bumped by `buildFork`.
-- Fork `versionName = "<upstream name>+<BUILD_NUMBER padded to 3>"` → `3.5+001`.
+- Fork `versionName = "<upstream>+<base date>.<HH-MM>.g<sha8>+<BUILD_NUMBER padded to 3>"` →
+  `3.5+2026-07-25.15-05.g03a11762+014`. **Upstream tracking is `git`**: the pin is the merge-base of
+  `HEAD` and `master`, with that commit's committer date in UTC, so it moves only on a sync. See the
+  global **`git-versioning`** skill.
 - Fork `versionCode = <upstream code> * 10000 + BUILD_NUMBER` → `470001`.
 - **`BUILD_NUMBER` never resets.** `master` mirrors bleeding `upstream/master`, whose `versionCode`
   stands still between upstream releases, so a reset would send our code backwards and the installer
