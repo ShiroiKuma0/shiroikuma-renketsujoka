@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.trianguloy.urlchecker.R;
 import com.trianguloy.urlchecker.utilities.methods.PackageUtils;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 public class BrowserButtonsFragment implements Fragment, ResultCodeInjector.ActivityResultListener {
     private final Activity cntx;
@@ -66,7 +67,6 @@ public class BrowserButtonsFragment implements Fragment, ResultCodeInjector.Acti
         b4.setOnClickListener(v -> openAppDetails());
     }
 
-
     /** open a specific dialog to choose the browser */
     @TargetApi(Build.VERSION_CODES.Q)
     public void chooseBrowserPopup() {
@@ -76,9 +76,9 @@ public class BrowserButtonsFragment implements Fragment, ResultCodeInjector.Acti
     @Override
     public void onActivityResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            Toast.makeText(cntx, R.string.toast_defaultSet, Toast.LENGTH_LONG).show();
+            SkToast.show(cntx, R.string.toast_defaultSet, android.widget.Toast.LENGTH_LONG);
         } else {
-            Toast.makeText(cntx, R.string.canceled, Toast.LENGTH_LONG).show();
+            SkToast.show(cntx, R.string.canceled, android.widget.Toast.LENGTH_LONG);
         }
     }
 

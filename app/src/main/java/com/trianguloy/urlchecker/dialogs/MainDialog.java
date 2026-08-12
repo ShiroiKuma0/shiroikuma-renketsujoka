@@ -44,8 +44,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** The main dialog, when opening a url */
+
 public class MainDialog extends Activity {
 
     /** Maximum number of updates to avoid loops */
@@ -158,7 +160,7 @@ public class MainDialog extends Activity {
                         var action = automations.get(automationKey);
                         if (action == null) {
                             if (automationRules.automationsShowErrorToast.get()) {
-                                Toast.makeText(this, getString(R.string.auto_notFound, automationKey), Toast.LENGTH_LONG).show();
+                                SkToast.show(this, getString(R.string.auto_notFound, automationKey), android.widget.Toast.LENGTH_LONG);
                             }
                         } else {
                             try {
@@ -238,7 +240,7 @@ public class MainDialog extends Activity {
         switch (links.size()) {
             case 0:
                 // no links, invalid
-                Toast.makeText(this, R.string.invalid, Toast.LENGTH_SHORT).show();
+                SkToast.show(this, R.string.invalid, android.widget.Toast.LENGTH_SHORT);
                 finish();
                 break;
             case 1:
@@ -447,6 +449,5 @@ public class MainDialog extends Activity {
 
         return frame;
     }
-
 
 }

@@ -33,8 +33,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** Generic Android utilities */
+
 public interface AndroidUtils {
 
     /**
@@ -118,7 +120,7 @@ public interface AndroidUtils {
 
         // show toast to notify it was copied (except on Android 13+, where the device shows a popup itself)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            Toast.makeText(activity, toast, Toast.LENGTH_LONG).show();
+            SkToast.show(activity, toast, android.widget.Toast.LENGTH_LONG);
     }
 
     /**
@@ -145,7 +147,6 @@ public interface AndroidUtils {
 
         if (extraReferrer != null) intent.putExtra(Intent.EXTRA_REFERRER, extraReferrer);
         if (extraReferrerName != null) intent.putExtra(Intent.EXTRA_REFERRER_NAME, extraReferrerName);
-
 
         // the scheme must exist and be "android-app"
         if (referrer == null || !"android-app".equals(referrer.getScheme())) return null;
@@ -183,7 +184,7 @@ public interface AndroidUtils {
             if (contentDescription == null) {
                 AndroidUtils.assertError("No content description for view " + view);
             } else {
-                Toast.makeText(v.getContext(), contentDescription, Toast.LENGTH_SHORT).show();
+                SkToast.show(v.getContext(), contentDescription, android.widget.Toast.LENGTH_SHORT);
             }
             return true;
         });

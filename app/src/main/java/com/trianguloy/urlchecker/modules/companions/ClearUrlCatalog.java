@@ -31,8 +31,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** Manages the local catalog with the rules */
+
 public class ClearUrlCatalog implements JsonEditorInterface {
 
     /* ------------------- constants ------------------- */
@@ -249,7 +251,7 @@ public class ClearUrlCatalog implements JsonEditorInterface {
                 cntx.runOnUiThread(() -> {
                     updateNow.setEnabled(true);
                     update.run();
-                    Toast.makeText(cntx, toast, Toast.LENGTH_SHORT).show();
+                    SkToast.show(cntx, toast, android.widget.Toast.LENGTH_SHORT);
                 });
             }).start();
         });

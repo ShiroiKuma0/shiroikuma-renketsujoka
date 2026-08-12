@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- List/preference dividers, in house yellow rather than the platform grey. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size android:height="1dp" />
+    <solid android:color="@color/sk_yellow" />
+</shape>

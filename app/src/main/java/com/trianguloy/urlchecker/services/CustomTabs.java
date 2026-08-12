@@ -9,12 +9,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.trianguloy.urlchecker.utilities.generics.GenericPref.BoolPref;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /**
  * Empty service for fake custom tabs.
  * <p>
  * referrer: https://chromium.googlesource.com/chromium/src/+/b71e98cdf14f18cb967a73857826f6e8c568cea0/chrome/android/java/src/org/chromium/chrome/browser/customtabs/CustomTabsConnectionService.java
  */
+
 public class CustomTabs extends Service {
 
     public static BoolPref SHOWTOAST_PREF(Context cntx) {
@@ -52,7 +54,7 @@ public class CustomTabs extends Service {
     private void log(String message) {
         Log.d(TAG, message);
         if (SHOWTOAST_PREF(this).get()) {
-            Toast.makeText(this, TAG + ": " + message, Toast.LENGTH_LONG).show();
+            SkToast.show(this, TAG + ": " + message, android.widget.Toast.LENGTH_LONG);
         }
     }
 }

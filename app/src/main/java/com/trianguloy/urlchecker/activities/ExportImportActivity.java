@@ -22,6 +22,7 @@ import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /**
  * The Export / Import panel: pick a directory, tick the categories, and back up or restore.
@@ -34,6 +35,7 @@ import java.util.Map;
  * page behind it once the result dialog is acknowledged, so you land back where you started.
  * A FAILURE leaves everything open so the problem can be fixed on the spot.
  */
+
 public class ExportImportActivity extends Activity {
 
     private static final int REQUEST_PICK_DIR = 0x5C02;
@@ -118,8 +120,7 @@ public class ExportImportActivity extends Activity {
                     if (clipboard != null) {
                         clipboard.setPrimaryClip(android.content.ClipData.newPlainText("token",
                                 com.trianguloy.urlchecker.shiroikuma.AutomationAuth.token(this)));
-                        android.widget.Toast.makeText(this, R.string.sk_tokenCopied,
-                                android.widget.Toast.LENGTH_SHORT).show();
+                        SkToast.show(this, R.string.sk_tokenCopied, android.widget.Toast.LENGTH_SHORT);
                     }
                 });
 

@@ -5,9 +5,18 @@ import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.AdaptiveIconDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.widget.AbsSeekBar;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -71,14 +80,18 @@ public class ShiroikumaApp extends Application {
         var name = activity.getClass().getName();
         if (name.endsWith("ShiroikumaUiActivity") || name.endsWith("ExportImportActivity")) return;
 
-        var background = ShiroikumaUi.BACKGROUND(activity).get();
-        if (activity.getWindow() != null) {
-            activity.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(background));
+        // The link dialog's window background is the yellow-bordered panel from the theme — painting
+        // a flat colour over it here would erase the border it exists to draw.
+        if (!name.endsWith("MainDialog") && activity.getWindow() != null) {
+            activity.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(
+                    ShiroikumaUi.BACKGROUND(activity).get()));
         }
         walk(activity, root);
     }
 
     private static void walk(Activity activity, View view) {
+        int yellow = ShiroikumaUi.BODY_COLOR(activity).get();
+
         if (view instanceof ViewGroup group) {
             for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i));
             return;
@@ -91,25 +104,93 @@ public class ShiroikumaApp extends Application {
                     ShiroikumaUi.BORDER_COLOR(activity).get(),
                     ShiroikumaUi.BUTTON_CORNER(activity).get()));
             button.setTypeface(typeface(activity));
+            tintCompound(button, yellow);
             return;
         }
         if (view instanceof CompoundButton toggle) {
-            toggle.setTextColor(ShiroikumaUi.BODY_COLOR(activity).get());
+            // Switch track/thumb and checkbox boxes: the platform tints these from the theme, but a
+            // drawable set in a layout overrides that, so tint them here too.
+            toggle.setTextColor(yellow);
             toggle.setTypeface(typeface(activity));
+            var tint = ColorStateList.valueOf(yellow);
+            toggle.setButtonTintList(tint);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && toggle instanceof android.widget.Switch sw) {
+                sw.setThumbTintList(tint);
+                sw.setTrackTintList(ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
+            }
+            tintCompound(toggle, yellow);
+            return;
+        }
+        if (view instanceof AbsSeekBar seek) {
+            var tint = ColorStateList.valueOf(yellow);
+            seek.setProgressTintList(tint);
+            seek.setThumbTintList(tint);
+            seek.setProgressBackgroundTintList(
+                    ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
+            return;
+        }
+        if (view instanceof ProgressBar bar) {
+            bar.setProgressTintList(ColorStateList.valueOf(yellow));
+            bar.setIndeterminateTintList(ColorStateList.valueOf(yellow));
+            return;
+        }
+        if (view instanceof ImageView image) {
+            tintGlyph(image, yellow);
             return;
         }
         if (view instanceof EditText edit) {
-            edit.setTextColor(ShiroikumaUi.BODY_COLOR(activity).get());
+            edit.setTextColor(yellow);
             edit.setHintTextColor(ShiroikumaUi.SECONDARY_COLOR(activity).get());
             edit.setTypeface(typeface(activity));
+            tintCompound(edit, yellow);
             return;
         }
         if (view instanceof TextView text) {
-            // A clickable TextView is a link in this app; leave those their own colour so they stay
-            // recognisable as links rather than melting into body text.
-            if (!text.isClickable()) text.setTextColor(ShiroikumaUi.BODY_COLOR(activity).get());
+            // Links included: upstream drew them in the platform blue, which is the one colour the
+            // fork does not have. They stay underlined, so they are still readable as links.
+            text.setTextColor(yellow);
+            text.setLinkTextColor(yellow);
             text.setTypeface(typeface(activity));
+            tintCompound(text, yellow);
+            return;
         }
+        // A bare thin View is a divider or separator in this app's layouts.
+        if (view.getClass() == View.class) {
+            int height = view.getHeight();
+            int width = view.getWidth();
+            boolean hairline = (height > 0 && height <= ShiroikumaUi.dp(activity, 3))
+                    || (width > 0 && width <= ShiroikumaUi.dp(activity, 3));
+            if (hairline) view.setBackgroundColor(ShiroikumaUi.SEPARATOR_COLOR(activity).get());
+        }
+    }
+
+    /** Compound drawables (the icon beside a button's or row's text). */
+    private static void tintCompound(TextView view, int color) {
+        for (var drawable : view.getCompoundDrawables()) {
+            if (drawable != null) drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            for (var drawable : view.getCompoundDrawablesRelative()) {
+                if (drawable != null) drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            }
+        }
+    }
+
+    /**
+     * Tint a UI glyph — but never a real app icon.
+     *
+     * <p>Every drawable this app ships is a vector; the bitmaps and adaptive icons an ImageView
+     * carries are other apps' launcher icons, shown in the Open module so they can be recognised.
+     * Painting those yellow would make the app chooser useless, so they are left exactly as they
+     * came.
+     */
+    private static void tintGlyph(ImageView image, int color) {
+        Drawable drawable = image.getDrawable();
+        if (drawable == null) return;
+        if (drawable instanceof BitmapDrawable) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && drawable instanceof AdaptiveIconDrawable) return;
+        image.setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private static android.graphics.Typeface typeface(Activity activity) {

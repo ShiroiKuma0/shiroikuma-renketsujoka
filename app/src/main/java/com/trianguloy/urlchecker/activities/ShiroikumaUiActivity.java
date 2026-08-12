@@ -17,6 +17,7 @@ import com.trianguloy.urlchecker.shiroikuma.UiPage;
 import com.trianguloy.urlchecker.utilities.AndroidSettings;
 import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /**
  * The 白い熊 連結浄化 UI page: every attribute this fork adds on top of upstream, grouped, indented
@@ -26,6 +27,7 @@ import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
  * change rebuilds it and you see the new heading size, indent, border or colour immediately. It is
  * reached from the bottom of Settings, or by LONG-PRESSING the Settings cog on the main screen.
  */
+
 public class ShiroikumaUiActivity extends Activity {
 
     private static final int REQUEST_IMPORT_FONT = 0x5C01;
@@ -187,7 +189,7 @@ public class ShiroikumaUiActivity extends Activity {
         try {
             startActivityForResult(intent, REQUEST_IMPORT_FONT);
         } catch (Exception e) {
-            Toast.makeText(this, R.string.toast_noApp, Toast.LENGTH_SHORT).show();
+            SkToast.show(this, R.string.toast_noApp, android.widget.Toast.LENGTH_SHORT);
         }
     }
 
@@ -209,7 +211,7 @@ public class ShiroikumaUiActivity extends Activity {
                 var name = displayName(uri);
                 var id = Fonts.importFont(this, uri, name);
                 if (id == null) {
-                    Toast.makeText(this, R.string.sk_fontImportFailed, Toast.LENGTH_LONG).show();
+                    SkToast.show(this, R.string.sk_fontImportFailed, android.widget.Toast.LENGTH_LONG);
                 } else {
                     if ("heading".equals(fontTarget)) ShiroikumaUi.HEADING_FONT(this).set(id);
                     else ShiroikumaUi.BODY_FONT(this).set(id);

@@ -37,10 +37,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** This module allows flag edition */
-public class FlagsModule extends AModuleData {
 
+public class FlagsModule extends AModuleData {
 
     public static final String DEFAULT_GROUP = "default";
 
@@ -154,7 +155,6 @@ class FlagsDialog extends AModuleDialog {
             groupPref = groups.getJSONObject(group);
         } catch (JSONException ignore) {
         }
-
 
         // Put shown flags
         Set<String> shownFlagsSet = new TreeSet<>();
@@ -406,7 +406,7 @@ class FlagsConfig extends AModuleConfig {
             file.set(newSettings.toString());
         } catch (JSONException e) {
             AndroidUtils.assertError("Invalid json flags", e);
-            Toast.makeText(getActivity(), R.string.invalid, Toast.LENGTH_SHORT).show();
+            SkToast.show(getActivity(), R.string.invalid, android.widget.Toast.LENGTH_SHORT);
         }
     }
 

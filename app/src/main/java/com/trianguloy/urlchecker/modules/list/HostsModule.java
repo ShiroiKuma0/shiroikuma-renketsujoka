@@ -19,8 +19,10 @@ import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** This module checks for patterns characters in the url */
+
 public class HostsModule extends AModuleData {
 
     @Override
@@ -62,7 +64,7 @@ class HostsConfig extends AModuleConfig {
         // click to build
         views.findViewById(R.id.rebuild).setOnClickListener(v ->
                 hosts.build(false, () ->
-                        Toast.makeText(getActivity(), getActivity().getString(R.string.mHosts_built, hosts.size()), Toast.LENGTH_LONG).show()
+                        SkToast.show(getActivity(), getActivity().getString(R.string.mHosts_built, hosts.size()), android.widget.Toast.LENGTH_LONG)
                 )
         );
         // click to edit

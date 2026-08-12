@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app">#004D57</color>
-    <color name="good">#804CAF50</color>
-    <color name="warning">#80FF9800</color>
-    <color name="bad">#80E91E63</color>
+    <!-- 白い熊 連結浄化: the house palette. `app` is the accent every vector drawable in this app
+         fills with, so recolouring it here turns every glyph yellow at once. -->
+    <color name="app">#FFFF00</color>
+    <color name="sk_black">#000000</color>
+    <color name="sk_yellow">#FFFF00</color>
+    <color name="sk_yellow_dim">#C8C800</color>
+    <color name="sk_yellow_ripple">#33FFFF00</color>
+
+    <!-- Status washes. Upstream used green/orange/pink; the fork keeps the three levels but says
+         them in yellow, by intensity, so the dialog stays black-yellow throughout. -->
+    <color name="good">#33FFFF00</color>
+    <color name="warning">#59FFFF00</color>
+    <color name="bad">#8CFFFF00</color>
+
     <color name="transparent">#00000000</color>
-    <color name="grey">#808080</color>
+    <color name="grey">#C8C800</color>
 </resources>

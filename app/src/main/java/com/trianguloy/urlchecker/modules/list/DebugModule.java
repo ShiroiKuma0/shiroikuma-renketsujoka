@@ -24,12 +24,14 @@ import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import com.trianguloy.urlchecker.utilities.wrappers.IntentApp;
 
 import java.util.List;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /**
  * This modules marks the insertion point of new modules
  * If enabled, shows a textview with debug info.
  * Allows also to enable/disable ctabs toasts
  */
+
 public class DebugModule extends AModuleData {
     public static final String ID = "debug";
 
@@ -70,7 +72,7 @@ class DebugDialog extends AModuleDialog {
             new AutomationRules.Automation<>(
                     "toast",
                     R.string.auto_toast,
-                    ((t, args) -> Toast.makeText(t.getActivity(), args.optString("text"), Toast.LENGTH_SHORT).show())
+                    ((t, args) -> SkToast.show(t.getActivity(), args.optString("text"), android.widget.Toast.LENGTH_SHORT))
             )
     );
 
@@ -138,7 +140,6 @@ class DebugDialog extends AModuleDialog {
 }
 
 class DebugConfig extends AModuleConfig {
-
 
     public DebugConfig(ModulesActivity activity) {
         super(activity);

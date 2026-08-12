@@ -16,8 +16,10 @@ import com.trianguloy.urlchecker.utilities.AndroidSettings;
 import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
 import com.trianguloy.urlchecker.utilities.methods.PackageUtils;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** The activity to show when clicking the desktop shortcut (when 'opening' the app) */
+
 public class MainActivity extends Activity {
 
     private final ResultCodeInjector resultCodeInjector = new ResultCodeInjector();
@@ -98,7 +100,7 @@ public class MainActivity extends Activity {
     }
 
     public void aboutToast(View view) {
-        Toast.makeText(this, getString(R.string.app_name) + " - " + getString(R.string.shiroikuma), Toast.LENGTH_SHORT).show();
+        SkToast.show(this, getString(R.string.app_name) + " - " + getString(R.string.shiroikuma), android.widget.Toast.LENGTH_SHORT);
     }
 
 }

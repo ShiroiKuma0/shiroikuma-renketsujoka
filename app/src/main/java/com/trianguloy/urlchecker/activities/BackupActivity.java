@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 public class BackupActivity extends Activity {
 
@@ -209,11 +210,11 @@ public class BackupActivity extends Activity {
                 progress.increaseProgress();
                 if (chk_cache.isChecked()) backupFilesMatching(CACHE_FOLDER, IS_FILE_CACHE, zip);
 
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_backupOk, Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_backupOk, android.widget.Toast.LENGTH_SHORT));
 
             } catch (Exception e) {
                 AndroidUtils.assertError("Unable to backup", e);
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_backupError, Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_backupError, android.widget.Toast.LENGTH_LONG));
             }
         });
     }
@@ -266,7 +267,7 @@ public class BackupActivity extends Activity {
 
                 // check version
                 if (!chk_ignoreNewer.isChecked() && VersionManager.isVersionNewer(zip.getFileString(FILE_VERSION))) {
-                    runOnUiThread(() -> Toast.makeText(this, R.string.bck_newer, Toast.LENGTH_LONG).show());
+                    runOnUiThread(() -> SkToast.show(this, R.string.bck_newer, android.widget.Toast.LENGTH_LONG));
                     return;
                 }
 
@@ -290,11 +291,11 @@ public class BackupActivity extends Activity {
                 progress.increaseProgress();
                 if (chk_cache.isChecked()) restoreFilesMatching(CACHE_FOLDER, IS_FILE_CACHE, zip);
 
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_restoreOk, Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_restoreOk, android.widget.Toast.LENGTH_LONG));
 
             } catch (Exception e) {
                 AndroidUtils.assertError("Unable to restore", e);
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_restoreError, Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_restoreError, android.widget.Toast.LENGTH_LONG));
             }
 
             runOnUiThread(() -> AndroidSettings.reload(this));
@@ -391,11 +392,11 @@ public class BackupActivity extends Activity {
                 progress.increaseProgress();
                 if (chk_cache.isChecked()) deleteFilesMatching(IS_FILE_CACHE);
 
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_deleteOk, Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_deleteOk, android.widget.Toast.LENGTH_SHORT));
 
             } catch (Exception e) {
                 AndroidUtils.assertError("Unable to delete", e);
-                runOnUiThread(() -> Toast.makeText(this, R.string.bck_deleteError, Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> SkToast.show(this, R.string.bck_deleteError, android.widget.Toast.LENGTH_SHORT));
             }
 
             runOnUiThread(() -> AndroidSettings.reload(this));
@@ -450,7 +451,7 @@ public class BackupActivity extends Activity {
                 resultCodeInjector.registerActivityResult((resultCode, data) -> {
                     // file selected?
                     if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) listener.accept(data.getData());
-                    else Toast.makeText(this, R.string.canceled, Toast.LENGTH_SHORT).show();
+                    else SkToast.show(this, R.string.canceled, android.widget.Toast.LENGTH_SHORT);
                 }),
                 R.string.toast_noApp,
                 this);

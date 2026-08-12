@@ -21,8 +21,10 @@ import com.trianguloy.urlchecker.utilities.methods.PackageUtils;
 
 import java.util.Collections;
 import java.util.Set;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** This activity opens (on this app) a link detected on the clipboard text. If multiple asks. */
+
 public class ShortcutsActivity extends Activity {
 
     private AlertDialog dialog;
@@ -76,7 +78,7 @@ public class ShortcutsActivity extends Activity {
         switch (links.size()) {
             case 0:
                 // no links, notify
-                Toast.makeText(this, R.string.noLinks, Toast.LENGTH_SHORT).show();
+                SkToast.show(this, R.string.noLinks, android.widget.Toast.LENGTH_SHORT);
                 finish();
                 break;
             case 1:

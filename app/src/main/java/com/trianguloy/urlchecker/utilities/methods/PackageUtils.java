@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** Static utilities related to packages */
+
 public interface PackageUtils {
 
     /** Wrapper for {@link Context#startActivity(Intent)} to catch thrown exceptions and show a toast instead */
@@ -13,7 +15,7 @@ public interface PackageUtils {
         try {
             cntx.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(cntx, toastError, Toast.LENGTH_SHORT).show();
+            SkToast.show(cntx, toastError, android.widget.Toast.LENGTH_SHORT);
         }
     }
 
@@ -22,7 +24,7 @@ public interface PackageUtils {
         try {
             cntx.startActivityForResult(intent, requestCode);
         } catch (Exception e) {
-            Toast.makeText(cntx, toastError, Toast.LENGTH_SHORT).show();
+            SkToast.show(cntx, toastError, android.widget.Toast.LENGTH_SHORT);
         }
     }
 }

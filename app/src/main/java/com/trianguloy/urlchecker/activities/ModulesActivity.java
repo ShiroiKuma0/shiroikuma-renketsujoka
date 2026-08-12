@@ -29,8 +29,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** An activity that shows the list of modules that can be enabled/disabled */
+
 public class ModulesActivity extends Activity {
 
     private LinearLayout list;
@@ -67,7 +69,6 @@ public class ModulesActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_modules, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,7 +115,7 @@ public class ModulesActivity extends Activity {
                 var resId = config.cannotEnableErrorId();
                 if (resId != -1) {
                     // error: notify and keep disabled
-                    Toast.makeText(ModulesActivity.this, getString(R.string.toast_cantEnable, getString(resId)), Toast.LENGTH_LONG).show();
+                    SkToast.show(ModulesActivity.this, getString(R.string.toast_cantEnable, getString(resId)), android.widget.Toast.LENGTH_LONG);
                     buttonView.setChecked(false);
                     return;
                 }

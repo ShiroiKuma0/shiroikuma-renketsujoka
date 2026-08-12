@@ -27,10 +27,11 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.Objects;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /** Activity for editing a json */
-public class JsonEditorActivity extends Activity {
 
+public class JsonEditorActivity extends Activity {
 
     /** The editor size pref */
     public static FloatPref EDITOR_SIZE(float defaultValue, Context cntx) {
@@ -66,7 +67,7 @@ public class JsonEditorActivity extends Activity {
             provider = ((Class<JsonEditorInterface>) getIntent().getSerializableExtra(EXTRA_CLASS)).getConstructor(Activity.class).newInstance(this);
         } catch (Exception e) {
             AndroidUtils.assertError("Unable to instantiate the JsonEditorInterface", e);
-            Toast.makeText(this, R.string.invalid, Toast.LENGTH_SHORT).show();
+            SkToast.show(this, R.string.invalid, android.widget.Toast.LENGTH_SHORT);
             finish();
             return;
         }

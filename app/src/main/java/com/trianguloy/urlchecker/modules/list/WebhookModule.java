@@ -30,11 +30,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import com.trianguloy.urlchecker.shiroikuma.SkToast;
 
 /**
  * This module sends the current url to a custom webhook
  * Idea and base implementation by anoop-b
  */
+
 public class WebhookModule extends AModuleData {
 
     public static final String URL_PREF = "webhook_url";
@@ -283,7 +285,7 @@ class WebhookConfig extends AModuleConfig {
                 var ok = WebhookDialog.send(webhookUrl.get(), webhookUrl.get(), getActivity().getPackageName(), webhookBody.get());
                 getActivity().runOnUiThread(() -> {
                     test.setEnabled(true);
-                    Toast.makeText(v.getContext(), ok ? R.string.mWebhook_success : R.string.mWebhook_error, Toast.LENGTH_SHORT).show();
+                    SkToast.show(v.getContext(), ok ? R.string.mWebhook_success : R.string.mWebhook_error, android.widget.Toast.LENGTH_SHORT);
                 });
             }).start();
         });
