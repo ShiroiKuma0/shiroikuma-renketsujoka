@@ -161,6 +161,11 @@ public class UiPage {
         }
         row.addView(labels, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 
+        if (widget instanceof android.widget.CompoundButton toggle) {
+            // Style it here rather than leaving it to the app-wide walk: this page rebuilds on
+            // every change, so the walk has already run by the time this view exists.
+            ShiroikumaApp.styleCompound(cntx, toggle);
+        }
         if (widget != null) {
             row.addView(widget, new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -323,6 +328,12 @@ public class UiPage {
                 Math.max(10, ShiroikumaUi.BODY_SIZE(cntx).get() - 3));
         secondary.setTypeface(Fonts.typeface(cntx, ShiroikumaUi.BODY_FONT(cntx).get()));
         panel.addView(mark(secondary));
+
+        var toggle = new android.widget.Switch(cntx);
+        toggle.setText(cntx.getString(com.trianguloy.urlchecker.R.string.sk_previewSwitch));
+        toggle.setChecked(true);
+        ShiroikumaApp.styleCompound(cntx, toggle);
+        panel.addView(toggle);
 
         var buttons = new LinearLayout(cntx);
         buttons.setOrientation(LinearLayout.HORIZONTAL);

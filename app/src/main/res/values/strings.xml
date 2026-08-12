@@ -114,6 +114,11 @@ Translations: %2$s."</string>
     <string name="sk_previewBody">The quick brown fox jumps over the lazy dog.</string>
     <string name="sk_previewSecondary">Secondary text sits under it.</string>
     <string name="sk_previewButton">Button</string>
+    <string name="sk_previewSwitch">Switch</string>
+    <string name="sk_subSwitches">Switches</string>
+    <string name="sk_switchThumb">Thumb size</string>
+    <string name="sk_switchTrackWidth">Track width</string>
+    <string name="sk_switchTrackHeight">Track height</string>
     <string name="sk_resetAll">Reset all</string>
     <string name="sk_resetAllConfirm">Put every attribute on this page back to its black-yellow default?</string>
     <!--

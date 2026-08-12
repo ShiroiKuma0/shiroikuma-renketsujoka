@@ -219,16 +219,32 @@ public class ShiroikumaApp extends Application {
     }
 
     /**
+     * Style a toggle immediately, without waiting for the next resume.
+     *
+     * <p>The UI page rebuilds itself on every change, and those new views are created after the
+     * lifecycle walk has already run — so a switch on that page would otherwise show the previous
+     * geometry until the screen was left and re-entered.
+     */
+    public static void styleCompound(android.content.Context cntx, CompoundButton toggle) {
+        if (!ShiroikumaUi.ENABLED(cntx).get()) return;
+        int yellow = ShiroikumaUi.BODY_COLOR(cntx).get();
+        toggle.setTextColor(yellow);
+        toggle.setButtonTintList(ColorStateList.valueOf(yellow));
+        if (toggle instanceof android.widget.Switch sw) styleSwitch(cntx, sw, yellow);
+    }
+
+    /**
      * A switch in the house style. Tinting the stock drawables cannot express this — both stock
      * shapes are solid — so the thumb and track are built here:
      * ON is a filled yellow dot, OFF is a traced one, and the track is black with a yellow border.
      */
-    private static void styleSwitch(android.content.Context activity, android.widget.Switch sw, int yellow) {
+    public static void styleSwitch(android.content.Context activity, android.widget.Switch sw, int yellow) {
         int fill = ShiroikumaUi.SURFACE(activity).get();
         int border = ShiroikumaUi.BORDER_COLOR(activity).get();
-        int stroke = Math.max(ShiroikumaUi.dp(activity, 2),
-                ShiroikumaUi.dp(activity, ShiroikumaUi.BORDER(activity).get()));
-        int thumb = ShiroikumaUi.dp(activity, 20);
+        // Follows the border attribute exactly, with no floor: every size slider in this fork
+        // reaches 0, and a 0 here is a legitimate choice — a switch drawn by its thumb alone.
+        int stroke = ShiroikumaUi.dp(activity, ShiroikumaUi.BORDER(activity).get());
+        int thumb = ShiroikumaUi.dp(activity, ShiroikumaUi.SWITCH_THUMB(activity).get());
 
         var on = new android.graphics.drawable.GradientDrawable();
         on.setShape(android.graphics.drawable.GradientDrawable.OVAL);
@@ -245,13 +261,13 @@ public class ShiroikumaApp extends Application {
         thumbStates.addState(new int[]{android.R.attr.state_checked}, on);
         thumbStates.addState(android.util.StateSet.WILD_CARD, off);
 
-        int trackHeight = ShiroikumaUi.dp(activity, 22);
+        int trackHeight = ShiroikumaUi.dp(activity, ShiroikumaUi.SWITCH_TRACK_HEIGHT(activity).get());
         var track = new android.graphics.drawable.GradientDrawable();
         track.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
         track.setCornerRadius(trackHeight / 2f);
         track.setColor(fill);
         track.setStroke(stroke, border);
-        track.setSize(ShiroikumaUi.dp(activity, 38), trackHeight);
+        track.setSize(ShiroikumaUi.dp(activity, ShiroikumaUi.SWITCH_TRACK_WIDTH(activity).get()), trackHeight);
 
         // The tint lists must go, or they repaint whatever we just built.
         sw.setThumbTintList(null);

@@ -162,6 +162,24 @@ public class ShiroikumaUi {
         return new IntPref(P + "buttonBorder", 2, c);
     }
 
+    /* ------------------- switches ------------------- */
+
+    /**
+     * Switch geometry. These were hardcoded in the restyle, the only sizes in the fork that were
+     * not settable — so a row height that did not suit them had no answer.
+     */
+    public static IntPref SWITCH_THUMB(Context c) {
+        return new IntPref(P + "switchThumb", 20, c);
+    }
+
+    public static IntPref SWITCH_TRACK_WIDTH(Context c) {
+        return new IntPref(P + "switchTrackWidth", 38, c);
+    }
+
+    public static IntPref SWITCH_TRACK_HEIGHT(Context c) {
+        return new IntPref(P + "switchTrackHeight", 22, c);
+    }
+
     /* ------------------- the whole set ------------------- */
 
     /** A settable attribute, as export/import and "reset all" see it. */
@@ -206,6 +224,9 @@ public class ShiroikumaUi {
         list.add(new Attr("buttonText", BUTTON_TEXT(c)));
         list.add(new Attr("buttonCorner", BUTTON_CORNER(c)));
         list.add(new Attr("buttonBorder", BUTTON_BORDER(c)));
+        list.add(new Attr("switchThumb", SWITCH_THUMB(c)));
+        list.add(new Attr("switchTrackWidth", SWITCH_TRACK_WIDTH(c)));
+        list.add(new Attr("switchTrackHeight", SWITCH_TRACK_HEIGHT(c)));
         return list;
     }
 

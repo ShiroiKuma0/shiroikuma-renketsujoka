@@ -171,6 +171,13 @@ public class ShiroikumaUiActivity extends Activity {
                 value -> apply(ShiroikumaUi.BUTTON_CORNER(this), value));
         page.slider(2, getString(R.string.sk_borderThickness), ShiroikumaUi.BUTTON_BORDER(this).get(), 0, 12, "dp",
                 value -> apply(ShiroikumaUi.BUTTON_BORDER(this), value));
+        page.subHeading(getString(R.string.sk_subSwitches), 2);
+        page.slider(3, getString(R.string.sk_switchThumb), ShiroikumaUi.SWITCH_THUMB(this).get(), 8, 40, "dp",
+                value -> apply(ShiroikumaUi.SWITCH_THUMB(this), value));
+        page.slider(3, getString(R.string.sk_switchTrackWidth), ShiroikumaUi.SWITCH_TRACK_WIDTH(this).get(), 16, 80, "dp",
+                value -> apply(ShiroikumaUi.SWITCH_TRACK_WIDTH(this), value));
+        page.slider(3, getString(R.string.sk_switchTrackHeight), ShiroikumaUi.SWITCH_TRACK_HEIGHT(this).get(), 8, 48, "dp",
+                value -> apply(ShiroikumaUi.SWITCH_TRACK_HEIGHT(this), value));
         page.add(2, page.previewPanel(getString(R.string.sk_previewBody)));
     }
 
