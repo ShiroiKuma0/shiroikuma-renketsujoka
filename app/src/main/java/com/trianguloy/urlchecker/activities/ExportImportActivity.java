@@ -94,6 +94,35 @@ public class ExportImportActivity extends Activity {
         chooseRow.addView(page.pill(getString(R.string.sk_chooseDir), v -> pickDirectory()));
         page.add(2, chooseRow);
 
+        /* ---------- 保存復元 automation (this is a backup feature, so it lives where backup lives) ---------- */
+        var automation = new android.widget.Switch(this);
+        automation.setChecked(com.trianguloy.urlchecker.shiroikuma.AutomationAuth.enabled(this));
+        automation.setOnCheckedChangeListener((button, checked) ->
+                com.trianguloy.urlchecker.shiroikuma.AutomationAuth.setEnabled(this, checked));
+        page.row(2, getString(R.string.sk_automation), getString(R.string.sk_automationSummary), automation);
+
+        var regenerate = page.pill(getString(R.string.sk_regenerate), v ->
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.sk_regenerate)
+                        .setMessage(R.string.sk_regenerateWarning)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            com.trianguloy.urlchecker.shiroikuma.AutomationAuth.regenerate(this);
+                            rebuild();
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show());
+        page.clickable(2, getString(R.string.sk_token),
+                com.trianguloy.urlchecker.shiroikuma.AutomationAuth.abbreviated(this), regenerate, v -> {
+                    var clipboard = (android.content.ClipboardManager)
+                            getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+                    if (clipboard != null) {
+                        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("token",
+                                com.trianguloy.urlchecker.shiroikuma.AutomationAuth.token(this)));
+                        android.widget.Toast.makeText(this, R.string.sk_tokenCopied,
+                                android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         /* ---------- categories ---------- */
         page.heading(getString(R.string.sk_categories));
         for (var category : Backups.categories()) {
@@ -171,11 +200,12 @@ public class ExportImportActivity extends Activity {
             info(getString(R.string.sk_noCategories), false);
             return;
         }
-        var name = Backups.export(this, ids);
-        if (name == null) {
-            info(getString(R.string.sk_exportFailed), false);
+        var result = com.trianguloy.urlchecker.shiroikuma.ExportRunner.run(this, ids, null);
+        if (!result.ok()) {
+            info(getString(R.string.sk_exportFailed) + " (" + result.error + ")", false);
         } else {
-            info(getString(R.string.sk_exportOk, name), true);
+            info(getString(R.string.sk_exportOk, result.name,
+                    Backups.humanSize(result.bytes), result.categories), true);
         }
     }
 
@@ -194,7 +224,15 @@ public class ExportImportActivity extends Activity {
             info(getString(R.string.sk_noExportYet), false);
             return;
         }
-        int restored = Backups.importFrom(this, latest, ids);
+        int restored = -1;
+        var source = BackupDirectory.find(this, latest);
+        if (source != null) {
+            try (var in = getContentResolver().openInputStream(source)) {
+                if (in != null) restored = Backups.readFrom(this, in, ids);
+            } catch (Exception ignored) {
+                // leaves restored at -1, reported as a failure below
+            }
+        }
         if (restored < 0) {
             info(getString(R.string.sk_importFailed), false);
         } else {

@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 保存復元 automation: the export runs in a foreground service because a manifest receiver
+         cannot hold it — an overrun of the broadcast window is an ANR and a kill mid-write. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
     <!--
     As of API 30+ package discovery is restricted, and you can't even open an url: https://developer.android.com/training/basics/intents/package-visibility#intent-signature
     A queries tag with description of what intents you use is required, but if you don't want to be bothered this is a simple alternative.
@@ -16,6 +21,7 @@
     </queries>
 
     <application
+        android:name=".shiroikuma.ShiroikumaApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,6 +38,23 @@
         <activity
             android:name=".activities.ExportImportActivity"
             android:parentActivityName=".activities.ShiroikumaUiActivity" />
+
+        <!-- 保存復元 contract. No android:permission — the caller cannot hold one; the token is the
+             gate. The cancel must be reachable from outside, so it rides this exported receiver and
+             signals the (unexported) service internally. -->
+        <receiver
+            android:name=".shiroikuma.StateExportReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.action.EXPORT_STATE" />
+                <action android:name="${applicationId}.action.LIST_CATEGORIES" />
+                <action android:name="${applicationId}.action.CANCEL_EXPORT" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".shiroikuma.StateExportService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         <activity android:name=".activities.TutorialActivity" />
         <activity android:name=".activities.JsonEditorActivity" />
         <activity

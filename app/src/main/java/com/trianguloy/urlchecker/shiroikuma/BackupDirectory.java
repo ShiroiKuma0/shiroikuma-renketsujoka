@@ -21,10 +21,20 @@ import java.util.Locale;
  */
 public class BackupDirectory {
 
-    /** File name shape: renketsujoka_20260812-200145.json */
-    private static final String PREFIX = "renketsujoka_";
-    private static final String SUFFIX = ".json";
-    public static final String MIME = "application/json";
+    /**
+     * The family file-name convention (白い熊, 2026-07-25): the app's English identifier — the repo
+     * and APK basename — then the timestamp, and nothing else. 白い熊 keeps every app's backups in
+     * one directory, so they must sort and read uniformly.
+     * Shape: shiroikuma-renketsujoka_2026-08-12_20-01-45.zip
+     */
+    private static final String PREFIX = "shiroikuma-renketsujoka_";
+    private static final String SUFFIX = ".zip";
+    /** The JSON exports written before the family convention was adopted, still recognised. */
+    private static final String OLD_PREFIX = "renketsujoka_";
+    private static final String OLD_SUFFIX = ".json";
+    public static final String MIME = "application/zip";
+    /** A partial write carries this until the archive is closed and complete. */
+    public static final String PART = ".part";
 
     private static StringPref PREF(Context cntx) {
         return new StringPref("shiroikuma_backupDir", "", cntx);
@@ -92,7 +102,7 @@ public class BackupDirectory {
             if (cursor == null) return null;
             while (cursor.moveToNext()) {
                 var name = cursor.getString(0);
-                if (name == null || !name.startsWith(PREFIX) || !name.endsWith(SUFFIX)) continue;
+                if (!isExport(name)) continue;
                 long modified = cursor.isNull(1) ? 0 : cursor.getLong(1);
                 // Fall back to the name when the provider reports no timestamp — the name sorts by date.
                 if (modified > newestTime || (modified == newestTime && name.compareTo(String.valueOf(newestName)) > 0)) {
@@ -108,25 +118,59 @@ public class BackupDirectory {
 
     /** The file name a new export should take. */
     public static String newExportName() {
-        return PREFIX + new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(new Date()) + SUFFIX;
+        return PREFIX + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US).format(new Date()) + SUFFIX;
     }
 
-    /** True when the name looks like one of our exports. */
+    /** True when the name looks like one of our exports — the current shape or the old one. */
     public static boolean isExport(String name) {
-        return name != null && name.startsWith(PREFIX) && name.endsWith(SUFFIX);
+        if (name == null) return false;
+        if (name.startsWith(PREFIX) && name.endsWith(SUFFIX)) return true;
+        return name.startsWith(OLD_PREFIX) && name.endsWith(OLD_SUFFIX);
     }
 
-    /** Create a new export document in the chosen directory. */
-    public static Uri createExport(Context cntx) {
+    /**
+     * Create the PARTIAL document a new export is written into.
+     *
+     * <p>Never write straight to the final name: a killed export would leave a file indistinguishable
+     * from a real backup until someone tried to restore it, and — because 白い熊 keeps every app's
+     * backups in one dated directory — it would silently become "the latest backup" of this app.
+     * The partial is renamed into place only once the archive is closed and complete.
+     */
+    public static Uri createPartial(Context cntx) {
         var tree = get(cntx);
         if (tree == null) return null;
         try {
             var parent = DocumentsContract.buildDocumentUriUsingTree(
                     tree, DocumentsContract.getTreeDocumentId(tree));
             return DocumentsContract.createDocument(
-                    cntx.getContentResolver(), parent, MIME, newExportName());
+                    cntx.getContentResolver(), parent, MIME, newExportName() + PART);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * Rename a completed partial to its final name.
+     *
+     * @return the final display name, or null if the rename failed.
+     */
+    public static String finishPartial(Context cntx, Uri partial, String finalName) {
+        try {
+            var renamed = DocumentsContract.renameDocument(
+                    cntx.getContentResolver(), partial, finalName);
+            return renamed == null ? null : finalName;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /** Remove a partial on any failure, cancel or timeout — the directory is left as it was found. */
+    public static void deletePartial(Context cntx, Uri partial) {
+        if (partial == null) return;
+        try {
+            DocumentsContract.deleteDocument(cntx.getContentResolver(), partial);
+        } catch (Exception ignored) {
+            // nothing more we can do; the .part suffix keeps it out of isExport() either way
         }
     }
 

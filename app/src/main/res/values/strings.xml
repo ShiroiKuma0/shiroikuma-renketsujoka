@@ -49,7 +49,14 @@ Translations: %2$s."</string>
     <string name="sk_noCategories">No categories selected.</string>
     <string name="sk_exportFailed">Export failed.</string>
     <string name="sk_importFailed">Import failed.</string>
-    <string name="sk_exportOk">Exported to %s.</string>
+    <string name="sk_exportOk">Exported to %1$s — %2$s, %3$d categories.</string>
+    <string name="sk_exportNotification">Exporting settings…</string>
+    <string name="sk_automation">Automation export</string>
+    <string name="sk_automationSummary">Let a sister-app task trigger this app\'s export through the token-gated intent</string>
+    <string name="sk_token">Automation token</string>
+    <string name="sk_tokenCopied">Token copied to the clipboard</string>
+    <string name="sk_regenerate">Regenerate</string>
+    <string name="sk_regenerateWarning">A new token is generated at once. Any copy already pasted into 自由作業盤 stops working until it is updated.</string>
     <string name="sk_importOk">Imported %2$d settings from %1$s. Restart to apply everything.</string>
     <string name="sk_restartNow">Restart now</string>
     <string name="sk_later">Later</string>
