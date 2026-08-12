@@ -22,7 +22,8 @@
             android:background="@android:color/transparent"
             android:onClick="aboutToast"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:tag="sk_logo" />
 
         <TextView
             android:layout_width="match_parent"

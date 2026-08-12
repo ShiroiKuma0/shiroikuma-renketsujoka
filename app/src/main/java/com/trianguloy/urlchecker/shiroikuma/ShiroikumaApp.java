@@ -83,11 +83,22 @@ public class ShiroikumaApp extends Application {
             activity.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(
                     ShiroikumaUi.BACKGROUND(activity).get()));
         }
+        var actionBar = activity.getActionBar();
+        if (actionBar != null) {
+            // The theme's actionBarStyle is overridden by the device's own DeviceDefault, so the bar
+            // is painted here instead. One place, and every top bar in the app follows.
+            actionBar.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(
+                    ShiroikumaUi.BACKGROUND(activity).get()));
+        }
         walk(activity, root);
     }
 
     private static void walk(Activity activity, View view) {
         int yellow = ShiroikumaUi.BODY_COLOR(activity).get();
+
+        // Our own launcher icon is already black-yellow; tinting an opaque icon with SRC_IN just
+        // floods it into a featureless yellow square.
+        if ("sk_logo".equals(view.getTag())) return;
 
         if (view instanceof ViewGroup group) {
             for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i));
@@ -109,15 +120,8 @@ public class ShiroikumaApp extends Application {
             // drawable set in a layout overrides that, so tint them here too.
             toggle.setTextColor(yellow);
             toggle.setTypeface(typeface(activity));
-            var tint = ColorStateList.valueOf(yellow);
-            toggle.setButtonTintList(tint);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && toggle instanceof android.widget.Switch sw) {
-                sw.setThumbTintList(tint);
-                // The track is the secondary tone: an off switch has to be tellable from an on one,
-                // and a dimmer yellow says that more clearly than a faded one.
-                sw.setTrackTintList(ColorStateList.valueOf(ShiroikumaUi.SECONDARY_COLOR(activity).get()));
-            }
+            toggle.setButtonTintList(ColorStateList.valueOf(yellow));
+            if (toggle instanceof android.widget.Switch sw) styleSwitch(activity, sw, yellow);
             tintCompound(toggle, yellow);
             return;
         }
@@ -135,6 +139,12 @@ public class ShiroikumaApp extends Application {
             return;
         }
         if (view instanceof ImageView image) {
+            if (image.getDrawable() == null) {
+                // A src-less ImageView in these layouts is a rule — the vertical dividers between a
+                // module row's buttons are exactly this, and they came in platform grey.
+                view.setBackgroundColor(ShiroikumaUi.SEPARATOR_COLOR(activity).get());
+                return;
+            }
             tintGlyph(image, yellow);
             return;
         }
@@ -162,6 +172,48 @@ public class ShiroikumaApp extends Application {
                     || (width > 0 && width <= ShiroikumaUi.dp(activity, 3));
             if (hairline) view.setBackgroundColor(ShiroikumaUi.SEPARATOR_COLOR(activity).get());
         }
+    }
+
+    /**
+     * A switch in the house style. Tinting the stock drawables cannot express this — both stock
+     * shapes are solid — so the thumb and track are built here:
+     * ON is a filled yellow dot, OFF is a traced one, and the track is black with a yellow border.
+     */
+    private static void styleSwitch(Activity activity, android.widget.Switch sw, int yellow) {
+        int fill = ShiroikumaUi.SURFACE(activity).get();
+        int border = ShiroikumaUi.BORDER_COLOR(activity).get();
+        int stroke = Math.max(ShiroikumaUi.dp(activity, 2),
+                ShiroikumaUi.dp(activity, ShiroikumaUi.BORDER(activity).get()));
+        int thumb = ShiroikumaUi.dp(activity, 20);
+
+        var on = new android.graphics.drawable.GradientDrawable();
+        on.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        on.setColor(yellow);
+        on.setSize(thumb, thumb);
+
+        var off = new android.graphics.drawable.GradientDrawable();
+        off.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        off.setColor(fill);
+        off.setStroke(stroke, border);
+        off.setSize(thumb, thumb);
+
+        var thumbStates = new android.graphics.drawable.StateListDrawable();
+        thumbStates.addState(new int[]{android.R.attr.state_checked}, on);
+        thumbStates.addState(android.util.StateSet.WILD_CARD, off);
+
+        int trackHeight = ShiroikumaUi.dp(activity, 22);
+        var track = new android.graphics.drawable.GradientDrawable();
+        track.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+        track.setCornerRadius(trackHeight / 2f);
+        track.setColor(fill);
+        track.setStroke(stroke, border);
+        track.setSize(ShiroikumaUi.dp(activity, 38), trackHeight);
+
+        // The tint lists must go, or they repaint whatever we just built.
+        sw.setThumbTintList(null);
+        sw.setTrackTintList(null);
+        sw.setThumbDrawable(thumbStates);
+        sw.setTrackDrawable(track);
     }
 
     /** Compound drawables (the icon beside a button's or row's text). */
