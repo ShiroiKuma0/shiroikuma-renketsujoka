@@ -4,16 +4,47 @@ plugins {
     id 'com.android.application'
 }
 
+// --- shiroikuma-renketsujoka fork: signing ---------------------------------------------------
+// Upstream's signing block (further down) reads RELEASE_* from project properties or the
+// environment. We feed those from a gitignored keystore.properties instead of touching that
+// block, so it never conflicts on a rebase. Absent the file, the release build is unsigned.
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    def keystoreProperties = new Properties()
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+    ext.RELEASE_STORE_FILE = keystoreProperties.getProperty('storeFile')
+    ext.RELEASE_STORE_PASSWORD = keystoreProperties.getProperty('storePassword')
+    ext.RELEASE_KEY_ALIAS = keystoreProperties.getProperty('keyAlias')
+    ext.RELEASE_KEY_PASSWORD = keystoreProperties.getProperty('keyPassword')
+}
+
+// --- shiroikuma-renketsujoka fork: versioning -------------------------------------------------
+// Upstream's versionCode/versionName literals below stay UNTOUCHED so a rebase carries new
+// upstream values in by itself; we read them and derive ours. See gradle.properties.
+def forkBuildNumber = (project.findProperty('BUILD_NUMBER') ?: '1').toString().toInteger()
+def forkPaddedBuildNumber = String.format('%03d', forkBuildNumber)
+def forkLastBuiltVersionCode = (project.findProperty('LAST_BUILT_VERSION_CODE') ?: '0').toString().toInteger()
+def forkVersionName = null
+def forkVersionCode = 0
+
 android {
     namespace 'com.trianguloy.urlchecker'
     defaultConfig {
-        applicationId "com.trianguloy.urlchecker"
+        applicationId "shiroikuma.renketsujoka"
         compileSdkVersion 36
         minSdkVersion 19
         targetSdkVersion 36
         versionCode 47
         versionName "3.5"
     }
+
+    // Fork: overwrite upstream's two literals with our derived pair.
+    //   versionName = "<upstream name>+<BUILD_NUMBER padded to 3>"   e.g. 3.5+001
+    //   versionCode = <upstream code> * 10000 + BUILD_NUMBER          e.g. 470001
+    forkVersionName = "${defaultConfig.versionName}+${forkPaddedBuildNumber}"
+    forkVersionCode = defaultConfig.versionCode * 10000 + forkBuildNumber
+    defaultConfig.versionName = forkVersionName
+    defaultConfig.versionCode = forkVersionCode
 
     buildTypes {
         release {
@@ -36,7 +67,7 @@ android {
     // rename output apks
     applicationVariants.configureEach {
         outputs.configureEach {
-            outputFileName = "URLCheck-$versionName${name == "release" ? "" : "-$name"}.apk"
+            outputFileName = "shiroikuma-renketsujoka_$versionName${name == "release" ? "" : "-$name"}.apk"
         }
     }
 
@@ -127,5 +158,49 @@ android {
                 .collect { it }.join(', ') // join with commas
         println "Extracted translators: $translators"
         resValue "string", "all_translators", translators // create resource
+    }
+}
+
+// --- shiroikuma-renketsujoka fork: buildFork -------------------------------------------------
+// Build the signed release APK, copy it to ~/tmp under the house filename, then bump
+// BUILD_NUMBER and record the code we just shipped. See .claude/skills/build-apk.
+tasks.register('buildFork') {
+    description = 'Build the signed release APK, copy it to ~/tmp, and bump BUILD_NUMBER.'
+    group = 'build'
+    dependsOn 'assembleRelease'
+
+    def releaseApkDir = layout.buildDirectory.dir('outputs/apk/release')
+    def propsFile = rootProject.file('gradle.properties')
+    def userHome = System.getProperty('user.home')
+
+    doFirst {
+        // `master` tracks bleeding upstream/master, whose versionCode stands still between
+        // releases — so BUILD_NUMBER never resets. This guard turns the one way that could
+        // still go backwards (a hand-edited counter) into a build failure rather than a
+        // silent downgrade the installer would refuse.
+        if (forkVersionCode <= forkLastBuiltVersionCode) {
+            throw new GradleException(
+                    "versionCode $forkVersionCode would not exceed the highest already built " +
+                            "($forkLastBuiltVersionCode). Raise BUILD_NUMBER past the last built tail.")
+        }
+    }
+
+    doLast {
+        def outputDir = releaseApkDir.get().asFile
+        def apk = outputDir.listFiles({ File d, String n -> n.endsWith('.apk') } as FilenameFilter)?.find()
+        if (apk == null) throw new GradleException("No APK found in $outputDir")
+
+        def targetDir = new File(userHome, 'tmp')
+        targetDir.mkdirs()
+        def target = new File(targetDir, "shiroikuma-renketsujoka_${forkVersionName}.apk")
+        target.bytes = apk.bytes
+        println("[1;36m>>> ${target.absolutePath}[0m")
+        println("[1;36m>>> versionCode ${forkVersionCode}[0m")
+
+        def text = propsFile.text
+        text = text.replaceFirst(/(?m)^BUILD_NUMBER=\d+$/, "BUILD_NUMBER=${forkBuildNumber + 1}")
+        text = text.replaceFirst(/(?m)^LAST_BUILT_VERSION_CODE=\d+$/, "LAST_BUILT_VERSION_CODE=${forkVersionCode}")
+        propsFile.text = text
+        println("[1;36m>>> BUILD_NUMBER bumped to ${forkBuildNumber + 1}[0m")
     }
 }

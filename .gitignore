@@ -77,3 +77,13 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+# --- shiroikuma-renketsujoka fork ---
+# Signing credentials: the .jks lives only in ~/.android-keystores/ and its passwords only in
+# ~/〇/[666] 私資料/[666][27] 暗号/android-keystores.org — neither ever enters git.
+keystore.properties
+
+# Agent files are COMMITTED (CLAUDE.md, .claude/skills/) — only the machine-local settings are not.
+.claude/settings.local.json
+.claude/.cc-writes/
+.scratch/

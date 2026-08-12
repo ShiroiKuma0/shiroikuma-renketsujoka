@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- 白い熊 連結浄化 (shiroikuma-renketsujoka): URLCheck's chain-link mark, traced as
+       stroke-only line-art, house black-yellow (#FFFF00 on #000000). -->
+  <rect x="0" y="0" width="512" height="512" fill="#000000"/>
+  <g fill="none" stroke="#FFFF00" stroke-linecap="round" stroke-linejoin="round">
+    <!-- left link half: open C, mouth facing right -->
+    <path d="M 232,166 L 190,166 A 90,90 0 0 0 190,346 L 232,346" stroke-width="40"/>
+    <!-- right link half: open C, mouth facing left -->
+    <path d="M 280,166 L 322,166 A 90,90 0 0 1 322,346 L 280,346" stroke-width="40"/>
+    <!-- the bar bridging the two halves -->
+    <path d="M 200,256 L 312,256" stroke-width="38"/>
+  </g>
+</svg>
