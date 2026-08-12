@@ -100,6 +100,16 @@ public class ShiroikumaApp extends Application {
         // floods it into a featureless yellow square.
         if ("sk_logo".equals(view.getTag())) return;
 
+        // A Spinner IS a ViewGroup, so it has to be handled BEFORE the recursion below or its own
+        // branch is never reached — the same shadowing that hid the switches. Its dropdown triangle
+        // lives in the widget's background, not in any child, so no amount of walking finds it.
+        // No `return`: the selected-value text inside still wants styling.
+        if (view instanceof android.widget.Spinner spinner) {
+            var background = spinner.getBackground();
+            if (background != null) {
+                background.mutate().setColorFilter(yellow, PorterDuff.Mode.SRC_IN);
+            }
+        }
         if (view instanceof ViewGroup group) {
             for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i));
             return;
