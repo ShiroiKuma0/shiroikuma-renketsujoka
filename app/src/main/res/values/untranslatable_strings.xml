@@ -7,7 +7,7 @@
     <string name="shiroikuma" translatable="false">白い熊</string>
     <string name="a_shiroikumaUi" translatable="false">白い熊 連結浄化 UI</string>
 
-    <string name="sample_url" translatable="false"><![CDATA[http://www.google.com/?ref=referrer&foo=bar#tag]]></string>
+    <string name="sample_url" translatable="false"><![CDATA[http://www.gnu.org/?ref=referrer&foo=bar#tag]]></string>
     <string name="json_sample" translatable="false">{…}</string>
 
     <string name="vtLogin_url" translatable="false">https://www.virustotal.com/gui/join-us</string>
