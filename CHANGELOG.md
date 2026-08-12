@@ -1,32 +1,97 @@
 # Changelog
 
-Every 白い熊 連結浄化 build, newest first. A fork entry names what changed on our side; the
-upstream release it is based on is recorded under *Upstream releases* below.
+This file carries **both histories**: 白い熊 連結浄化's releases first, then upstream URLCheck's own
+release notes below. Upstream keeps no `CHANGELOG.md` of its own — its notes live one file per
+versionCode in `fastlane/metadata/android/en-US/changelogs/`, and `tools/gen-changelog.py` folds
+them in. Our entries are never mixed into theirs.
 
-Versions carry the upstream commit these patches sit on — see *Version format* below. The installed
-`versionCode` is `<upstream code> * 10000 + <build>`, independent of the pin.
+Fork versions read `<upstream>+<base date>.<HH-MM UTC>.g<sha8>+<build>`: the middle group pins the
+upstream commit the build sits on, and moves only on a sync. The installed `versionCode` is
+`<upstream code> * 10000 + <build>`, independent of the pin.
 
-## Version format
+## 白い熊 連結浄化 3.5+2026-07-25.15-05.g03a11762+014 — 2026-08-12
 
-From `3.5+2026-07-25.15-05.g03a11762+014` on, the fork version pins the **upstream commit** these
-patches sit on: `<upstream>+<base date>.<HH-MM UTC>.g<sha8>+<build>`. This fork rebases onto every
-upstream push, and upstream's own `3.5` has stood still since July — the pin is the only part of the
-version that says whether we are behind upstream. It moves only on a sync, so two builds sharing a
-pin were built on the same upstream base. Earlier builds read `3.5+NNN`.
+The first release. Built on upstream **3.5** (versionCode 47), at upstream commit `03a11762`
+(2026-07-25). Everything below is on top of stock URLCheck; later entries will be per-release deltas.
 
-## 3.5+001
+### Major features
 
-The first fork build.
+- **Telegram Instant View unwrapper**, shipped as a built-in pattern, enabled and automatic:
+  `t.me/iv?url=<target>&rhash=<hash>` collapses to the target. No ClearURLs or FastForward rule
+  covers it, and following redirects cannot reach it — `t.me` answers 200 with an Instant View page
+  rather than a 3xx. Also fills the `decode` example upstream had left as a TODO.
+- **白い熊 連結浄化 UI page** — 25 settable attributes across Theme, Text, Headings, Borders & shape,
+  Rows & spacing and Buttons, in the kxkb page grammar: 20sp bold headings underlined only as wide
+  as their own text, a full-width hairline opening every group but the first, an indent ladder of
+  36/72/108dp, and 5dp row padding. Heading size, underline, indent, separator and row padding are
+  themselves sliders, and every size slider reaches 0.
+- **The page is its own live preview** — it is drawn by the attributes it edits, so a change
+  repaints the page you are standing on. Each visual section also carries a bordered preview panel.
+- **Colour picker** — four A/R/G/B sliders over a live hex preview, with a one-click recent-colour
+  row seeded from the house palette. Applies live while sliding; Cancel reverts to the opening
+  colour, OK remembers it.
+- **Font picker** — every available family rendered **in its own glyphs**, plus `.ttf`/`.otf` import
+  through the document picker. An imported font is copied into app storage on pick so the choice
+  survives the source moving, and a file the font loader rejects is refused rather than stored to
+  render as the system face forever.
+- **Export / Import** — a settable SAF backup directory, the latest export queried on open, seven
+  tickable categories, and an Arcanechat-style pill row (Cancel alone left, Import and Export
+  right). The archive is the sister-app category ZIP: `manifest.json` plus one `<id>.json` per
+  category, named `shiroikuma-renketsujoka_<yyyy-MM-dd_HH-mm-ss>.zip`.
+- **Atomic exports** — written to a `.part` renamed only once the archive is closed and complete,
+  and deleted on any failure or cancel, so a killed export cannot leave a truncated file that reads
+  as the latest backup.
+- **保存復元 automation** — the sister-app contract: `EXPORT_STATE`, `LIST_CATEGORIES` and
+  `CANCEL_EXPORT` on one exported receiver, all token-gated, default off. The export runs in a
+  `dataSync` foreground service, never the receiver, so it cannot ANR mid-write. Replies are fresh
+  broadcasts with `FLAG_INCLUDE_STOPPED_PACKAGES`, never a binder; exactly one terminal reply per
+  request; progress reports real counts and names the category being written.
 
-- Fork of URLCheck, installable side by side: app id `shiroikuma.renketsujoka`, label
-  白い熊 連結浄化. The code namespace stays `com.trianguloy.urlchecker` so rebases stay cheap.
-- Black-yellow house icon: the chain-link mark traced as yellow line-art on black.
-- Fork versioning: `versionName = <upstream>+<build padded to 3>`,
-  `versionCode = <upstream code> * 10000 + <build>`, signed with our own keystore.
-- 白い熊 連結浄化 UI settings page added (empty for now — contents to follow).
-- New built-in pattern, enabled and automatic: **Telegram Instant View** unwraps
-  `t.me/iv?url=<target>&rhash=<hash>` to the target. No catalog covers it and no
-  redirect-follower can reach it — `t.me` answers 200 with an Instant View page, not a 3xx.
+### UI & theming
+
+- Black-yellow throughout: `#FFFF00` on `#000000`, with `#C8C800` reserved for de-emphasis only
+  (summaries, hints, subtitles, inactive control halves).
+- Both launcher icons traced as house line-art — the chain link, and the clipboard shortcut's
+  clipboard-and-magnifier. Adaptive foregrounds carry the same paths as vector drawables, scaled
+  into the safe zone; backgrounds black. `tools/gen-icons.sh` regenerates the density PNGs.
+- App-wide restyle through an Application-level lifecycle hook rather than a per-activity patch, so
+  the link dialog is covered and nothing has to be re-applied on an upstream rebase. Colour,
+  typeface and weight only — never layout. The master switch makes it a genuine no-op.
+- The link dialog gets a yellow border on black, painted in code — the theme's `windowBackground`
+  is ignored on this device.
+- Action bars painted black with yellow titles, up arrows and overflow, on every screen.
+- Switches rebuilt rather than tinted: a filled yellow thumb when on, a traced one when off, over a
+  black track with a yellow border.
+- Overflow and app-chooser menus themed **and** span-tinted, since OEM skins honour popup theming
+  inconsistently.
+- Toasts replaced with a house toast — black, yellow text, yellow border — across all 28 call sites,
+  falling back to a plain toast if the platform refuses the custom view.
+- The split "open with" control styled by id, so its Button half, its ImageButton half and the
+  backdrop under both are set together and no platform panel shows through.
+- Long-pressing the Settings cog on the main screen opens the UI page directly.
+
+### Fork identity & de-branding
+
+- App id `shiroikuma.renketsujoka`, label 白い熊 連結浄化, installable side by side. The
+  `com.trianguloy.urlchecker` code namespace is deliberately unchanged so rebases stay cheap.
+- De-branded across 189 files: app name, the author logo shown in About and animated in the link
+  dialog, every store/source/blog link, the backup filename prefix, the sample hosts group, the
+  `-test` build label, and the app name the French and Chinese translations had hardcoded.
+- `docs/custom-patterns.md` and `docs/automations.md` written to replace the in-app help links that
+  pointed at upstream's wiki.
+
+### Packaging
+
+- Signed with our own keystore (PKCS12/RSA-4096, SHA384withRSA). Signing feeds upstream's existing
+  `RELEASE_*` block from a gitignored `keystore.properties`, so its signing code is never edited and
+  never conflicts on a rebase.
+- `buildFork` builds the signed release, copies it to `~/tmp` under the house filename, bumps the
+  counter and records `LAST_BUILT_VERSION_CODE` — refusing to build at or below the highest code
+  ever shipped.
+- Version pins the upstream base commit (see the header). `BUILD_NUMBER` never resets, because
+  `master` tracks the bleeding upstream tip whose `versionCode` stands still between releases.
+- **No dependencies added.** Upstream ships zero libraries at `minSdk 19` and this fork keeps it
+  that way — the pickers are pure framework and SAF runs on `startActivityForResult`.
 
 ## Upstream releases
 

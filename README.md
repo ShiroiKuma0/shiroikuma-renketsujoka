@@ -1,70 +1,116 @@
+<div align="center">
+
+<img src="design/icon.png" width="120" alt="白い熊 連結浄化 icon" />
+
 # 白い熊 連結浄化
 
-**連結浄化** — *link purification*. Every link you tap lands here first, gets its trackers,
-wrappers and referral junk stripped, and only then opens in whatever app you choose.
+**Every link you tap lands here first — stripped of its trackers, wrappers and referral junk — and only then opens where you choose.**
 
-<p align="center">
-  <img src="design/shiroikuma-renketsujoka-icon.svg" width="128" alt="白い熊 連結浄化">
-</p>
+A fork of [URLCheck](https://github.com/TrianguloY/URLCheck) with **major additions**: a fully settable black-yellow UI, user-authorable link rewriting shipped with the Telegram Instant View unwrapper, category-ZIP export/import over a settable directory, and token-gated backup automation.
 
-App id `shiroikuma.renketsujoka`, label **白い熊 連結浄化** — installs side by side with anything
-else. Black-yellow throughout, signed with our own key.
+Installs **side-by-side** with anything else (app id `shiroikuma.renketsujoka`).
 
-## What it does
+**📥 Latest release: [`3.5+2026-07-25.15-05.g03a11762+014`](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases)
 
-Set it as the default browser and it becomes the intermediary for every opened link: a dialog shows
-what the URL actually is and lets you change it before it goes anywhere. Everything in that dialog is
-a **module**, and you choose which ones run and in what order.
+</div>
 
-| Module | What it gives you |
-| --- | --- |
-| **Pattern checker** | Your own regex → replacement rules. The one that handles anything no catalogue covers — see [docs/custom-patterns.md](docs/custom-patterns.md). |
-| **Url Cleaner** | The ClearURLs catalogue: tracking parameters and offline redirections. |
-| **Unshortener** | Expands shortened links to their real destination. |
-| **Uri parts** | Drop individual query parameters and path segments by hand. |
-| **Hosts labeler** | Colour-codes hosts from a list you define, plus StevenBlack's. |
-| **Automations** | Run module actions on matching links with no tap at all — see [docs/automations.md](docs/automations.md). |
-| **Open** | Choose which app finally receives the cleaned URL. |
+---
 
-The case that motivated the fork ships enabled by default: Telegram's `t.me/iv?url=…&rhash=…`
-wrapper, which no ClearURLs or FastForward catalogue unwraps and no redirect-follower can reach —
-`t.me` answers 200 with an Instant View page rather than a 3xx. It is written up in
-[docs/custom-patterns.md](docs/custom-patterns.md).
+## 🔗 The wrapper nothing else unwraps
 
-## Install
+Telegram hands out links as `t.me/iv?url=<target>&rhash=<hash>`. No ClearURLs or FastForward rule touches it, and no redirect-follower can: `t.me` answers **200 with an Instant View page**, never a 3xx, so there is nothing to follow.
 
-Grab the APK from [Releases](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases) and
-install it. Then make it the default browser — *Settings → Apps → Default apps → Browser app* — so
-links route through it rather than straight into whichever app claimed them.
+This fork ships the rule enabled and automatic, so the wrapper is gone before the dialog even draws:
 
-## Build
-
-```bash
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ANDROID_HOME=/home/shiroikuma/android-sdk
-./gradlew buildFork --console=plain
+```json
+"Telegram Instant View": {
+  "regex": "^https?://t\\.me/iv\\?url=([^&]+)",
+  "replacement": "$1",
+  "decode": true,
+  "automatic": true
+}
 ```
 
-`buildFork` builds the signed release, copies it to `~/tmp/` under the house filename, and bumps the
-build counter. Signing reads a gitignored `keystore.properties`; without it the release build is
-unsigned.
+`[^&]+` stops at the first `&`, dropping `&rhash=` while keeping the target's own query — the `?v=` of a YouTube link survives. It also fills the `decode` example upstream had left as a TODO.
 
-### Versioning
+---
 
-`versionName` is `<upstream version>+<build>` — `3.5+001` is the first build on upstream 3.5.
-`versionCode` is `<upstream code> * 10000 + <build>`, so 3.5+001 installs as 470001. The build
-counter never resets, because `master` tracks the upstream branch tip and its `versionCode` stands
-still between releases.
+## 🎨 白い熊 連結浄化 UI — the whole look, settable
 
-## Fork layout
+A settings page in the kxkb grammar: big bold headings underlined only as wide as their own text, a hairline opening every group, an indent ladder that makes nesting instant to read, and deliberately tight rows.
 
-| Branch | Role |
-| --- | --- |
-| `master` | Mirrors upstream, fast-forward only. No fork work. |
-| `custom` | Everything of ours. The default branch. |
+**The page is drawn by the attributes it edits**, so it is its own live preview — move the indent slider and the page you are standing on re-indents. Each visual section also carries a bordered preview panel.
 
-Development notes, the sync procedure and the build conventions are in
-[`CLAUDE.md`](CLAUDE.md) and [`.claude/skills/`](.claude/skills).
+- **Colours** — 4 RGBA sliders over a live hex swatch, with one-click recent colours seeded from the house palette. Applies while you slide; Cancel reverts.
+- **Fonts** — every family listed **in its own glyphs**, plus `.ttf`/`.otf` import. An imported font is copied into app storage on pick, so the choice survives the source file moving, and a file the loader rejects is refused rather than silently rendering as the system face.
+- **Sizes** — font size, weight, corner roundness, border and separator thickness, row padding and indent, all sliders, all reaching **0**: a border or a separator can genuinely vanish.
+- **One master switch** turns the whole layer off and returns every screen to upstream's own styling.
 
-## Licence
+Reach it from Settings, or by **long-pressing the Settings cog** on the main screen.
 
-Creative Commons Attribution 4.0 International — see [`LICENSE`](LICENSE).
+---
+
+## 🖤 Black and yellow, everywhere
+
+`#FFFF00` on `#000000`, carried across every screen by an Application-level restyle rather than a per-activity patch — so the link dialog is covered too, and there is nothing to re-apply on each upstream rebase.
+
+Both launcher icons are traced house line-art. The link dialog wears a yellow border on black. Action bars, up arrows, overflow menus, switches, seek bars, spinner arrows, dividers, toasts and the app-chooser popup all follow. A second, dimmer yellow (`#C8C800`) is used **only** for de-emphasis — summaries, hints, inactive control halves — so a screen stays scannable instead of becoming a wall of one colour.
+
+---
+
+## 💾 Export / Import
+
+A settable backup directory (SAF, no storage permissions), the latest export queried every time the page opens, and seven categories to tick. The archive is the sister-app **category ZIP**: a `manifest.json` plus one `<id>.json` per category.
+
+Written **atomically** through a `.part` renamed only once the archive is closed and complete, and deleted on any failure or cancel — so a killed export can never leave a truncated file that looks like the latest backup.
+
+---
+
+## 🤖 保存復元 automation
+
+Implements the sister-app contract, so 白い熊 自由作業盤 can back this app up headlessly as part of one batch: `EXPORT_STATE`, `LIST_CATEGORIES` and `CANCEL_EXPORT`, all token-gated, default **off**.
+
+The export runs in a foreground service rather than the receiver — a manifest receiver that overruns the broadcast window is an ANR and a kill mid-write. Replies are fresh broadcasts, never a binder, and progress reports real counts naming the category being written.
+
+The token lives in **its own preferences file**, so it cannot travel inside a backup by construction rather than by rule.
+
+---
+
+## 🧭 Versioning that tells you something
+
+This fork rebases onto **every upstream commit**, and upstream's `3.5` has stood still since July — so the version pins the upstream commit the build sits on:
+
+```
+3.5+2026-07-25.15-05.g03a11762+014
+└┬─┘ └────────┬─────────────┘ └┬─┘
+ │            │                └── our build counter
+ │            └─── upstream base: committer date (UTC) + sha
+ └─── upstream's own version
+```
+
+The pin moves **only on a sync**, so two builds sharing one pin were built on the same upstream base. `versionCode` stays `<upstream code> × 10000 + <build>`.
+
+---
+
+## Built on URLCheck
+
+A fork of [URLCheck](https://github.com/TrianguloY/URLCheck) by TrianguloY — the app that made link interception a modular, inspectable thing rather than a black box, and did it in plain Java with no dependencies at all. This fork keeps that: **no libraries were added**, at `minSdk 19`, so the APK is still about 1 MB.
+
+App id `shiroikuma.renketsujoka`, so it coexists with the official build. The code remains under [CC BY 4.0](LICENSE).
+
+## Building
+
+```bash
+git clone git@github.com:ShiroiKuma0/shiroikuma-renketsujoka.git
+cd shiroikuma-renketsujoka
+
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+export ANDROID_HOME="$HOME/android-sdk"
+
+./gradlew buildFork          # signed release → ~/tmp, bumps the build counter
+./gradlew :app:assembleDebug # fast, debug-signed
+```
+
+Signing reads a gitignored `keystore.properties`; without it the release build is unsigned.
+Development notes and the upstream-sync procedure are in [`CLAUDE.md`](CLAUDE.md) and
+[`.claude/skills/`](.claude/skills).
