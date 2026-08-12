@@ -104,6 +104,19 @@ public class ShiroikumaApp extends Application {
             for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i));
             return;
         }
+        // ORDER MATTERS: CompoundButton extends Button, and Switch extends CompoundButton, so the
+        // narrower type has to be tested first. Testing Button first swallowed every switch — they
+        // got a button's pill background and never their own drawables.
+        if (view instanceof CompoundButton toggle) {
+            // Switch track/thumb and checkbox boxes: the platform tints these from the theme, but a
+            // drawable set in a layout overrides that, so tint them here too.
+            toggle.setTextColor(yellow);
+            toggle.setTypeface(typeface(activity));
+            toggle.setButtonTintList(ColorStateList.valueOf(yellow));
+            if (toggle instanceof android.widget.Switch sw) styleSwitch(activity, sw, yellow);
+            tintCompound(toggle, yellow);
+            return;
+        }
         if (view instanceof Button button) {
             button.setTextColor(ShiroikumaUi.BUTTON_TEXT(activity).get());
             button.setBackground(ShiroikumaUi.box(activity,
@@ -113,16 +126,6 @@ public class ShiroikumaApp extends Application {
                     ShiroikumaUi.BUTTON_CORNER(activity).get()));
             button.setTypeface(typeface(activity));
             tintCompound(button, yellow);
-            return;
-        }
-        if (view instanceof CompoundButton toggle) {
-            // Switch track/thumb and checkbox boxes: the platform tints these from the theme, but a
-            // drawable set in a layout overrides that, so tint them here too.
-            toggle.setTextColor(yellow);
-            toggle.setTypeface(typeface(activity));
-            toggle.setButtonTintList(ColorStateList.valueOf(yellow));
-            if (toggle instanceof android.widget.Switch sw) styleSwitch(activity, sw, yellow);
-            tintCompound(toggle, yellow);
             return;
         }
         if (view instanceof AbsSeekBar seek) {
