@@ -10,7 +10,7 @@ A fork of [URLCheck](https://github.com/TrianguloY/URLCheck) with **major additi
 
 Installs **side-by-side** with anything else (app id `shiroikuma.renketsujoka`).
 
-**📥 Latest release: [`3.5+2026-07-25.15-05.g03a11762+014`](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases)
+**📥 Latest release: [`3.5+2026-07-25.15-05.g03a11762+021`](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases)
 
 </div>
 
@@ -43,7 +43,7 @@ A settings page in the kxkb grammar: big bold headings underlined only as wide a
 
 - **Colours** — 4 RGBA sliders over a live hex swatch, with one-click recent colours seeded from the house palette. Applies while you slide; Cancel reverts.
 - **Fonts** — every family listed **in its own glyphs**, plus `.ttf`/`.otf` import. An imported font is copied into app storage on pick, so the choice survives the source file moving, and a file the loader rejects is refused rather than silently rendering as the system face.
-- **Sizes** — font size, weight, corner roundness, border and separator thickness, row padding and indent, all sliders, all reaching **0**: a border or a separator can genuinely vanish.
+- **Sizes** — font size, weight, corner roundness, border and separator thickness, row padding and indent, and the switch thumb and track, all sliders, all reaching **0**: a border, a separator, even a switch's track can genuinely vanish.
 - **One master switch** turns the whole layer off and returns every screen to upstream's own styling.
 
 Reach it from Settings, or by **long-pressing the Settings cog** on the main screen.
@@ -54,7 +54,7 @@ Reach it from Settings, or by **long-pressing the Settings cog** on the main scr
 
 `#FFFF00` on `#000000`, carried across every screen by an Application-level restyle rather than a per-activity patch — so the link dialog is covered too, and there is nothing to re-apply on each upstream rebase.
 
-Both launcher icons are traced house line-art. The link dialog wears a yellow border on black. Action bars, up arrows, overflow menus, switches, seek bars, spinner arrows, dividers, toasts and the app-chooser popup all follow. A second, dimmer yellow (`#C8C800`) is used **only** for de-emphasis — summaries, hints, inactive control halves — so a screen stays scannable instead of becoming a wall of one colour.
+Both launcher icons are traced house line-art. The link dialog wears a yellow border on black. Action bars, up arrows, overflow menus, switches, seek bars, spinner arrows, dividers, toasts and the app-chooser popup all follow. **Every dialog in the app is built through one house builder**, so a dialog added later — by this fork or by upstream on a rebase — comes out black-and-yellow by construction rather than by remembering to style it. A second, dimmer yellow (`#C8C800`) is used **only** for de-emphasis — summaries, hints, inactive control halves — so a screen stays scannable instead of becoming a wall of one colour.
 
 ---
 
@@ -81,7 +81,7 @@ The token lives in **its own preferences file**, so it cannot travel inside a ba
 This fork rebases onto **every upstream commit**, and upstream's `3.5` has stood still since July — so the version pins the upstream commit the build sits on:
 
 ```
-3.5+2026-07-25.15-05.g03a11762+014
+3.5+2026-07-25.15-05.g03a11762+021
 └┬─┘ └────────┬─────────────┘ └┬─┘
  │            │                └── our build counter
  │            └─── upstream base: committer date (UTC) + sha

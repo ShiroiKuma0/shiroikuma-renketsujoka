@@ -9,6 +9,91 @@ Fork versions read `<upstream>+<base date>.<HH-MM UTC>.g<sha8>+<build>`: the mid
 upstream commit the build sits on, and moves only on a sync. The installed `versionCode` is
 `<upstream code> * 10000 + <build>`, independent of the pin.
 
+## 白い熊 連結浄化 3.5+2026-07-25.15-05.g03a11762+021 — 2026-08-12
+
+Still built on upstream **3.5** (versionCode 47), at the same upstream commit `03a11762` — upstream
+has not pushed since, so the pin is unchanged and only the build counter moved. Everything here is
+the delta since `+014`; builds 015–020 were not published.
+
+### Dialogs
+
+- **Every dialog is built through one house builder.** `SkDialog` is a drop-in subclass of
+  `AlertDialog.Builder`, and all 25 construction sites across 17 files now go through it — so a
+  dialog added later, by this fork or by upstream on a rebase, comes out black-and-yellow by
+  construction rather than by remembering to style it. It works two ways at once: a
+  `ContextThemeWrapper` carrying the house theme, **and** a show-listener that paints the window and
+  walks the decor whatever the skin does with theme attributes.
+- Dialog action buttons stay borderless — the view walk gained a flat-button mode, or three pills
+  would line up along the bottom. Their colour is set after show, since they do not exist before it.
+- `ProgressDialog` is its own class and never passes through a builder, so it styles itself
+  directly: after show, on a post, and again on every `setMessage`, because it rewrites its message
+  continuously and the message view is created lazily.
+- The Export / Import result dialog no longer draws its own frame — the window now carries the
+  border, and the inner one doubled it.
+
+### UI page
+
+- **Switch geometry is settable**: thumb size, track width and track height are three new attributes
+  under Buttons → Switches, bringing the list from 25 to **28**, and they export, import and reset
+  with everything else. They were the last hardcoded sizes in the fork — 20dp and 38×22dp, sitting
+  in the restyle where nothing could reach them.
+- The switch stroke follows the border attribute exactly, floor removed: every size slider in this
+  fork reaches 0, and 0 here is a legitimate choice — a switch drawn by its thumb alone.
+- The page styles any toggle handed to a row itself, so the new sliders preview live. The page
+  rebuilds on every change, and those views are created *after* the lifecycle walk has run — without
+  this they would have kept the previous geometry until the screen was left and re-entered.
+- The preview panel gained a switch, so the three sliders show their effect in the same panel as
+  everything else rather than only on the master toggle above.
+
+### Fixes & behaviour
+
+- **Version comparison uses `versionCode`, not the parsed version name.** `isVersionNewer` pulled
+  every integer out of the version string, which this fork's name breaks outright:
+  `3.5+2026-07-25.15-05.g03a11762+014` yields `[3, 5, 2026, 7, 25, 15, 5, 3, 11762, 14]`, where the
+  `3` and `11762` come from the commit SHA and sit *ahead* of the build counter — two builds would
+  be ordered by hex. `isVersionCodeNewer` compares the integer Android itself orders by.
+- The backup now writes a `versionCode` file alongside the readable name. A backup written before
+  that field existed is treated as **not** newer rather than guessed at: a wrong "this backup is
+  from a newer version" warning is worse than none.
+- **The "the app has been updated" notice is gone.** That module makes itself visible on nothing
+  else, so removing the notice is removing the module — it is unregistered in `ModuleManager`. The
+  class stays in the tree deliberately: the useful message is the converse ("a newer version is
+  available"), and that is where it would be built.
+- **The Google credit is purged.** "VirusTotal™ is a trademark of Google, Inc." is removed from the
+  English strings, all 25 translations, and both screens that showed it — the VirusTotal module
+  config and the About page. That was the app's only attribution to Google. What remains is not
+  attribution and stays: the Chrome incognito intent extra (functional), the `googĺe.com` homograph
+  example in the Pattern module's description (the attack being illustrated), and four "Copied from
+  android.googlesource.com" comments in `RegexFix` — deleting a provenance comment does not purge a
+  credit, it misstates where the code came from.
+- **The sample test link points at `gnu.org`**, not Google. The main screen and the tutorial offer a
+  link to test the dialog with; the new one keeps the shape that makes it useful — plain `http` so
+  the https-upgrade pattern fires, a `ref=` for the referral stripper, a spare parameter and a
+  fragment for the Uri parts module.
+- **The Dutch homograph example shows a homograph again.** The Pattern module warns that non-ASCII
+  characters can be used for phishing and illustrates it with `googĺe.com` vs `google.com`, the
+  first `ĺ` being U+013A. The Dutch translation had lost the accent, so it read "phishing:
+  google.com versus google.com" and demonstrated nothing at all. All 20 translations carrying the
+  example were checked; `nl` was the only one where both sides were identical. Hebrew renders it as
+  a garbled transliteration that does still differ, so the point survives and it was left alone
+  rather than rewritten into a language that could not be checked.
+
+### Repo & tooling
+
+- The `upstream-new-version` skill now verifies the fork **as it actually is**. It was written at
+  build +001 and still described a fork with an empty UI page, no theme, no dialogs of ours and no
+  automation — a rebase could have passed its checks while dropping most of the fork. Its inventory
+  now covers the palette and theme, our drawables, the app-wide restyle, the UI page and its
+  pickers, Export / Import, the 保存復元 receiver and service, the Telegram built-in pattern, the
+  unregistered changelog module, the `versionCode` comparison and the absent Google credit.
+- The skill computes the **conflict set** before anything moves — the intersection of what upstream
+  touched and what we patch — so the mandatory proceed gate is answered with facts, not a guess.
+- New **regression greps** for the changes that are mechanical sweeps across many files: every
+  dialog through `SkDialog`, every toast through `SkToast`, every vector filling with `@color/app`,
+  no platform panel creeping back in, the Google credit staying gone. If upstream adds one more call
+  of the same shape, git merges it cleanly and the fork silently loses ground — no conflict, no
+  warning, just an unstyled dialog. Each grep was proved to still catch a real regression.
+
 ## 白い熊 連結浄化 3.5+2026-07-25.15-05.g03a11762+014 — 2026-08-12
 
 The first release. Built on upstream **3.5** (versionCode 47), at upstream commit `03a11762`
