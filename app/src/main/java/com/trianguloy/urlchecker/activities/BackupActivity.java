@@ -136,6 +136,7 @@ public class BackupActivity extends Activity {
             menu.findItem(R.id.menu_advanced).setVisible(false);
         }
 
+        com.trianguloy.urlchecker.shiroikuma.SkMenu.tint(menu, this);
         return super.onCreateOptionsMenu(menu);
     }
 

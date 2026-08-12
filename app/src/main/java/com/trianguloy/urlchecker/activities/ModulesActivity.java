@@ -67,6 +67,7 @@ public class ModulesActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_modules, menu);
+        com.trianguloy.urlchecker.shiroikuma.SkMenu.tint(menu, this);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -87,6 +87,7 @@ public class JsonEditorActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_json_editor, menu);
         AndroidUtils.fixMenuIconColor(menu.findItem(R.id.menu_format), this);
+        com.trianguloy.urlchecker.shiroikuma.SkMenu.tint(menu, this);
         return super.onCreateOptionsMenu(menu);
     }
 

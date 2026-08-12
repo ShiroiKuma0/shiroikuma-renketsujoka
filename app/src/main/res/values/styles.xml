@@ -36,6 +36,15 @@
         <item name="android:actionBarItemBackground">@color/transparent</item>
 
         <item name="android:listDivider">@drawable/sk_divider</item>
+
+        <!-- The overflow / options menu popup: black panel, yellow border, yellow items. -->
+        <item name="android:actionOverflowMenuStyle">@style/ShiroikumaOverflowMenu</item>
+        <item name="android:popupMenuStyle">@style/ShiroikumaPopupMenu</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/ShiroikumaPopupText</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/ShiroikumaPopupText</item>
+        <item name="android:panelBackground">@drawable/sk_dialog_background</item>
+        <item name="android:itemBackground">@color/transparent</item>
+        <item name="android:itemTextAppearance">@style/ShiroikumaPopupText</item>
         <item name="android:alertDialogTheme">@style/ShiroikumaAlertDialog</item>
     </style>
 
@@ -84,6 +93,19 @@
         <item name="android:colorControlNormal">@color/sk_yellow</item>
         <item name="android:colorControlActivated">@color/sk_yellow</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ShiroikumaOverflowMenu" parent="android:Widget.DeviceDefault.PopupMenu">
+        <item name="android:popupBackground">@drawable/sk_dialog_background</item>
+    </style>
+
+    <style name="ShiroikumaPopupMenu" parent="android:Widget.DeviceDefault.PopupMenu">
+        <item name="android:popupBackground">@drawable/sk_dialog_background</item>
+    </style>
+
+    <style name="ShiroikumaPopupText"
+        parent="android:TextAppearance.DeviceDefault.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/sk_yellow</item>
     </style>
 
     <style name="ShiroikumaActionBar" parent="android:Widget.DeviceDefault.ActionBar">

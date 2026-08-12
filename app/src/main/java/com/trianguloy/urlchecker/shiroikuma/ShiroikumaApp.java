@@ -75,7 +75,11 @@ public class ShiroikumaApp extends Application {
     private static void apply(Activity activity, View root) {
         if (!ShiroikumaUi.ENABLED(activity).get()) return;
         var name = activity.getClass().getName();
-        if (name.endsWith("ShiroikumaUiActivity") || name.endsWith("ExportImportActivity")) return;
+        // Our own pages used to be skipped wholesale, on the reasoning that they draw themselves.
+        // They draw their CONTENT — never their chrome, and never the raw framework widgets they
+        // hand out. So the action bar, up arrow, overflow and switches were left stock there. The
+        // walk now covers them too; anything UiPage already coloured carries the sk_styled tag and
+        // is left exactly as it drew it.
 
         // The link dialog's window background is the yellow-bordered panel from the theme — painting
         // a flat colour over it here would erase the border it exists to draw.
@@ -98,7 +102,8 @@ public class ShiroikumaApp extends Application {
 
         // Our own launcher icon is already black-yellow; tinting an opaque icon with SRC_IN just
         // floods it into a featureless yellow square.
-        if ("sk_logo".equals(view.getTag())) return;
+        var tag = view.getTag();
+        if ("sk_logo".equals(tag) || "sk_styled".equals(tag)) return;
 
         // A Spinner IS a ViewGroup, so it has to be handled BEFORE the recursion below or its own
         // branch is never reached — the same shadowing that hid the switches. Its dropdown triangle

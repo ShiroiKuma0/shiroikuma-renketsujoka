@@ -246,6 +246,7 @@ public class ShiroikumaUiActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, R.string.sk_resetAll);
+        com.trianguloy.urlchecker.shiroikuma.SkMenu.tint(menu, this);
         return super.onCreateOptionsMenu(menu);
     }
 

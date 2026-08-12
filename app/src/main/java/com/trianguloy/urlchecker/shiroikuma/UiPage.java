@@ -19,6 +19,16 @@ import android.widget.TextView;
  */
 public class UiPage {
 
+    /**
+     * Marks a view this class has already coloured. The app-wide restyle skips these, so the red
+     * "not set" notice, the dim summaries and the live preview keep saying what they mean instead of
+     * being flattened to body colour.
+     */
+    static <T extends View> T mark(T view) {
+        view.setTag("sk_styled");
+        return view;
+    }
+
     private final Context cntx;
     private final LinearLayout root;
     private boolean firstHeading = true;
@@ -65,6 +75,7 @@ public class UiPage {
         text.setTypeface(ShiroikumaUi.weighted(
                 Fonts.typeface(cntx, ShiroikumaUi.HEADING_FONT(cntx).get()),
                 ShiroikumaUi.HEADING_WEIGHT(cntx).get()));
+        mark(text);
         block.addView(text, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
@@ -100,6 +111,7 @@ public class UiPage {
         text.setTypeface(ShiroikumaUi.weighted(
                 Fonts.typeface(cntx, ShiroikumaUi.HEADING_FONT(cntx).get()),
                 ShiroikumaUi.HEADING_WEIGHT(cntx).get()));
+        mark(text);
         block.addView(text, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
@@ -136,7 +148,7 @@ public class UiPage {
         var titleView = new TextView(cntx);
         titleView.setText(title);
         ShiroikumaUi.body(cntx, titleView);
-        labels.addView(titleView);
+        labels.addView(mark(titleView));
 
         if (summary != null && !summary.isEmpty()) {
             var summaryView = new TextView(cntx);
@@ -145,7 +157,7 @@ public class UiPage {
             summaryView.setTextSize(TypedValue.COMPLEX_UNIT_SP,
                     Math.max(10, ShiroikumaUi.BODY_SIZE(cntx).get() - 3));
             summaryView.setTypeface(Fonts.typeface(cntx, ShiroikumaUi.BODY_FONT(cntx).get()));
-            labels.addView(summaryView);
+            labels.addView(mark(summaryView));
         }
         row.addView(labels, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
 
@@ -194,6 +206,7 @@ public class UiPage {
         readout.setMinWidth(ShiroikumaUi.dp(cntx, 52));
         readout.setGravity(Gravity.END);
 
+        mark(readout);
         row(level, title, null, readout);
 
         var seek = new SeekBar(cntx);
@@ -236,6 +249,7 @@ public class UiPage {
         sample.setTypeface(Fonts.typeface(cntx, value));
         sample.setTextColor(ShiroikumaUi.SECONDARY_COLOR(cntx).get());
         sample.setTextSize(TypedValue.COMPLEX_UNIT_SP, ShiroikumaUi.BODY_SIZE(cntx).get());
+        mark(sample);
         clickable(level, title, null, sample,
                 v -> FontPickerDialog.show(cntx, title, value, onPick, onImport));
     }
@@ -261,7 +275,7 @@ public class UiPage {
         int padV = ShiroikumaUi.dp(cntx, 6);
         button.setPadding(padH, padV, padH, padV);
         button.setOnClickListener(onClick);
-        return button;
+        return mark(button);
     }
 
     /** A bordered preview panel showing the attributes as they currently stand. */
@@ -283,6 +297,7 @@ public class UiPage {
         heading.setTypeface(ShiroikumaUi.weighted(
                 Fonts.typeface(cntx, ShiroikumaUi.HEADING_FONT(cntx).get()),
                 ShiroikumaUi.HEADING_WEIGHT(cntx).get()));
+        mark(heading);
         headingBlock.addView(heading, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
@@ -299,7 +314,7 @@ public class UiPage {
         var body = new TextView(cntx);
         body.setText(sample);
         ShiroikumaUi.body(cntx, body);
-        panel.addView(body);
+        panel.addView(mark(body));
 
         var secondary = new TextView(cntx);
         secondary.setText(cntx.getString(com.trianguloy.urlchecker.R.string.sk_previewSecondary));
@@ -307,7 +322,7 @@ public class UiPage {
         secondary.setTextSize(TypedValue.COMPLEX_UNIT_SP,
                 Math.max(10, ShiroikumaUi.BODY_SIZE(cntx).get() - 3));
         secondary.setTypeface(Fonts.typeface(cntx, ShiroikumaUi.BODY_FONT(cntx).get()));
-        panel.addView(secondary);
+        panel.addView(mark(secondary));
 
         var buttons = new LinearLayout(cntx);
         buttons.setOrientation(LinearLayout.HORIZONTAL);
@@ -327,7 +342,7 @@ public class UiPage {
         view.setTextColor(problem ? ShiroikumaUi.RED : ShiroikumaUi.BODY_COLOR(cntx).get());
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, ShiroikumaUi.BODY_SIZE(cntx).get());
         view.setTypeface(Fonts.typeface(cntx, ShiroikumaUi.BODY_FONT(cntx).get()));
-        add(level, view);
+        add(level, mark(view));
         return view;
     }
 }
