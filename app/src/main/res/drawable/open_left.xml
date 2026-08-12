@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:drawable/btn_default" />
-</layer-list>
+<!-- Left half of the split "open with" control. Upstream wrapped @android:drawable/btn_default,
+     the platform's own button background, which on this device is a light rounded panel — that is
+     what showed through around the app pill. House box instead, square on the inner edge. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/sk_black" />
+    <stroke
+        android:width="2dp"
+        android:color="@color/sk_yellow" />
+    <corners
+        android:bottomLeftRadius="20dp"
+        android:bottomRightRadius="0dp"
+        android:topLeftRadius="20dp"
+        android:topRightRadius="0dp" />
+</shape>

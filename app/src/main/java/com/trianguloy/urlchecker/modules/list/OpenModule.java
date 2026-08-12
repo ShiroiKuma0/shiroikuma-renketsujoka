@@ -159,7 +159,10 @@ class OpenDialog extends AModuleDialog {
         btn_openWith.setOnClickListener(v -> showList());
 
         // init openWith popup
-        popup = new PopupMenu(getActivity(), btn_open);
+        // Themed context so the popup takes the house panel; the items themselves are span-tinted
+        // in showList(), because this device honours popup theming inconsistently.
+        popup = new PopupMenu(new android.view.ContextThemeWrapper(
+                getActivity(), com.trianguloy.urlchecker.R.style.ShiroikumaPopupTheme), btn_open);
         popup.setOnMenuItemClickListener(item -> {
             openUrl(item.getItemId());
             return false;
@@ -280,6 +283,7 @@ class OpenDialog extends AModuleDialog {
 
     /** Show the popup with the rest of the apps */
     private void showList() {
+        com.trianguloy.urlchecker.shiroikuma.SkMenu.tint(menu, getActivity());
         popup.show();
     }
 

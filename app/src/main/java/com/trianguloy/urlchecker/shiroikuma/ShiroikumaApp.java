@@ -81,11 +81,18 @@ public class ShiroikumaApp extends Application {
         // walk now covers them too; anything UiPage already coloured carries the sk_styled tag and
         // is left exactly as it drew it.
 
-        // The link dialog's window background is the yellow-bordered panel from the theme — painting
-        // a flat colour over it here would erase the border it exists to draw.
-        if (!name.endsWith("MainDialog") && activity.getWindow() != null) {
-            activity.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(
-                    ShiroikumaUi.BACKGROUND(activity).get()));
+        if (activity.getWindow() != null) {
+            // The link dialog gets the bordered panel, everything else a flat ground. Both are
+            // painted here rather than left to the theme: this device ignores windowBackground on a
+            // dialog theme exactly as it ignored actionBarStyle.
+            activity.getWindow().setBackgroundDrawable(name.endsWith("MainDialog")
+                    ? ShiroikumaUi.box(activity, ShiroikumaUi.SURFACE(activity).get(),
+                            Math.max(ShiroikumaUi.dp(activity, 2),
+                                    ShiroikumaUi.dp(activity, ShiroikumaUi.BORDER(activity).get())),
+                            ShiroikumaUi.BORDER_COLOR(activity).get(),
+                            ShiroikumaUi.CORNER(activity).get())
+                    : new android.graphics.drawable.ColorDrawable(
+                            ShiroikumaUi.BACKGROUND(activity).get()));
         }
         var actionBar = activity.getActionBar();
         if (actionBar != null) {

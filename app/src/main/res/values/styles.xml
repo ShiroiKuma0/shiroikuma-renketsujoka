@@ -108,6 +108,14 @@
         <item name="android:textColor">@color/sk_yellow</item>
     </style>
 
+    <!-- Applied through a ContextThemeWrapper to any PopupMenu we raise ourselves. -->
+    <style name="ShiroikumaPopupTheme" parent="ShiroikumaBase">
+        <item name="android:popupMenuStyle">@style/ShiroikumaPopupMenu</item>
+        <item name="android:itemTextAppearance">@style/ShiroikumaPopupText</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/ShiroikumaPopupText</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/ShiroikumaPopupText</item>
+    </style>
+
     <style name="ShiroikumaActionBar" parent="android:Widget.DeviceDefault.ActionBar">
         <item name="android:background">@color/sk_black</item>
         <item name="android:titleTextStyle">@style/ShiroikumaActionBarTitle</item>
