@@ -27,6 +27,7 @@ import com.trianguloy.urlchecker.modules.AModuleDialog;
 import com.trianguloy.urlchecker.modules.DescriptionConfig;
 import com.trianguloy.urlchecker.url.UrlData;
 import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** This module shows the current url and allows manual editing */
 public class TextInputModule extends AModuleData {
@@ -96,7 +97,7 @@ class TextInputDialog extends AModuleDialog {
 
         // init dialog
         DialogInterface.OnClickListener accept = (d, w) -> setUrl(new UrlData(editText.getText().toString()).disableUpdates());
-        var dialog = new AlertDialog.Builder(getActivity())
+        var dialog = new SkDialog(getActivity())
                 .setView(editText)
                 .setPositiveButton(android.R.string.ok, accept)
                 .setNegativeButton(android.R.string.cancel, null)

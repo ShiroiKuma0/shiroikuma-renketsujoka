@@ -180,7 +180,6 @@
     <string name="mVT_desc">இந்த தொகுதி இயக்கப்பட்டால், நீங்கள் முகவரி ஐ வைரச்டோட்டலைப் பயன்படுத்தி ச்கேன் செய்து அறிக்கையைச் சரிபார்க்கலாம். இது வேலை செய்ய தனிப்பட்ட வைரச்டோட்டல் பநிஇ விசை தேவை, இலவச கணக்கிற்கு பதிவுசெய்த பிறகு நீங்கள் ஒன்றைப் பெறலாம்: %s.</string>
     <string name="mVT_apiKey">பநிஇ விசை</string>
     <string name="mVT_noKey">பநிஇ விசையை காணவில்லை</string>
-    <string name="mVT_tm">வைரச்டோட்டல் ™ என்பது கூகிள், இன்க்.</string>
     <string name="mVT_scan">ச்கேன்</string>
     <string name="mVT_cancel">ரத்துசெய்</string>
     <string name="mVT_scanning">ச்கேனிங்…</string>

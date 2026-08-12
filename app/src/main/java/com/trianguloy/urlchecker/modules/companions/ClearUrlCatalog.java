@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** Manages the local catalog with the rules */
 
@@ -227,7 +228,7 @@ public class ClearUrlCatalog implements JsonEditorInterface {
         update.run();
 
         // prepare dialog
-        AlertDialog dialog = new AlertDialog.Builder(cntx)
+        AlertDialog dialog = new SkDialog(cntx)
                 .setView(views)
                 .setPositiveButton(R.string.mClear_updateNow, null) // set below
                 .setNeutralButton(R.string.mClear_restore, null) // set below

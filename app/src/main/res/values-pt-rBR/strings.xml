@@ -125,7 +125,6 @@
     <string name="mStatus_autoRedirect">Substituir as URLs de redirecionamento automaticamente</string>
     <string name="mVT_name">Scanner de URL</string>
     <string name="mInput_desc">Mostra a URL atual, que pode ser editada manualmente.</string>
-    <string name="mVT_tm">VirusTotal™ é uma marca registrada da Google, Inc.</string>
     <string name="mHist_desc">Quando a URL é editada, seja manualmente ou por outros módulos, esse permite que você veja e reverta as mudanças.</string>
     <string name="mClear_referral">- referência encontrada</string>
     <string name="mClear_forcedRedirection">- redirecionamento forçado encontrado</string>

@@ -53,7 +53,12 @@ public class ModuleManager {
         modules.add(new DebugModule());
 
         modules.add(new OpenModule());
-        modules.add(new ChangeLogModule());
+        // 白い熊: the changelog module is NOT registered. It exists only to announce "the app has
+        // been updated" — it makes itself visible on nothing else — which is a fact we already know,
+        // having just installed the build. The class is left in place rather than deleted: the
+        // useful message would be the converse ("a newer version is available"), and that would be
+        // built here.
+        // modules.add(new ChangeLogModule());
 
         // by default the drawer module should not hide other modules, so it must be the last
         modules.add(new DrawerModule());

@@ -18,6 +18,7 @@ import com.trianguloy.urlchecker.utilities.AndroidSettings;
 import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /**
  * The 白い熊 連結浄化 UI page: every attribute this fork adds on top of upstream, grouped, indented
@@ -257,7 +258,7 @@ public class ShiroikumaUiActivity extends Activity {
             return true;
         }
         if (item.getItemId() == 1) {
-            new android.app.AlertDialog.Builder(this)
+            new SkDialog(this)
                     .setTitle(R.string.sk_resetAll)
                     .setMessage(R.string.sk_resetAllConfirm)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {

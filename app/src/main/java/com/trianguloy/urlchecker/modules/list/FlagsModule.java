@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** This module allows flag edition */
 
@@ -287,7 +288,7 @@ class FlagsConfig extends AModuleConfig {
             // Get all flags
             fillBoxViewGroup(box, file, FlagsModule.DEFAULT_GROUP);
 
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+            AlertDialog alertDialog = new SkDialog(getActivity())
                     .setView(flagsDialogLayout)
                     .setPositiveButton(views.getContext().getText(R.string.save), (dialog, which) -> {
                         // Save the settings

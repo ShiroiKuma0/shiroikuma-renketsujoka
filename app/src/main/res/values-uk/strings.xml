@@ -85,7 +85,6 @@
     <string name="mVT_name">Сканер URL</string>
     <string name="mVT_desc">Коли цей модуль увімкнено, ви можете сканувати URL-адресу за допомогою VirusTotal і перевіряти звіт. Для роботи потрібен особистий ключ API VirusTotal. Ви можете отримати його після реєстрації безкоштовного облікового запису тут: %s.</string>
     <string name="mVT_apiKey">Ключ API</string>
-    <string name="mVT_tm">VirusTotal™ є торговою маркою Google, Inc.</string>
     <string name="mVT_scan">Сканувати</string>
     <string name="mVT_cancel">Відмінити</string>
     <string name="mVT_scanning">Скануємо…</string>

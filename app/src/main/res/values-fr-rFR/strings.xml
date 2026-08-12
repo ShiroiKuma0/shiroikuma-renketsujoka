@@ -171,7 +171,6 @@ Ceci est le didacticiel, si vous souhaitez l'ignorer vous pouvez le faire en uti
     <string name="mVT_name">Analyseur d’URL</string>
     <string name="mVT_desc">Lorsque ce module est activé, vous pouvez analyser l\'URL à l\'aide de VirusTotal et en vérifier le rapport. Une clé personnelle de l\'Api VirusTotal est nécessaire pour que cela fonctionne, vous pouvez en obtenir une après vous être inscrit gratuitement ici : %s .</string>
     <string name="mVT_apiKey">Clé d\'API</string>
-    <string name="mVT_tm">VirusTotal™ est une marque de Google, Inc.</string>
     <string name="mVT_scan">Analyse</string>
     <string name="mVT_cancel">Annuler</string>
     <string name="mVT_scanning">Analyse…</string>

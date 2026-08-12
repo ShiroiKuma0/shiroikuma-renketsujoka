@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /**
  * This module sends the current url to a custom webhook
@@ -272,7 +273,7 @@ class WebhookConfig extends AModuleConfig {
 
         // click template
         views.findViewById(R.id.webhook_templates).setOnClickListener(v ->
-                new AlertDialog.Builder(v.getContext())
+                new SkDialog(v.getContext())
                         .setTitle(R.string.mWebhook_templates)
                         .setItems(JavaUtils.mapEach(TEMPLATES, e -> e.first).toArray(new String[0]), (dialog, which) ->
                                 body.setText(TEMPLATES.get(which).second))

@@ -126,7 +126,6 @@ URLコンテンツは取得 (GET) されますが、JavaScript によるリダ�
     <string name="mVT_desc">"このモジュールを有効にすると、VirusTotal を使用してURLをスキャンし、レポートを確認できます。
 これが機能するには、個人用の VirusTotal API キーが必要です。%s\nで無料アカウントに登録した後に取得できます。"</string>
     <string name="mVT_apiKey">API キー</string>
-    <string name="mVT_tm">VirusTotal™ は Google, Inc. の商標です。</string>
     <string name="mVT_scan">スキャン</string>
     <string name="mVT_cancel">キャンセル</string>
     <string name="mVT_scanning">スキャン中…</string>

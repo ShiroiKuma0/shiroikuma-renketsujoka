@@ -23,6 +23,7 @@ import com.trianguloy.urlchecker.utilities.methods.LocaleUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /**
  * The Export / Import panel: pick a directory, tick the categories, and back up or restore.
@@ -104,7 +105,7 @@ public class ExportImportActivity extends Activity {
         page.row(2, getString(R.string.sk_automation), getString(R.string.sk_automationSummary), automation);
 
         var regenerate = page.pill(getString(R.string.sk_regenerate), v ->
-                new AlertDialog.Builder(this)
+                new SkDialog(this)
                         .setTitle(R.string.sk_regenerate)
                         .setMessage(R.string.sk_regenerateWarning)
                         .setPositiveButton(android.R.string.ok, (dialog, which) -> {
@@ -243,22 +244,18 @@ public class ExportImportActivity extends Activity {
 
     /* ------------------- dialogs ------------------- */
 
-    /** The house result dialog: black, yellow text, yellow border. */
-    private AlertDialog.Builder houseDialog(String message) {
+    /**
+     * The result dialog. SkDialog already paints the bordered black panel around every dialog in
+     * the app, so this only supplies the message — an inner frame here would draw a second border
+     * inside the first.
+     */
+    private SkDialog houseDialog(String message) {
         var text = new TextView(this);
         text.setText(message);
         ShiroikumaUi.body(this, text);
         int pad = ShiroikumaUi.dp(this, 20);
         text.setPadding(pad, pad, pad, pad);
-
-        var frame = new LinearLayout(this);
-        frame.setOrientation(LinearLayout.VERTICAL);
-        frame.setBackground(ShiroikumaUi.box(this, ShiroikumaUi.SURFACE(this).get(),
-                Math.max(ShiroikumaUi.dp(this, 2), ShiroikumaUi.dp(this, ShiroikumaUi.BORDER(this).get())),
-                ShiroikumaUi.BORDER_COLOR(this).get(), ShiroikumaUi.CORNER(this).get()));
-        frame.addView(text);
-
-        return new AlertDialog.Builder(this).setView(frame).setCancelable(false);
+        return (SkDialog) new SkDialog(this).setView(text).setCancelable(false);
     }
 
     /**

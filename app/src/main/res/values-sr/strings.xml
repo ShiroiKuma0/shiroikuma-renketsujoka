@@ -227,7 +227,6 @@
     <string name="mStatus_redir">Preusmerava na %s</string>
     <string name="mVT_desc">Kada je ovaj modul omogućen, možete skenirati URL koristeći VirusTotal i proveriti izveštaj. Lični VirusTotal API ključ je potreban da bi funkcionisao, možete ga dobiti nakon registracije za besplatni nalog ovde: %s.</string>
     <string name="mVT_noKey">Nedostaje API ključ</string>
-    <string name="mVT_tm">VirusTotal™ je zaštitni znak kompanije Google, Inc.</string>
     <string name="mVT_cancel">Odustani</string>
     <string name="mVT_scanning">Skeniram…</string>
     <string name="mVT_scan">Skeniraj</string>

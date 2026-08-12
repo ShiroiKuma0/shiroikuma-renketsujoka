@@ -105,7 +105,22 @@ public class ShiroikumaApp extends Application {
         splitOpenControl(activity, root);
     }
 
-    private static void walk(Activity activity, View view) {
+    /**
+     * Restyle a view tree. Exposed so {@link SkDialog} can send a dialog's decor through the very
+     * same code — a dialog is its own window, so the Activity hook never sees it.
+     *
+     * @param flatButtons dialog action buttons are borderless by convention; giving them the box a
+     *                    screen button gets would put three pills in a row along the bottom.
+     */
+    public static void styleTree(android.content.Context cntx, View view, boolean flatButtons) {
+        walk(cntx, view, flatButtons);
+    }
+
+    private static void walk(android.content.Context activity, View view) {
+        walk(activity, view, false);
+    }
+
+    private static void walk(android.content.Context activity, View view, boolean flatButtons) {
         int yellow = ShiroikumaUi.BODY_COLOR(activity).get();
 
         // Our own launcher icon is already black-yellow; tinting an opaque icon with SRC_IN just
@@ -124,7 +139,7 @@ public class ShiroikumaApp extends Application {
             }
         }
         if (view instanceof ViewGroup group) {
-            for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i));
+            for (int i = 0; i < group.getChildCount(); i++) walk(activity, group.getChildAt(i), flatButtons);
             return;
         }
         // ORDER MATTERS: CompoundButton extends Button, and Switch extends CompoundButton, so the
@@ -142,6 +157,9 @@ public class ShiroikumaApp extends Application {
         }
         if (view instanceof Button button) {
             button.setTextColor(ShiroikumaUi.BUTTON_TEXT(activity).get());
+            button.setTypeface(typeface(activity));
+            tintCompound(button, yellow);
+            if (flatButtons) return;
             button.setBackground(ShiroikumaUi.box(activity,
                     ShiroikumaUi.BUTTON_BG(activity).get(),
                     ShiroikumaUi.dp(activity, ShiroikumaUi.BUTTON_BORDER(activity).get()),
@@ -205,7 +223,7 @@ public class ShiroikumaApp extends Application {
      * shapes are solid — so the thumb and track are built here:
      * ON is a filled yellow dot, OFF is a traced one, and the track is black with a yellow border.
      */
-    private static void styleSwitch(Activity activity, android.widget.Switch sw, int yellow) {
+    private static void styleSwitch(android.content.Context activity, android.widget.Switch sw, int yellow) {
         int fill = ShiroikumaUi.SURFACE(activity).get();
         int border = ShiroikumaUi.BORDER_COLOR(activity).get();
         int stroke = Math.max(ShiroikumaUi.dp(activity, 2),
@@ -304,7 +322,7 @@ public class ShiroikumaApp extends Application {
         image.setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
-    private static android.graphics.Typeface typeface(Activity activity) {
+    private static android.graphics.Typeface typeface(android.content.Context activity) {
         return ShiroikumaUi.weighted(
                 Fonts.typeface(activity, ShiroikumaUi.BODY_FONT(activity).get()),
                 ShiroikumaUi.BODY_WEIGHT(activity).get());

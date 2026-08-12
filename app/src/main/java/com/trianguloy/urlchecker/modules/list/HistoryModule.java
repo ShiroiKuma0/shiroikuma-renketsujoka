@@ -17,6 +17,7 @@ import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** This module keeps a list of previous urls, and allows to jump between them */
 public class HistoryModule extends AModuleData {
@@ -133,7 +134,7 @@ class HistoryDialog extends AModuleDialog {
         Collections.reverse(items);
 
         // show list
-        new AlertDialog.Builder(getActivity())
+        new SkDialog(getActivity())
                 .setSingleChoiceItems(
                         items.toArray(new CharSequence[0]),
                         index == -1 ? -1 : items.size() - 1 - index,

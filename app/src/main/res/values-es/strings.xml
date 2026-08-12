@@ -229,7 +229,6 @@ Hay algunos enlaces cuyo único propósito es redirigirte a otro enlace. Si el e
     <string name="mVT_checkKey">Comprobar</string>
     <string name="mVT_noKey">Falta la clave de la API</string>
     <string name="mVT_validKey">Clave válida del usuario: %s</string>
-    <string name="mVT_tm">VirusTotal™ es una marca registrada de Google, Inc.</string>
     <string name="mVT_scan">Escanear</string>
     <string name="mVT_cancel">Cancelar</string>
     <string name="mVT_scanning">Escaneando…</string>

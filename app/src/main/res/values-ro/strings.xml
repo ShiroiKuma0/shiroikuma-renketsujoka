@@ -288,7 +288,6 @@ Notă: dacă editezi tiparele, noile tipare încorporate din actualizările apli
     <string name="mVT_checkKey">Verifică</string>
     <string name="mVT_noKey">Lipsește cheia API</string>
     <string name="mVT_validKey">Cheie validă de la utilizator: %s</string>
-    <string name="mVT_tm">VirusTotal™ este o marcă înregistrată a Google, Inc.</string>
     <string name="mVT_scan">Scanează</string>
     <string name="mVT_cancel">Anulează</string>
     <string name="mVT_scanning">Se scanează…</string>

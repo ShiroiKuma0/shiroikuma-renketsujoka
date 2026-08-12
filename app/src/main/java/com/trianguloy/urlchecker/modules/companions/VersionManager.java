@@ -13,10 +13,6 @@ import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Pattern;
 
 /** Manages the app version, to notify of updates */
 public class VersionManager {
@@ -35,30 +31,25 @@ public class VersionManager {
         new VersionManager(cntx);
     }
 
-    /** Returns true iff [version] is newer than the current one */
-    public static boolean isVersionNewer(String version) {
-        // shortcut to check own version
-        if (BuildConfig.VERSION_NAME.equals(version)) return false;
-
-        var versionSplit = split(version);
-        // invalid version, consider new just in case
-        if (versionSplit.isEmpty()) return true;
-        // compare: "1" < "2", "1" < "1.1"
-        var currentSplit = split(BuildConfig.VERSION_NAME);
-
-        for (var i = 0; i < Math.min(versionSplit.size(), currentSplit.size()); i++) {
-            var versionPart = versionSplit.get(i);
-            var currentPart = currentSplit.get(i);
-
-            // version is older
-            if (versionPart < currentPart) return false;
-            // version is newer
-            if (versionPart > currentPart) return true;
+    /**
+     * Returns true iff [versionCode] is newer than the build running now.
+     *
+     * <p>Compares the integer versionCode. Upstream parsed the version NAME by pulling every number
+     * out of it, which this fork's name breaks outright: `3.5+2026-07-25.15-05.g03a11762+014` yields
+     * `[3, 5, 2026, 7, 25, 15, 5, 3, 11762, 14]`, where `3` and `11762` come from the commit SHA and
+     * sit in sort-significant positions ahead of the build counter. Two builds would then be ordered
+     * by hex digits. The versionCode is the number Android itself orders by and has no such problem.
+     *
+     * <p>A backup written before this field existed carries no code; treat it as NOT newer rather
+     * than guessing, since a wrong "this backup is from a newer version" warning is worse than none.
+     */
+    public static boolean isVersionCodeNewer(String versionCode) {
+        if (versionCode == null || versionCode.isEmpty()) return false;
+        try {
+            return Integer.parseInt(versionCode.trim()) > BuildConfig.VERSION_CODE;
+        } catch (NumberFormatException e) {
+            return false;
         }
-
-        // If all parts are equal up to the minimum length, the version with more parts is newer
-        // (and if both are equal, then it is not newer)
-        return versionSplit.size() > currentSplit.size();
     }
 
     /* ------------------- instance ------------------- */
@@ -108,16 +99,4 @@ public class VersionManager {
         lastVersion.set(BuildConfig.VERSION_NAME);
     }
 
-    /* ------------------- private ------------------- */
-
-    static private final Pattern INTEGER_PATTERN = Pattern.compile("\\d+");
-
-    /** Extracts all numbers from the string: "1.2.34d" -> [1, 2, 34] */
-    private static List<Integer> split(String version) {
-        if (version == null) return Collections.emptyList();
-        var matcher = INTEGER_PATTERN.matcher(version);
-        var parts = new ArrayList<Integer>();
-        while (matcher.find()) parts.add(Integer.parseInt(matcher.group()));
-        return parts;
-    }
 }

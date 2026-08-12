@@ -90,7 +90,6 @@
     <string name="mInput_name">Vstupní text</string>
     <string name="mInput_desc">Zobrazuje aktuální adresu URL, kterou lze ručně upravit.</string>
     <string name="mVT_apiKey">API klíč</string>
-    <string name="mVT_tm">VirusTotal™ je ochranná známka společnosti Google, Inc.</string>
     <string name="mVT_scan">Skenovat</string>
     <string name="mVT_cancel">Zrušit</string>
     <string name="mVT_scanning">Skenuji…</string>

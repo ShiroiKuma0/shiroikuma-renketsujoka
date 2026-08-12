@@ -179,7 +179,6 @@ Umarım uygulamayı yararlı bulursunuz! Ve özellikler önermekten, hataları b
     <string name="mVT_name">URL Tarayıcı</string>
     <string name="mVT_desc">Bu bileşen etkinleştirildiğinde, VirusTotal kullanarak URL\'yi tarayabilir ve raporu inceleyebilirsiniz. Bunun çalışması için kişisel bir VirusTotal API anahtarı gereklidir, buradan ücretsiz bir hesap için kayıt olduktan sonra bir tane alabilirsiniz: %s .</string>
     <string name="mVT_apiKey">API anahtarı</string>
-    <string name="mVT_tm">VirusTotal™ Google, Inc. şirketinin ticari markasıdır.</string>
     <string name="mVT_scan">Tara</string>
     <string name="mVT_cancel">İptal et</string>
     <string name="mVT_scanning">Taranıyor…</string>

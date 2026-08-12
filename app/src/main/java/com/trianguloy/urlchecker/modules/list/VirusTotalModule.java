@@ -26,6 +26,7 @@ import com.trianguloy.urlchecker.utilities.methods.AndroidUtils;
 import com.trianguloy.urlchecker.utilities.wrappers.DefaultTextWatcher;
 
 import java.util.List;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** This module uses the VirusTotal api (https://developers.virustotal.com/reference) for url reports */
 public class VirusTotalModule extends AModuleData {
@@ -283,7 +284,7 @@ class VirusTotalDialog extends AModuleDialog {
     private void showInfo(boolean debug) {
         if (result == null || result.error != null) return;
 
-        new AlertDialog.Builder(getActivity())
+        new SkDialog(getActivity())
                 .setTitle(R.string.mVT_name)
                 .setMessage(debug ? result.debugData : result.info)
                 .setPositiveButton("virustotal.com", (dialog, which) -> setUrl(result.scanUrl))

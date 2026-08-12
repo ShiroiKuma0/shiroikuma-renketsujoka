@@ -77,7 +77,6 @@
     <string name="share">分享</string>
     <string name="mLog_edit">編輯記錄檔</string>
     <string name="mStatus_checking">檢查中…</string>
-    <string name="mVT_tm">VirusTotal™ 是 Google Inc. 的商標。</string>
     <string name="mClear_lastCheck">上次檢查時間:</string>
     <string name="mHosts_gambling">賭博</string>
     <string name="defaultOn">預設為啟用</string>

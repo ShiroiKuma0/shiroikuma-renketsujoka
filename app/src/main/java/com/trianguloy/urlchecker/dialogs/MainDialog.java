@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** The main dialog, when opening a url */
 
@@ -255,7 +256,7 @@ public class MainDialog extends Activity {
             default:
                 // multiple links, choose
                 var links_array = links.toArray(new String[0]);
-                new AlertDialog.Builder(this)
+                new SkDialog(this)
                         .setItems(links_array, (dialog, which) -> {
 
                             // initialize

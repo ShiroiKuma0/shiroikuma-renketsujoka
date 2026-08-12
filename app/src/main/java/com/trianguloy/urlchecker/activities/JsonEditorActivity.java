@@ -28,6 +28,7 @@ import org.json.JSONTokener;
 
 import java.util.Objects;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** Activity for editing a json */
 
@@ -128,7 +129,7 @@ public class JsonEditorActivity extends Activity {
         try {
             currentData = fixJsonObjectConstructor(editor.getText().toString());
         } catch (JSONException e) {
-            new AlertDialog.Builder(this)
+            new SkDialog(this)
                     .setTitle(R.string.invalid)
                     .setMessage(R.string.json_ignore)
                     .setPositiveButton(R.string.json_discard_close, (dialog, which) -> finish())
@@ -144,7 +145,7 @@ public class JsonEditorActivity extends Activity {
         }
 
         // ask to save or discard
-        new AlertDialog.Builder(this)
+        new SkDialog(this)
                 .setTitle(R.string.save)
                 .setMessage(R.string.json_save)
                 .setPositiveButton(R.string.save, (dialog, which) -> {
@@ -154,7 +155,7 @@ public class JsonEditorActivity extends Activity {
                         finish();
                     } else {
                         // error while saving
-                        new AlertDialog.Builder(this)
+                        new SkDialog(this)
                                 .setTitle(R.string.invalid)
                                 .setMessage(getString(R.string.json_save_error, result))
                                 .setPositiveButton(android.R.string.ok, null)
@@ -174,7 +175,7 @@ public class JsonEditorActivity extends Activity {
             editor.setText(fixJsonObjectConstructor(editor.getText().toString()).toString(INDENT_SPACES));
         } catch (JSONException e) {
             // invalid json
-            new AlertDialog.Builder(this)
+            new SkDialog(this)
                     .setTitle(R.string.invalid)
                     .setMessage(R.string.json_format_error)
                     .setPositiveButton(android.R.string.ok, null)
@@ -184,7 +185,7 @@ public class JsonEditorActivity extends Activity {
 
     /** Discard the editor changes and restore the saved contents */
     private void discard() {
-        new AlertDialog.Builder(this)
+        new SkDialog(this)
                 .setTitle(R.string.discard)
                 .setMessage(R.string.json_discard)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> editor.setText(noFailToString(provider.getJson())))
@@ -194,7 +195,7 @@ public class JsonEditorActivity extends Activity {
 
     /** Discard the editor changes and restore the built-in contents */
     private void reset() {
-        new AlertDialog.Builder(this)
+        new SkDialog(this)
                 .setTitle(R.string.reset)
                 .setMessage(R.string.json_reset)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> editor.setText(noFailToString(provider.getBuiltInJson())))
@@ -214,7 +215,7 @@ public class JsonEditorActivity extends Activity {
 
         if (result != null) {
             // error while saving
-            new AlertDialog.Builder(this)
+            new SkDialog(this)
                     .setTitle(R.string.invalid)
                     .setMessage(getString(R.string.json_save_error, result))
                     .setPositiveButton(android.R.string.ok, null)

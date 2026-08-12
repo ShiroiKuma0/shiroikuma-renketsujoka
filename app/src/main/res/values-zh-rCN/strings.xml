@@ -157,7 +157,6 @@
     <string name="mVT_name">链接扫描器</string>
     <string name="mVT_desc">"当启用此模块时，您可以使用VirusTotal扫描网址链接并查阅扫描报告。它需要一个个人的VirusTotal api key 才能正常工作，您可以在此处注册免费帐户后获取: %s ."</string>
     <string name="mVT_apiKey">API 密钥</string>
-    <string name="mVT_tm">VirusTotal™ 是 Google, Inc. 的商标。</string>
     <string name="mVT_scan">扫描</string>
     <string name="mVT_cancel">取消</string>
     <string name="mVT_scanning">扫描中…</string>

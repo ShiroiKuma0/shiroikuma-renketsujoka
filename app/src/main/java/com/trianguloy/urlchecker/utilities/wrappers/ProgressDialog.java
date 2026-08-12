@@ -36,6 +36,14 @@ public class ProgressDialog extends android.app.ProgressDialog {
 
         // show & start
         show();
+        // A ProgressDialog is not built through AlertDialog.Builder, so SkDialog never sees it —
+        // style it directly. Posted as well as called, because the message view is created lazily
+        // and may not exist yet at the moment show() returns.
+        com.trianguloy.urlchecker.shiroikuma.SkDialog.style(this, context);
+        if (getWindow() != null) {
+            getWindow().getDecorView().post(
+                    () -> com.trianguloy.urlchecker.shiroikuma.SkDialog.style(this, context));
+        }
         new Thread(() -> {
             try {
                 consumer.accept(this);
@@ -60,6 +68,9 @@ public class ProgressDialog extends android.app.ProgressDialog {
     /** Changes the message from any thread */
     @Override
     public void setMessage(CharSequence message) {
-        cntx.runOnUiThread(() -> super.setMessage(message));
+        cntx.runOnUiThread(() -> {
+            super.setMessage(message);
+            com.trianguloy.urlchecker.shiroikuma.SkDialog.style(this, cntx);
+        });
     }
 }

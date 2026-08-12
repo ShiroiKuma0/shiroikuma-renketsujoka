@@ -190,7 +190,6 @@
     <string name="mVT_desc">وقتی این ماژول فعال باشد، می‌توانید URL را با استفاده از ویروس‌توتال پویش کرده و گزارش را بررسی کنید. برای کارکرد آن به یک کلید API شخصی ویروس‌توتال نیاز است، می‌توانید پس از ثبت‌نام برای حساب رایگان در اینجا یکی دریافت کنید: %s .</string>
     <string name="mVT_apiKey">کلید API</string>
     <string name="mVT_noKey">کلید API گم شده</string>
-    <string name="mVT_tm">ویروس‌توتال™ علامت تجاری گوگل است.</string>
     <string name="mVT_scan">پویش</string>
     <string name="mVT_cancel">رد کردن</string>
     <string name="mVT_scanning">در حال پویش…</string>

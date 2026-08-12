@@ -92,7 +92,6 @@
     <string name="bck_delete">Xóa</string>
     <string name="bck_secrets">Bí mật: Dữ liệu được coi là \'bí mật\', như khóa api VirusTotal hoặc nhật ký.</string>
     <string name="bck_cache">Bộ đệm: Dữ liệu có thể dễ dàng tải xuống/tạo, như cơ sở dữ liệu máy chủ. Kích hoạt tùy chọn này có thể làm tăng đáng kể kích thước bản sao lưu.</string>
-    <string name="mVT_tm">VirusTotal™ là một nhãn hiệu của Google, Inc.</string>
     <string name="mClear_tm">Danh mục tích hợp được sao chép từ ClearURLs: %s</string>
     <string name="mVT_desc">Khi mô-đun này được bật, bạn có thể quét URL bằng VirusTotal và kiểm tra báo cáo. Cần có khóa API VirusTotal cá nhân để nó hoạt động, bạn có thể nhận một khóa sau khi đăng ký tài khoản miễn phí tại đây: %s.</string>
     <string name="mOpen_perDomain">Sắp xếp các tên miền khác nhau một cách độc lập</string>

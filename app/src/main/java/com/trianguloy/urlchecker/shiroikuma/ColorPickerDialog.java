@@ -137,7 +137,7 @@ public class ColorPickerDialog {
 
         refresh.run(false);
 
-        new AlertDialog.Builder(cntx)
+        new SkDialog(cntx)
                 .setTitle(title)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {

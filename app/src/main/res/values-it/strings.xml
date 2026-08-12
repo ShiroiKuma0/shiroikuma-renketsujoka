@@ -123,7 +123,6 @@
     <string name="mVT_desc">"Quando questo modulo è abilitato puoi scansionare l'url utilizzando VirusTotal e visualizzare il report.
 Una chiave API personale di VirusTotal è richiesta per il funzionamento, puoi crearne una qui dopo esserti registrato con un account gratuito: %s ."</string>
     <string name="mVT_apiKey">chiave API</string>
-    <string name="mVT_tm">VirusTotal™ è un trademark di Google, Inc.</string>
     <string name="mVT_scan">Scansiona</string>
     <string name="mVT_cancel">Cancella</string>
     <string name="mVT_scanning">Scansione in corso…</string>

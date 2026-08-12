@@ -51,13 +51,6 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallPadding"
-            android:gravity="center"
-            android:text="@string/mVT_tm" />
-
-        <TextView
             android:id="@+id/tm_clear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

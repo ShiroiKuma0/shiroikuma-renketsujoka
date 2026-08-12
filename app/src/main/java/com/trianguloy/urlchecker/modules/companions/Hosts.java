@@ -19,6 +19,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** Represents and manages the hosts data */
 public class Hosts {
@@ -40,7 +41,7 @@ public class Hosts {
 
     /** Builds the hosts database (asks first) */
     public void build(boolean showEditor, Runnable onFinished) {
-        var builder = new AlertDialog.Builder(cntx)
+        var builder = new SkDialog(cntx)
                 .setTitle(R.string.mHosts_buildTitle)
                 .setMessage(R.string.mHosts_buildDesc)
                 .setNegativeButton(android.R.string.cancel, null)

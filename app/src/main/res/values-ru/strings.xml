@@ -155,7 +155,6 @@
     <string name="mPttrn_noSchemeHttps">Отсутствует HTTPS схема.</string>
     <string name="mStatus_checking">Проверка…</string>
     <string name="mClear_auto">Автоматическое применение</string>
-    <string name="mVT_tm">VirusTotal™ является торговой маркой Google, Inc.</string>
     <string name="mClear_blocked">- ЗАБЛОКИРОВАНО!</string>
     <string name="mOpen_tabsDesc">Включить/выключить функцию Пользовательских вкладок</string>
     <string name="mClear_lastCheck">Последняя проверка:</string>

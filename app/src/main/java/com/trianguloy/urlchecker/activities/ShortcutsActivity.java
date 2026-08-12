@@ -22,6 +22,7 @@ import com.trianguloy.urlchecker.utilities.methods.PackageUtils;
 import java.util.Collections;
 import java.util.Set;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** This activity opens (on this app) a link detected on the clipboard text. If multiple asks. */
 
@@ -89,7 +90,7 @@ public class ShortcutsActivity extends Activity {
             default:
                 // multiple links, choose
                 var links_array = links.toArray(new String[0]);
-                dialog = new AlertDialog.Builder(this)
+                dialog = new SkDialog(this)
                         .setItems(links_array, (dialog, which) -> {
                             open(links_array[which]);
                             dialog.cancel();

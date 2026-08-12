@@ -51,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import com.trianguloy.urlchecker.shiroikuma.SkToast;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 public class BackupActivity extends Activity {
 
@@ -183,6 +184,8 @@ public class BackupActivity extends Activity {
                 progress.setMessage("Adding version");
                 progress.increaseProgress();
                 zip.addStringFile(FILE_VERSION, BuildConfig.VERSION_NAME);
+                // the number the "backup is newer" check compares; the name above is for reading
+                zip.addStringFile(FILE_VERSION_CODE, String.valueOf(BuildConfig.VERSION_CODE));
 
                 // readme
                 progress.setMessage("Adding readme");
@@ -251,7 +254,7 @@ public class BackupActivity extends Activity {
 
     /** Asks to restore a backup from [uri] */
     private void askRestore(Uri uri) {
-        new AlertDialog.Builder(this)
+        new SkDialog(this)
                 .setTitle(R.string.bck_restoreTitle)
                 .setMessage(R.string.bck_restoreMessage)
                 .setNegativeButton(android.R.string.cancel, null)
@@ -267,7 +270,7 @@ public class BackupActivity extends Activity {
             try (var zip = new ZipReader(uri, this)) {
 
                 // check version
-                if (!chk_ignoreNewer.isChecked() && VersionManager.isVersionNewer(zip.getFileString(FILE_VERSION))) {
+                if (!chk_ignoreNewer.isChecked() && VersionManager.isVersionCodeNewer(zip.getFileString(FILE_VERSION_CODE))) {
                     runOnUiThread(() -> SkToast.show(this, R.string.bck_newer, android.widget.Toast.LENGTH_LONG));
                     return;
                 }
@@ -361,7 +364,7 @@ public class BackupActivity extends Activity {
     /* ------------------- delete ------------------- */
 
     public void delete(View ignored) {
-        new AlertDialog.Builder(this)
+        new SkDialog(this)
                 .setTitle(R.string.bck_deleteTitle)
                 .setMessage(R.string.bck_deleteMessage)
                 .setNegativeButton(android.R.string.cancel, null)
@@ -421,6 +424,7 @@ public class BackupActivity extends Activity {
     /* ------------------- common ------------------- */
 
     private static final String FILE_VERSION = "version";
+    private static final String FILE_VERSION_CODE = "versionCode";
     private static final String FILE_PREFERENCES = "preferences";
     private static final String FILE_SECRETS = "secrets";
     private static final String FILES_FOLDER = "files/";

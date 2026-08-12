@@ -110,7 +110,6 @@
     <string name="mVT_name">URL-Scanner</string>
     <string name="mVT_desc">Wenn dieses Modul aktiviert ist, können Sie die URLs mithilfe von VirusTotal überprüfen und das Ergebnis sehen. Ein persönlicher VirusTotal-API-Key ist dafür notwendig, Sie können diesen erhalten, indem Sie sich hier kostenfrei registrieren: %s .</string>
     <string name="mVT_apiKey">API-Key</string>
-    <string name="mVT_tm">VirusTotal™ ist ein eingetragenes Warenzeichen von Google, Inc.</string>
     <string name="mVT_scan">Scannen</string>
     <string name="mVT_goodUrl">Keiner der %1$d Dienste hat die URL als böswillig erkannt (Stand: %2$s)</string>
     <string name="mVT_warningUrl">Warnung, %1$d/%2$d Dienste haben die URL als gefährlich eingestuft (Stand: %3$s)</string>

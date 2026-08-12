@@ -26,6 +26,7 @@ import com.trianguloy.urlchecker.utilities.methods.StreamUtils;
 
 import java.io.IOException;
 import java.util.List;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 public class AboutActivity extends Activity {
 
@@ -122,7 +123,7 @@ public class AboutActivity extends Activity {
                 horizontalScrollView.setPadding(pad, pad, pad, pad);
                 horizontalScrollView.addView(scrollView);
 
-                new AlertDialog.Builder(this)
+                new SkDialog(this)
                         .setTitle("Logcat")
                         .setView(horizontalScrollView)
                         .setPositiveButton("close", null)

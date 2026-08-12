@@ -380,7 +380,6 @@ Note: if you edit the patterns, new built-in patterns from app updates will not 
     <string name="mVT_checkKey">Check</string>
     <string name="mVT_noKey">Missing API key</string>
     <string name="mVT_validKey">Valid key from user: %s</string>
-    <string name="mVT_tm">VirusTotal™ is a trademark of Google, Inc.</string>
     <string name="mVT_scan">Scan</string>
     <string name="mVT_cancel">Cancel</string>
     <string name="mVT_scanning">Scanning…</string>

@@ -60,7 +60,7 @@ public class FontPickerDialog {
             }
         };
 
-        new AlertDialog.Builder(cntx)
+        new SkDialog(cntx)
                 .setTitle(title)
                 .setAdapter(adapter, (dialog, which) -> onPick.onPick(fonts.get(which).id))
                 .setNeutralButton(cntx.getString(com.trianguloy.urlchecker.R.string.sk_fontImport),

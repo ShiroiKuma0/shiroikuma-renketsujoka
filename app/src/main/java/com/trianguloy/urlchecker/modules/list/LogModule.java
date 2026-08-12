@@ -22,6 +22,7 @@ import com.trianguloy.urlchecker.utilities.methods.JavaUtils;
 
 import java.text.DateFormat;
 import java.util.Date;
+import com.trianguloy.urlchecker.shiroikuma.SkDialog;
 
 /** A module that logs all urls that passes through it */
 public class LogModule extends AModuleData {
@@ -137,7 +138,7 @@ class LogConfig extends AModuleConfig {
         scrollView.post(() -> scrollView.scrollTo(0, textView.getHeight())); // start at bottom (new)
 
         // common dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new SkDialog(getActivity())
                 .setTitle(R.string.mLog_name)
                 .setView(scrollView)
                 .setNegativeButton(R.string.close, null);

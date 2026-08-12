@@ -46,7 +46,6 @@
     <string name="mInput_desc">Viser nåværende nettadresse, som kan redigeres manuelt.</string>
     <string name="mVT_apiKey">API-nøkkel</string>
     <string name="mVT_scan">Skann</string>
-    <string name="mVT_tm">VirusTotal™ er et varemerke tilhørende Google, Inc.</string>
     <string name="mVT_cancel">Avbryt</string>
     <string name="mVT_scanning">Skanner …</string>
     <string name="mHist_name">Historikk</string>

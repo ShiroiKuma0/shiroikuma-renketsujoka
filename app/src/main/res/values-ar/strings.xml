@@ -122,7 +122,6 @@
     <string name="mVT_name">فحص الروابط</string>
     <string name="mVT_apiKey">مفتاح API</string>
     <string name="mVT_noKey">مفتاح API مفقود</string>
-    <string name="mVT_tm">VirusTotal™ هي علامة تجارية لشركة Google، Inc.</string>
     <string name="mVT_scan">فحص</string>
     <string name="mVT_cancel">إلغاء</string>
     <string name="mVT_scanning">جاري الفحص…</string>
