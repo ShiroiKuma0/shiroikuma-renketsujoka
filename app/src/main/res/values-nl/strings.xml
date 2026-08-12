@@ -63,7 +63,7 @@
     <string name="hidden">Verborgen</string>
     <string name="mPttrn_desc">Deze module controleert de url met regex-patronen die vervangingen waarschuwen, voorstellen of toepassen. U kunt uw eigen patronen wijzigen of creëren, of zelfs door de gebruiker gemaakte patronen gebruiken.
 \nIngebouwde patronen zijn onder meer:
-\n- Waarschuwing als het niet-ASCII-tekens bevat, zoals Griekse letters. Dit kan worden gebruikt voor phishing: google.com versus google.com
+\n- Waarschuwing als het niet-ASCII-tekens bevat, zoals Griekse letters. Dit kan worden gebruikt voor phishing: googĺe.com versus google.com
 \n- Stel voor om \'http\' te vervangen door \'https\'
 \n- Stel voor om YouTube, Reddit of Twitter te vervangen door privacyvriendelijke alternatieven [standaard uitgeschakeld]</string>
     <string name="mOpen_noapps">Geen apps</string>
