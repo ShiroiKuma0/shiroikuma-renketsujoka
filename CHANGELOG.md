@@ -9,6 +9,83 @@ Fork versions read `<upstream>+<base date>.<HH-MM UTC>.g<sha8>+<build>`: the mid
 upstream commit the build sits on, and moves only on a sync. The installed `versionCode` is
 `<upstream code> * 10000 + <build>`, independent of the pin.
 
+## 白い熊 連結浄化 3.5+2026-07-25.15-05.g03a11762+025 — 2026-09-04
+
+Still built on upstream **3.5** (versionCode 47), at the same upstream commit `03a11762` — upstream
+has not pushed since, so the pin is unchanged and only the build counter moved. Everything here is
+the delta since `+021`; builds 022–024 were not published.
+
+### Link resolver — a new module
+
+- **Works out where a link actually goes, on the phone.** Upstream's Unshortener posts every link to
+  `unshorten.me` and renders the reply — which hands a third party the list of links being opened,
+  and puts that service's raw PostgreSQL `value too long for type character varying(100)` in the
+  dialog for any link past 100 characters, as a mail-tracking link routinely is.
+- The work happens in a deliberate order. **Offline unwrap first** — most wrappers carry the
+  destination in the link itself (`?url=`, `?redirect_uri=`, an address parked in the path), and
+  reading it out costs no request and never tells the tracker the link was opened. **Then the
+  network chain**, one hop at a time, refusing to auto-follow so every hop stays visible, unwrapping
+  offline again after each. **Then the tracking parameters come off**, last — on a redirector `e=`
+  and `m=` are often exactly what makes it answer, so stripping earlier breaks the resolution.
+- Settable: follow over the network, also follow meta-refresh and script redirects, strip known
+  tracking parameters, and a redirect limit. With **Resolve automatically** on, replacing the url
+  re-runs the whole module pipeline, so Clear URL gets a second pass with its own catalogue and Open
+  opens the cleaned destination.
+- It sits **beside** upstream's Unshortener rather than replacing it, so upstream's module survives
+  every rebase untouched.
+
+### 保存復元 automation — contract v2
+
+- **Open by default.** `automation_enabled` now defaults **on** and a new
+  `automation_require_token` defaults **off**. v1 required a 48-character secret pasted from this
+  app into the caller, and a pasted secret cannot survive a wipe — which is precisely the case the
+  contract now exists to serve.
+- **One gate function.** Both checks live in `AutomationAuth.refuse()`, returning null or the exact
+  `ERROR:` string; the broadcast receiver calls only that. Written out separately at each entry
+  point is how "disabled" and "bad token" drift apart.
+- **A token sent to an app that is not asking for one is ignored, never refused.** Tokens outlive
+  the setting they were pasted for, and refusing them would turn one switch being off into half a
+  batch mysteriously failing.
+- **The data door.** A new exported `ContentProvider` at `shiroikuma.renketsujoka.automation` —
+  `describe`, `export`, `import`, `cancel` — so 応用管理 can back this app's data up and put it back
+  on a phone where nothing has been configured yet. A broadcast cannot say who sent it; a provider
+  can, and the caller supplies the destination the export is written into.
+- **Callers are checked three ways**: an exact package name (never a prefix — any sideloaded app may
+  call itself `shiroikuma.evil`), the uid the kernel reports, and a pinned signing certificate. Each
+  app in the family has its own keystore, so each caller is pinned by name.
+- **The payload is a file descriptor the caller opens**, `dup()`ed before it leaves the provider call
+  and closed in a `finally`. Not a path: a backup is not a stable directory while it is being
+  written, and a file dropped into one would be renamed out from under the caller, sit in plaintext
+  inside an encrypted archive, and go unverified. It also means the automation path needs no storage
+  permission — this app has never held all-files access and had no business asking for one.
+- **`import` exists only on the provider.** On the exported receiver, which carries no permission, it
+  would let any app on the phone wipe this one.
+- Three rows in the Export / Import section rather than a section of their own, and the token row is
+  drawn **only** while the token is being asked for — a secret sitting under an off switch invites
+  pasting it somewhere it will do nothing.
+- Manifest: the provider, the data service, the three `shiroikuma.automation.*` meta-data that let a
+  caller judge this app **without waking it** (it may be frozen), and `<queries>` naming both callers
+  by package.
+
+### Fixes
+
+- **`<queries>` named no caller.** The element was present and non-empty — upstream's wildcard
+  `<intent><action android:name="*"/>` catch-all — which reads as correct while being an *intent*
+  query rather than the package visibility a direct `setPackage` / `getPackageInfo` /
+  `getPackagesForUid` lookup rests on. Both sister apps are now named explicitly, the catch-all kept.
+- **Two exports could abort each other.** The export core polls a single process-wide cancel flag,
+  shared with the panel and now with the data door, so overlapping runs cancelled one another.
+  Everything queues behind one claim. Invisible until two callers actually overlap.
+- **A restore could report success over data that never reached disk.** 応用管理 force-stops this app
+  the instant an import answers `OK` — deliberately, since an orderly shutdown would write cached
+  preferences back over the restore — but that force-stop is a `SIGKILL`, which bypasses the flush
+  `apply()` depends on. The import now commits synchronously before answering. It could not show up
+  in testing: a hand-run import is followed by a normal lifecycle that flushes properly.
+- **A replayed job id could kill the app.** `startForeground` is owed to the platform the moment
+  `startForegroundService` is called, whatever the service then decides — so the early return for an
+  unknown job id has to make that call before stopping, or the system kills the process for not
+  having made it.
+
 ## 白い熊 連結浄化 3.5+2026-07-25.15-05.g03a11762+021 — 2026-08-12
 
 Still built on upstream **3.5** (versionCode 47), at the same upstream commit `03a11762` — upstream

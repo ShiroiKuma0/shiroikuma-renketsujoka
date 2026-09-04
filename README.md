@@ -6,11 +6,11 @@
 
 **Every link you tap lands here first — stripped of its trackers, wrappers and referral junk — and only then opens where you choose.**
 
-A fork of [URLCheck](https://github.com/TrianguloY/URLCheck) with **major additions**: a fully settable black-yellow UI, user-authorable link rewriting shipped with the Telegram Instant View unwrapper, category-ZIP export/import over a settable directory, and token-gated backup automation.
+A fork of [URLCheck](https://github.com/TrianguloY/URLCheck) with **major additions**: a fully settable black-yellow UI, user-authorable link rewriting shipped with the Telegram Instant View unwrapper, on-device link resolution that never asks a third party where a link goes, category-ZIP export/import over a settable directory, and backup automation that can put this app's data back on a wiped phone.
 
 Installs **side-by-side** with anything else (app id `shiroikuma.renketsujoka`).
 
-**📥 Latest release: [`3.5+2026-07-25.15-05.g03a11762+021`](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases)
+**📥 Latest release: [`3.5+2026-07-25.15-05.g03a11762+025`](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases/latest)** — [all releases & APK downloads »](https://github.com/ShiroiKuma0/shiroikuma-renketsujoka/releases)
 
 </div>
 
@@ -32,6 +32,20 @@ This fork ships the rule enabled and automatic, so the wrapper is gone before th
 ```
 
 `[^&]+` stops at the first `&`, dropping `&rhash=` while keeping the target's own query — the `?v=` of a YouTube link survives. It also fills the `decode` example upstream had left as a TODO.
+
+---
+
+## 🔍 Where a link actually goes — worked out here, not by a web service
+
+Upstream's Unshortener posts every link you open to `unshorten.me` and shows whatever comes back. That means a third party is handed the list of links you tap — the opposite of what this app is for — and it means their database errors land in your dialog: any link past 100 characters returns a raw `value too long for type character varying(100)`, which a mail-tracking link routinely is.
+
+The **Link resolver** does the same job on the phone, in an order that matters:
+
+1. **Unwrap offline first.** Most wrappers carry the destination inside the link — `?url=`, `?redirect_uri=`, an address parked in the path. Reading it out costs no request and, more to the point, never tells the tracker the link was opened.
+2. **Then follow what is left**, one hop at a time, refusing to auto-follow so every hop stays visible.
+3. **Then strip the tracking parameters** — last, because on a redirector `e=` and `m=` are often exactly what makes it answer.
+
+With **Resolve automatically** on, the browser is only ever handed the cleaned destination: replacing the url re-runs the whole module pipeline, so Clear URL gets a second pass with its own catalogue.
 
 ---
 
@@ -66,11 +80,15 @@ Written **atomically** through a `.part` renamed only once the archive is closed
 
 ---
 
-## 🤖 保存復元 automation
+## 🤖 保存復元 automation — and a restore that survives a wipe
 
-Implements the sister-app contract, so 白い熊 自由作業盤 can back this app up headlessly as part of one batch: `EXPORT_STATE`, `LIST_CATEGORIES` and `CANCEL_EXPORT`, all token-gated, default **off**.
+Implements **v2** of the sister-app contract, in two halves.
 
-The export runs in a foreground service rather than the receiver — a manifest receiver that overruns the broadcast window is an ANR and a kill mid-write. Replies are fresh broadcasts, never a binder, and progress reports real counts naming the category being written.
+**The batch half.** 白い熊 自由作業盤 backs this app up headlessly as part of one run: `EXPORT_STATE`, `LIST_CATEGORIES` and `CANCEL_EXPORT`. The export runs in a foreground service rather than the receiver — a manifest receiver that overruns the broadcast window is an ANR and a kill mid-write. Replies are fresh broadcasts, never a binder, and progress reports real counts naming the category being written.
+
+**The data door.** A `ContentProvider` 応用管理 can call to back this app's data up and put it back on a **clean phone**, where no setting has been configured and nothing has been pasted. It writes into a file descriptor the caller opens — never a path, so the archive can be encrypted and checksummed by the caller like any other file it owns, and this app needs no storage permission for it. `import` lives **only** here.
+
+Automation is **on by default**, because a pasted secret cannot survive the wipe this feature exists to recover from. What protects the data door instead is knowing *who is calling*: an exact package name, the uid the kernel reports, and a **pinned signing certificate**. A token remains available for anyone who wants one — 「Use authorization token?」, off by default — and a token sent to an app that is not asking for one is quietly ignored rather than refused.
 
 The token lives in **its own preferences file**, so it cannot travel inside a backup by construction rather than by rule.
 
@@ -81,7 +99,7 @@ The token lives in **its own preferences file**, so it cannot travel inside a ba
 This fork rebases onto **every upstream commit**, and upstream's `3.5` has stood still since July — so the version pins the upstream commit the build sits on:
 
 ```
-3.5+2026-07-25.15-05.g03a11762+021
+3.5+2026-07-25.15-05.g03a11762+025
 └┬─┘ └────────┬─────────────┘ └┬─┘
  │            │                └── our build counter
  │            └─── upstream base: committer date (UTC) + sha
