@@ -122,6 +122,36 @@ Translations: %2$s."</string>
     <string name="sk_resetAll">Reset all</string>
     <string name="sk_resetAllConfirm">Put every attribute on this page back to its black-yellow default?</string>
     <!--
+        白い熊 連結浄化 link resolver
+    -->
+    <string name="sk_resolve_name">Link resolver</string>
+    <string name="sk_resolve_desc">"Works out where a link really goes, here on the phone, and replaces it with that destination — with the tracking parameters taken off it.
+
+This is the local answer to the Unshortener module, which hands every link to unshorten.me and shows whatever that service replies (its raw database error, for one, on any link longer than 100 characters). Nothing here leaves the device beyond the requests to the hosts in the redirect chain itself.
+
+The destination is looked for inside the link first — a ?url= parameter, an address parked in the path — which costs no request and, more to the point, never tells the tracker that the link was opened. Only what is left after that is followed over the network, one hop at a time. The tracking parameters come off last, because on a redirector they are often exactly what makes it answer.
+
+With \'Resolve automatically\' on, the browser is only ever handed the cleaned destination."</string>
+    <string name="sk_resolve_resolve">Resolve</string>
+    <string name="sk_resolve_resolving">Resolving…</string>
+    <string name="sk_resolve_auto">Resolve automatically</string>
+    <string name="sk_resolve_network">Follow the chain over the network</string>
+    <string name="sk_resolve_meta">Also follow meta-refresh and script redirects</string>
+    <string name="sk_resolve_strip">Strip known tracking parameters</string>
+    <string name="sk_resolve_hops">Most redirects to follow before giving up</string>
+    <string name="sk_resolve_hopsHint">10</string>
+    <string name="sk_resolve_to">Goes to %s</string>
+    <string name="sk_resolve_same">Already the destination</string>
+    <string name="sk_resolve_unwrapped">Destination read from the link itself, with no request</string>
+    <string name="sk_resolve_stripped">Tracking parameters removed</string>
+    <string name="sk_resolve_maxed">Stopped at the redirect limit</string>
+    <string name="sk_resolve_error">Network error: %s</string>
+    <plurals name="sk_resolve_followed">
+        <item quantity="one">Followed %d redirect</item>
+        <item quantity="other">Followed %d redirects</item>
+    </plurals>
+    <string name="sk_auto_resolve">Will resolve the link and replace it with its destination. Equivalent of pressing the \'Resolve\' button.</string>
+    <!--
         modules
     -->
     <string name="txt_conf">Here are all the available modules, where you can check their description and settings. You can also reorder, toggle the title visibility and enable/disable them.</string>

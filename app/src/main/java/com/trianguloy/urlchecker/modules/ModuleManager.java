@@ -19,6 +19,7 @@ import com.trianguloy.urlchecker.modules.list.UnshortenModule;
 import com.trianguloy.urlchecker.modules.list.UriPartsModule;
 import com.trianguloy.urlchecker.modules.list.VirusTotalModule;
 import com.trianguloy.urlchecker.modules.list.WebhookModule;
+import com.trianguloy.urlchecker.shiroikuma.ResolveModule;
 import com.trianguloy.urlchecker.utilities.generics.GenericPref.BoolPref;
 import com.trianguloy.urlchecker.utilities.generics.GenericPref.ListStringPref;
 
@@ -48,6 +49,10 @@ public class ModuleManager {
         modules.add(new PatternModule());
         modules.add(new HostsModule());
         modules.add(new WebhookModule());
+        // 白い熊: resolves a link here on the phone instead of posting it to unshorten.me, and
+        // strips the tracking off what it lands on. Sits next to the upstream Unshortener rather
+        // than replacing it, so upstream's own module stays untouched across rebases.
+        modules.add(new ResolveModule());
         // new modules should preferably be added directly above this line
         modules.add(new FlagsModule());
         modules.add(new DebugModule());
