@@ -4,15 +4,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.trianguloy.urlchecker.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The 保存復元 wire contract: 白い熊 自由作業盤 fires a token-gated intent at this app, it exports
- * itself headlessly, and replies with the written path and size.
+ * The 保存復元 wire contract: 白い熊 自由作業盤 fires an intent at this app, it exports itself
+ * headlessly, and replies with the written path and size.
  *
- * <p>Three actions, all on this one exported receiver, all token-gated:
- * {@code EXPORT_STATE}, {@code LIST_CATEGORIES}, {@code CANCEL_EXPORT}.
+ * <p>Three actions, all on this one exported receiver: {@code EXPORT_STATE},
+ * {@code LIST_CATEGORIES}, {@code CANCEL_EXPORT}. All go through {@link AutomationAuth#refuse},
+ * which since v2 is open by default and only asks for the token when 白い熊 has said to.
+ *
+ * <p>This is deliberately the <b>unauthenticated</b> half of the surface: it only ever writes where
+ * this app was already configured to write and reports what it did. Everything that moves data
+ * through a caller-supplied descriptor lives behind {@link AutomationProvider}, which knows who is
+ * calling — and that is why {@code import} exists only there and has no action here.
  *
  * <p>The receiver itself never runs the export — a manifest receiver must reach the end of
  * {@code onReceive} inside Android's broadcast window or the system ANRs and kills the process
@@ -39,19 +47,18 @@ public class StateExportReceiver extends BroadcastReceiver {
         if (action.equals(pkg + ACTION_CANCEL)) {
             // Fire-and-forget, and safe at any time: a cancel arriving when nothing is running, or
             // after the export already finished, is a silent no-op — not an error, not a reply.
-            if (!AutomationAuth.enabled(cntx)) return;
-            if (!AutomationAuth.isTokenValid(cntx, token)) return;
+            if (AutomationAuth.refuse(cntx, token) != null) return;
             Backups.requestCancel();
             return;
         }
 
-        // Everything else owes exactly one reply, including the refusals.
-        if (!AutomationAuth.enabled(cntx)) {
-            reply(cntx, replyAction, replyPackage, replyId, "ERROR:automation disabled");
-            return;
-        }
-        if (!AutomationAuth.isTokenValid(cntx, token)) {
-            reply(cntx, replyAction, replyPackage, replyId, "ERROR:bad token");
+        // Everything else owes exactly one reply, including the refusals. The gate is ONE call —
+        // "disabled" and "bad token" written out separately at each entry point is exactly how the
+        // two drift apart, and since v2 a token sent to an app that does not ask for one is ignored
+        // rather than refused.
+        var closed = AutomationAuth.refuse(cntx, token);
+        if (closed != null) {
+            reply(cntx, replyAction, replyPackage, replyId, closed);
             return;
         }
 
@@ -137,12 +144,76 @@ public class StateExportReceiver extends BroadcastReceiver {
         var intent = new Intent(replyAction);
         intent.setPackage(replyPackage);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        // Both extras carry the same correlation id: §1 callers read `reply_id`, the §2a data door
+        // hands out a `job_id`, and one reader on the other side should serve both doors.
         intent.putExtra("reply_id", replyId);
+        intent.putExtra("job_id", replyId);
         intent.putExtra("result", result);
         try {
             cntx.sendBroadcast(intent);
         } catch (Exception ignored) {
             // nothing to fall back to; the caller times the slot out
         }
+    }
+
+    /**
+     * §3 progress, shared by BOTH doors — the broadcast one above and the {@link AutomationProvider}
+     * data door.
+     *
+     * <p>One sender, parameterised, rather than one per door: an app silent for two minutes is
+     * presumed dead by the caller's watchdog, and two senders drift — the one that drifts being the
+     * one nobody watches.
+     *
+     * <p>Real numbers, never a percentage. This app counts categories, so {@code position} is the
+     * POSITION of the one being written and {@code total} is how many are actually being exported.
+     */
+    static void progress(Context cntx, String action, String replyPackage, String id,
+                         String categoryId, int position, int total) {
+        if (action == null || replyPackage == null) return;
+        var label = categoryId;
+        for (var category : Backups.categories()) {
+            if (category.id.equals(categoryId)) {
+                label = category.label;
+                break;
+            }
+        }
+        var intent = new Intent(action);
+        intent.setPackage(replyPackage);
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("reply_id", id);
+        intent.putExtra("job_id", id);
+        intent.putExtra("app", cntx.getString(R.string.app_name));
+        intent.putExtra("item", categoryId);
+        intent.putExtra("text", "区分 " + position + "/" + total + " — " + label);
+        intent.putExtra("current", (long) position);
+        intent.putExtra("total", (long) total);
+        intent.putExtra("unit", "区分");
+        try {
+            cntx.sendBroadcast(intent);
+        } catch (Exception ignored) {
+            // progress is best-effort; the terminal reply is what matters
+        }
+    }
+
+    /**
+     * The throttle both doors export through: one broadcast per 500 ms, but the FIRST and LAST
+     * always go out — the caller keys its highlight off {@code item}, and the final one closes the
+     * row.
+     *
+     * @return null when the caller asked for no progress, which {@link Backups#writeTo} accepts.
+     */
+    static Backups.Progress progressReporter(Context cntx, String action, String replyPackage, String id) {
+        if (action == null || replyPackage == null) return null;
+        return new Backups.Progress() {
+            private long lastSent = 0;
+
+            @Override
+            public void onCategory(String categoryId, int position, int total) {
+                long now = System.currentTimeMillis();
+                if (position != 1 && position != total && now - lastSent < 500) return;
+                lastSent = now;
+                progress(cntx, action, replyPackage, id, categoryId, position, total);
+            }
+        };
     }
 }

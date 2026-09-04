@@ -51,8 +51,12 @@ Translations: %2$s."</string>
     <string name="sk_importFailed">Import failed.</string>
     <string name="sk_exportOk">Exported to %1$s — %2$s, %3$d categories.</string>
     <string name="sk_exportNotification">Exporting settings…</string>
+    <string name="sk_importNotification">Restoring settings…</string>
+    <string name="sk_automationDataChannel">Automation data</string>
     <string name="sk_automation">Automation export</string>
-    <string name="sk_automationSummary">Let a sister-app task trigger this app\'s export through the token-gated intent</string>
+    <string name="sk_automationSummary">Let a sister app trigger this app\'s export, and back its data up onto a clean phone</string>
+    <string name="sk_requireToken">Use authorization token?</string>
+    <string name="sk_requireTokenSummary">Off, any sister app may drive the automation; on, a caller must also present the token below. Either way the data door checks the caller\'s identity and signature.</string>
     <string name="sk_token">Automation token</string>
     <string name="sk_tokenCopied">Token copied to the clipboard</string>
     <string name="sk_regenerate">Regenerate</string>

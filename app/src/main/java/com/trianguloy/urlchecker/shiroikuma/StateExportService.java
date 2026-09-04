@@ -32,10 +32,6 @@ public class StateExportService extends Service {
     private static final String CHANNEL = "shiroikuma_export";
     private static final int NOTIFICATION_ID = 0x5C04;
 
-    /** Guards against two exports at once. Process-local and released in a finally — never persisted:
-     * a persisted flag wedges the app for good after a single crash. */
-    private static final AtomicBoolean running = new AtomicBoolean(false);
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -68,7 +64,9 @@ public class StateExportService extends Service {
             stopSelf();
         };
 
-        if (!running.compareAndSet(false, true)) {
+        // The latch lives on Backups, shared with the panel and the §2a data door: they all poll
+        // one process-wide cancel flag, so only one of them may be running at a time.
+        if (!Backups.claim()) {
             replyOnce(replied, replyAction, replyPackage, replyId, "ERROR:export already running");
             stop.run();
             return START_NOT_STICKY;
@@ -81,19 +79,10 @@ public class StateExportService extends Service {
 
         new Thread(() -> {
             try {
-                var progress = progressAction == null ? null : new Backups.Progress() {
-                    private long lastSent = 0;
-
-                    @Override
-                    public void onCategory(String categoryId, int position, int total) {
-                        // Throttled to one every 500 ms, but the first and last always go out —
-                        // the panel keys its highlight off `item`, and the final one closes the row.
-                        long now = System.currentTimeMillis();
-                        if (position != 1 && position != total && now - lastSent < 500) return;
-                        lastSent = now;
-                        sendProgress(progressAction, replyPackage, replyId, categoryId, position, total);
-                    }
-                };
+                // ONE progress sender for both doors, parameterised — see
+                // StateExportReceiver.progressReporter for why there is not a second one here.
+                var progress = StateExportReceiver.progressReporter(
+                        this, progressAction, replyPackage, replyId);
 
                 var result = ExportRunner.run(this, categories, progress);
                 if (result.ok()) {
@@ -111,7 +100,7 @@ public class StateExportService extends Service {
                         "ERROR:" + (message == null ? e.getClass().getSimpleName() : message));
             } finally {
                 Backups.clearCancel();
-                running.set(false);
+                Backups.release();
                 stop.run();
             }
         }, "shiroikuma-export").start();
@@ -122,37 +111,6 @@ public class StateExportService extends Service {
     private void replyOnce(AtomicBoolean replied, String action, String pkg, String id, String result) {
         if (!replied.compareAndSet(false, true)) return;
         StateExportReceiver.reply(this, action, pkg, id, result);
-    }
-
-    /**
-     * Real numbers, never a percentage. This app counts categories, so {@code current} is the
-     * POSITION of the one being written and {@code total} is how many are actually being exported.
-     */
-    private void sendProgress(String action, String replyPackage, String replyId,
-                              String categoryId, int position, int total) {
-        if (action == null || replyPackage == null) return;
-        var label = categoryId;
-        for (var category : Backups.categories()) {
-            if (category.id.equals(categoryId)) {
-                label = category.label;
-                break;
-            }
-        }
-        var intent = new Intent(action);
-        intent.setPackage(replyPackage);
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.putExtra("reply_id", replyId);
-        intent.putExtra("app", getString(R.string.app_name));
-        intent.putExtra("item", categoryId);
-        intent.putExtra("text", "区分 " + position + "/" + total + " — " + label);
-        intent.putExtra("current", (long) position);
-        intent.putExtra("total", (long) total);
-        intent.putExtra("unit", "区分");
-        try {
-            sendBroadcast(intent);
-        } catch (Exception ignored) {
-            // progress is best-effort; the terminal reply is what matters
-        }
     }
 
     private Notification notification() {

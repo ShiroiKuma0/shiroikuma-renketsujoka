@@ -18,6 +18,16 @@
         <intent>
             <action android:name="*" />
         </intent>
+
+        <!-- 保存復元 automation. BOTH callers, always: without them a reply broadcast's setPackage
+             fails SILENTLY on Android 11+ — the export runs, writes correctly, and is never heard
+             of — and getPackagesForUid cannot see the caller we are checking. 応用管理 restores;
+             自由作業盤 drives the batch. Naming only the first was wrong in v1 too. The wildcard
+             intent above is upstream's and is NOT a substitute: it is an intent query, it omits
+             packages with no matching filter, and it is not what package visibility for a direct
+             setPackage/getPackagesForUid lookup rests on. -->
+        <package android:name="shiroikuma.oyokanri" />
+        <package android:name="shiroikuma.jiyusagyoban" />
     </queries>
 
     <application
@@ -55,6 +65,33 @@
             android:name=".shiroikuma.StateExportService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
+
+        <!-- 保存復元 v2 §2a, the data door. No android:permission, and this time for a real reason:
+             a custom permission would have to be `normal` (any app may hold it) or `signature`
+             (impossible — every app in this family has its own keystore, 42 of them). Neither buys
+             anything AutomationCallers does not, and that checks the caller by exact name, uid and
+             pinned signing certificate. `import` lives ONLY here — on the exported receiver it
+             would let any app on the phone wipe this one. -->
+        <provider
+            android:name=".shiroikuma.AutomationProvider"
+            android:authorities="${applicationId}.automation"
+            android:exported="true" />
+        <!-- dataSync, not specialUse: `specialUse` is an API 34 literal that aapt2 rejects
+             outright below compileSdk 34, and it needs its own permission and a subtype property to
+             boot. dataSync is accurate for streaming an archive, is what the §1 service next door
+             already declares, and its permission is already held above. -->
+        <service
+            android:name=".shiroikuma.AutomationDataService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Capability discovery, read WITHOUT waking this app: 応用管理 builds its list across
+             every installed package at once with MATCH_UNINSTALLED_PACKAGES | MATCH_DISABLED_
+             COMPONENTS, and a frozen app cannot be asked anything. An app without these is simply
+             not offered for data backup — that is the opt-out. -->
+        <meta-data android:name="shiroikuma.automation.contract" android:value="2" />
+        <meta-data android:name="shiroikuma.automation.format" android:value="1" />
+        <meta-data android:name="shiroikuma.automation.min_format" android:value="1" />
         <activity android:name=".activities.TutorialActivity" />
         <activity android:name=".activities.JsonEditorActivity" />
         <activity

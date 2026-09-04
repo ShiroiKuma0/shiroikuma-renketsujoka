@@ -44,7 +44,7 @@ public class Backups {
      * Keys never exported. The backup directory grant is device-local, and the automation token
      * lives in its own preferences file precisely so it cannot land here — this is belt and braces.
      */
-    private static final String[] EXCLUDED = {"shiroikuma_backupDir", "automation_token", "automation_enabled"};
+    private static final String[] EXCLUDED = {"shiroikuma_backupDir", "automation_token", "automation_enabled", "automation_require_token"};
 
     /** A tickable group in the panel, and an id in {@code items} / {@code LIST_CATEGORIES}. */
     public static class Category {
@@ -134,6 +134,26 @@ public class Backups {
 
     public static boolean isCancelled() {
         return cancelled;
+    }
+
+    /**
+     * One export or import at a time, process-wide.
+     *
+     * <p>It is a single latch rather than one per caller because {@link #cancelled} above is also
+     * process-wide: two runs at once would share one cancel flag, so cancelling either would abort
+     * both. The panel, the §1 automation service and the §2a data door therefore queue behind this
+     * one claim. Never persisted — a persisted flag wedges the app for good after a single crash.
+     */
+    private static final java.util.concurrent.atomic.AtomicBoolean running =
+            new java.util.concurrent.atomic.AtomicBoolean(false);
+
+    /** @return true if the caller now owns the export path and must {@link #release} it. */
+    public static boolean claim() {
+        return running.compareAndSet(false, true);
+    }
+
+    public static void release() {
+        running.set(false);
     }
 
     /** Thrown so a cancel unwinds through the same failure path that deletes the partial file. */
@@ -233,7 +253,18 @@ public class Backups {
                     restored++;
                 }
             }
-            editor.apply();
+            // commit(), NOT apply(). 応用管理 force-stops this app the instant we answer OK to an
+            // automation import — deliberately, because an orderly shutdown would write our cached
+            // preferences back out over the restore. But that force-stop is a SIGKILL, which
+            // bypasses the lifecycle flush apply() relies on, so anything still queued is simply
+            // lost and the restore reports success over missing data. Invisible in testing, because
+            // a hand-run import is followed by a normal lifecycle that flushes properly.
+            //
+            // This is the app's only preferences file on the restore path, and commit() writes the
+            // whole current in-memory map, so it also flushes anything an earlier apply() left
+            // pending. The panel's import is already synchronous on its own thread, so nothing new
+            // blocks there.
+            editor.commit();
             return restored;
         } catch (Exception e) {
             return -1;
